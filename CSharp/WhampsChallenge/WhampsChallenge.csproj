@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -43,6 +46,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContestantProxies\GameProxy.cs" />
+    <Compile Include="Contracts\Direction.cs" />
+    <Compile Include="Contracts\IGame.cs" />
+    <Compile Include="Contracts\IGameState.cs" />
+    <Compile Include="Contracts\Perception.cs" />
+    <Compile Include="Contracts\Result.cs" />
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="Exceptions\InternalException.cs" />
     <Compile Include="Game.cs" />
@@ -52,10 +60,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ContestantContracts\ContestantContracts.csproj">
-      <Project>{D8CC4D76-FC9A-4B9E-8CEB-70C309332755}</Project>
-      <Name>ContestantContracts</Name>
-    </ProjectReference>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

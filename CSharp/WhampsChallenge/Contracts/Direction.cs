@@ -1,4 +1,4 @@
-﻿namespace ContestantContracts.Game
+﻿namespace WhampsChallenge.Contracts
 {
     public enum Direction
     {

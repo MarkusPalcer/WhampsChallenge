@@ -1,4 +1,4 @@
-﻿namespace ContestantContracts.Perceptions
+﻿namespace WhampsChallenge.Contracts
 {
     public enum Perception
     {

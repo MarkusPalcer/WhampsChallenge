@@ -1,0 +1,27 @@
+﻿ 
+ 
+{
+  "Enums": {
+    "Direction": [
+      "North",
+      "East",
+      "South",
+      "West"
+    ]
+  },
+  "Actions": {
+    "Move": {
+      "Parameters": {
+        "direction": "Direction"
+      }
+    },
+    "Shoot": {
+      "Parameters": {
+        "direction": "Direction"
+      }
+    },
+    "Pickup": {
+      "Parameters": {}
+    }
+  }
+}

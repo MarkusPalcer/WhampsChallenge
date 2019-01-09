@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using ContestantContracts.Game;
-using ContestantContracts.Perceptions;
+using WhampsChallenge.Contracts;
 using WhampsChallenge.Exceptions;
 
 namespace WhampsChallenge.ContestantProxies

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ContestantContracts.Game;
-using ContestantContracts.Perceptions;
+using WhampsChallenge.Contracts;
 
 namespace WhampsChallenge
 {
@@ -17,20 +16,18 @@ namespace WhampsChallenge
     public class Game : IGame
     {
         private Dictionary<Randomizers, Random> _randomizers;
-        private int _seed;
         private bool _isStarted;
-        private Map<FieldContent> _map;
-        private (int, int) _playerPosition;
+        private GameState _state;
 
         public bool IsGameOver { get; private set; }
 
         public int Seed
         {
-            get => _seed;
+            get => _state.Seed;
             set
             {
                 if (_isStarted) throw new InvalidOperationException("Seed cannot be changed when game is already started.");
-                _seed = value;
+                _state.Seed = value;
             }
         }
 
@@ -54,7 +51,7 @@ namespace WhampsChallenge
                 .ToDictionary(x => x, _ => mainRandom.GetNewChild());
 
             // Create 5x5 array of empty fields
-            _map = new Map<FieldContent>(5, 5)
+            _state.Map = new Map<FieldContent>(5, 5)
             {
                 [GetFreeSquare()] = {Value = FieldContent.Trap},
                 [GetFreeSquare()] = {Value = FieldContent.Trap},
@@ -62,7 +59,7 @@ namespace WhampsChallenge
                 [GetFreeSquare()] = {Value = FieldContent.Gold}
             };
 
-            _playerPosition = GetFreeSquare();
+            _state.PlayerPosition = GetFreeSquare();
             MovesLeft = 100;
             HasArrow = true;
             IsGameOver = false;
@@ -77,22 +74,22 @@ namespace WhampsChallenge
             switch (direction)
             {
                 case Direction.North:
-                    newPosition = (_playerPosition.Item1, _playerPosition.Item2 - 1);
+                    newPosition = (_state.PlayerPosition.Item1, _state.PlayerPosition.Item2 - 1);
                     break;
                 case Direction.South:
-                    newPosition = (_playerPosition.Item1, _playerPosition.Item2 + 1);
+                    newPosition = (_state.PlayerPosition.Item1, _state.PlayerPosition.Item2 + 1);
                     break;
                 case Direction.West:
-                    newPosition = (_playerPosition.Item1 - 1, _playerPosition.Item2);
+                    newPosition = (_state.PlayerPosition.Item1 - 1, _state.PlayerPosition.Item2);
                     break;
                 case Direction.East:
-                    newPosition = (_playerPosition.Item1 + 1, _playerPosition.Item2);
+                    newPosition = (_state.PlayerPosition.Item1 + 1, _state.PlayerPosition.Item2);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
 
-            var newField = _map[newPosition];
+            var newField = _state.Map[newPosition];
             if (newField == null)
             {
                 result.Add(Perception.Bump);
@@ -114,7 +111,7 @@ namespace WhampsChallenge
                         break;
                 }
 
-                _playerPosition = newPosition;
+                _state.PlayerPosition = newPosition;
             }
 
             result.AddRange(ProcessAnyAction());
@@ -131,7 +128,7 @@ namespace WhampsChallenge
             else
             {
                 // Move into the direction until the end of the playing field.
-                var field = _map[_playerPosition].AdjacentFields[direction];
+                var field = _state.Map[_state.PlayerPosition].AdjacentFields[direction];
                 while (field != null)
                 {
                     if (field.Value == FieldContent.Whamps)
@@ -152,7 +149,7 @@ namespace WhampsChallenge
         {
             List<Perception> result = new List<Perception>();
 
-            if (_map[_playerPosition].Value == FieldContent.Whamps)
+            if (_state.Map[_state.PlayerPosition].Value == FieldContent.Whamps)
             {
                 IsGameOver = true;
                 result.Add(Perception.Win);
@@ -183,7 +180,7 @@ namespace WhampsChallenge
         {
             var result = new List<Perception>();
 
-            var fields = _map[_playerPosition].AdjacentFields.Values.Select(f => f.Value).ToArray();
+            var fields = _state.Map[_state.PlayerPosition].AdjacentFields.Values.Select(f => f.Value).ToArray();
 
             if (fields.Contains(FieldContent.Trap)) result.Add(Perception.Wind);
             if (fields.Contains(FieldContent.Whamps)) result.Add(Perception.Stench);
@@ -199,10 +196,10 @@ namespace WhampsChallenge
                 var y = _randomizers[Randomizers.Level].Next(0, 4);
 
                 // Check if chosen field is empty
-                if (_map[x, y].Value != FieldContent.Empty) continue;
+                if (_state.Map[x, y].Value != FieldContent.Empty) continue;
 
                 // Check if this field has neither smell nor wind on it
-                var adjacentSquares = _map[_playerPosition].AdjacentFields.Values.Select(f => f.Value).ToArray();
+                var adjacentSquares = _state.Map[_state.PlayerPosition].AdjacentFields.Values.Select(f => f.Value).ToArray();
                 if (adjacentSquares.Contains(FieldContent.Trap) || adjacentSquares.Contains(FieldContent.Whamps)) continue;
 
                 return (x,y);

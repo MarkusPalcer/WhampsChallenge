@@ -1,4 +1,4 @@
-﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
 <#@ assembly name="System.Core" #>
 <#@ assembly name="Newtonsoft.Json" #>
 <#@ import namespace="System.Linq" #>
@@ -12,8 +12,8 @@
 
 // Generated file, so ReSharper-Checks are disabled.
 // ReSharper disable all
-
-<#	var fileName = Path.GetFullPath((new Uri(Path.Combine(Environment.CurrentDirectory, "..\\Library\\common\\contract.json"))).LocalPath); #>
+// <#= Environment.CurrentDirectory #>
+<#	var fileName = Path.GetFullPath(Host.ResolvePath("..\\..\\Library\\common\\contract.json")); #>
 <#  foreach (var _kvp in JsonConvert.DeserializeObject<Dictionary<string,JObject>>(File.ReadAllText(fileName))) { #>
 namespace WhampsChallenge.Messaging.<#= _kvp.Key #> {
 <#		foreach (var declaredEnumProperty in ((JObject)_kvp.Value["Enums"]).Properties()) { #>

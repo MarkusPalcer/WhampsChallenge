@@ -17,20 +17,15 @@
 <#= String.Join("\r\n", file.Keys.Select(x => $"using WhampsChallenge.Library.{x}.Types;")) #>
 
 <#  foreach (var _kvp in file) { #>
+<#		var resultType = (string)_kvp.Value["ResultType"]; #>
 namespace WhampsChallenge.Library.<#= _kvp.Key #>.Actions {
+	public interface IGame {
 <#		foreach (var action in ((JObject)_kvp.Value["Actions"]).Properties()) { #>
 <#			var parameters = ((JObject)action.Value["Parameters"]).Properties(); #>
-	internal class <#= action.Name #> {
-
-		public string Action => "<#= action.Name #>";
-
-<#			foreach (var parameter in parameters) { #>
-		public <#= parameter.Value #> <#= parameter.Name #> { get; set; }
-<#			} #>
-
-	}
+		<#= resultType #> <#= action.Name #>(<#= String.Join(", ", parameters.Select(x => $"{x.Value} {x.Name}")) #>);
 
 <#      } #>
+	}
 }
 
 <# } #>

@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="Generated\ActionInterfaces.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ActionInterfaces.tt</DependentUpon>
+    </None>
     <None Include="Generated\Actions.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -23,6 +28,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Generated\ActionInterfaces.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ActionInterfaces.cs</LastGenOutput>
+    </None>
     <None Update="Generated\Actions.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Actions.cs</LastGenOutput>
@@ -42,6 +51,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Generated\ActionInterfaces.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ActionInterfaces.tt</DependentUpon>
+    </Compile>
     <Compile Update="Generated\Actions.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -57,6 +71,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Types.tt</DependentUpon>
     </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Communication\" />
   </ItemGroup>
 
 </Project>

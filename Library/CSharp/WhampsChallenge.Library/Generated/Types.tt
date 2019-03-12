@@ -8,14 +8,12 @@
 <#@ import namespace="Newtonsoft.Json" #>
 <#@ import namespace="Newtonsoft.Json.Linq" #>
 <#@ output extension=".cs" #>
-// This file contains all enums as declared by the contracts.json file
-
 // Generated file, so ReSharper-Checks are disabled.
 // ReSharper disable all
 
 using System;
 
-<#	var fileName = Path.GetFullPath(Host.ResolvePath("..\\..\\common\\contract.json")); #>
+<#	var fileName = Path.GetFullPath(Host.ResolvePath("..\\..\\..\\common\\contract.json")); #>
 <#  var file = JsonConvert.DeserializeObject<Dictionary<string,JObject>>(File.ReadAllText(fileName)); #>
 <#= String.Join("\r\n", file.Keys.Select(x => $"using WhampsChallenge.Library.{x}.Enums;")) #>
 

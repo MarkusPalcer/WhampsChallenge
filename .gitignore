@@ -260,3 +260,4 @@ paket-files/
 __pycache__/
 *.pyc
 /Engine/WhampsChallenge.Messaging/Enums.cs
+/Engine/WhampsChallenge.Messaging/Types.cs

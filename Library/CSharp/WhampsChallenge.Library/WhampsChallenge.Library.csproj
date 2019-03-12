@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="Actions.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Actions.tt</DependentUpon>
+    </None>
     <None Include="Enums.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -18,6 +23,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Actions.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Actions.cs</LastGenOutput>
+    </None>
     <None Update="Enums.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Enums.cs</LastGenOutput>
@@ -33,6 +42,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Actions.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Actions.tt</DependentUpon>
+    </Compile>
     <Compile Update="Enums.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

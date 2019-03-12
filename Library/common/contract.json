@@ -1,0 +1,28 @@
+{
+  "Level1": {
+    "Enums": {
+      "Perception": [
+        "Bump",
+        "Stench",
+        "Wind",
+        "Twang",
+        "Scream",
+        "Glitter",
+        "Win",
+        "Death"
+      ]
+    },
+    "Actions": {},
+    "ResultType": "Result",
+    "Types": {
+      "GameState": {
+        "MovesLeft": "Int32",
+        "HasArrow": "Boolean"
+      },
+      "Result": {
+        "Perceptions": "Perception[]",
+        "GameState": "GameState"
+      }
+    }
+  }
+}

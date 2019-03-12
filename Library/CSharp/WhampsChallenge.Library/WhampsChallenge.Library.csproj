@@ -1,0 +1,48 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="Enums.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Enums.tt</DependentUpon>
+    </None>
+    <None Include="Types.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Types.tt</DependentUpon>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Enums.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Enums.cs</LastGenOutput>
+    </None>
+    <None Update="Types.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Types.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Enums.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Enums.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Types.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Types.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+</Project>

@@ -259,5 +259,9 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+
+
 /Engine/WhampsChallenge.Messaging/Enums.cs
 /Engine/WhampsChallenge.Messaging/Types.cs
+/Library/CSharp/WhampsChallenge.Library/Enums.cs
+/Library/CSharp/WhampsChallenge.Library/Types.cs

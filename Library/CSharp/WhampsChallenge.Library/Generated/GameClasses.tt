@@ -12,6 +12,8 @@
 // ReSharper disable all
 <#	var fileName = Path.GetFullPath(Host.ResolvePath("..\\..\\..\\common\\contract.json")); #>
 <#  var file = JsonConvert.DeserializeObject<Dictionary<string,JObject>>(File.ReadAllText(fileName)); #>
+using WhampsChallenge.Library.Communication;
+
 <#= String.Join("\r\n", file.Keys.Select(x => $"using WhampsChallenge.Library.{x}.Enums;")) #>
 
 <#= String.Join("\r\n", file.Keys.Select(x => $"using WhampsChallenge.Library.{x}.Types;")) #>
@@ -19,10 +21,25 @@
 <#  foreach (var _kvp in file) { #>
 <#		var resultType = (string)_kvp.Value["ResultType"]; #>
 namespace WhampsChallenge.Library.<#= _kvp.Key #>.Actions {
-	public interface IGame {
+	public class Game {
+		private readonly ICommunicator _communicator;
+
+	    public Game(ICommunicator communicator)
+	    {
+	        _communicator = communicator;
+	    }
+
 <#		foreach (var action in ((JObject)_kvp.Value["Actions"]).Properties()) { #>
 <#			var parameters = ((JObject)action.Value["Parameters"]).Properties(); #>
-		<#= resultType #> <#= action.Name #>(<#= String.Join(", ", parameters.Select(x => $"{x.Value} {x.Name}")) #>);
+		<#= resultType #> <#= action.Name #>(<#= String.Join(", ", parameters.Select(x => $"{x.Value} {x.Name.ToLower()}")) #>) {
+			var message = new <#= action.Name #> {
+<#			foreach (var parameter in parameters) { #>
+				<#= parameter.Name #> = <#= parameter.Name.ToLower() #>,
+<#			} #>
+			};
+
+			return _communicator.ExecuteAction<<#= resultType #>>(message);
+		}
 
 <#      } #>
 	}

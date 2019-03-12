@@ -5,11 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="Generated\ActionInterfaces.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ActionInterfaces.tt</DependentUpon>
-    </None>
     <None Include="Generated\Actions.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -28,9 +23,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Generated\ActionInterfaces.tt">
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Generated\GameClasses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ActionInterfaces.cs</LastGenOutput>
+      <LastGenOutput>GameClasses.cs</LastGenOutput>
     </None>
     <None Update="Generated\Actions.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -51,10 +50,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Generated\ActionInterfaces.cs">
+    <Compile Update="Generated\GameClasses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>ActionInterfaces.tt</DependentUpon>
+      <DependentUpon>GameClasses.tt</DependentUpon>
     </Compile>
     <Compile Update="Generated\Actions.cs">
       <DesignTime>True</DesignTime>
@@ -71,10 +70,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Types.tt</DependentUpon>
     </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Communication\" />
   </ItemGroup>
 
 </Project>

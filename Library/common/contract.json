@@ -1,6 +1,12 @@
 {
   "Level1": {
     "Enums": {
+      "Direction": [
+        "North",
+        "East",
+        "South",
+        "West"
+      ],
       "Perception": [
         "Bump",
         "Stench",
@@ -12,7 +18,21 @@
         "Death"
       ]
     },
-    "Actions": {},
+    "Actions": {
+      "Pickup": {
+        "Parameters": {}
+      },
+      "Shoot": {
+        "Parameters": {
+          "Direction": "Direction"
+        }
+      },
+      "Move": {
+        "Parameters": {
+          "Direction": "Direction"
+        }
+      }
+    },
     "ResultType": "Result",
     "Types": {
       "GameState": {

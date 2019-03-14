@@ -12,15 +12,19 @@
 // ReSharper disable all
 <#	var fileName = Path.GetFullPath(Host.ResolvePath("..\\..\\..\\common\\contract.json")); #>
 <#  var file = JsonConvert.DeserializeObject<Dictionary<string,JObject>>(File.ReadAllText(fileName)); #>
-using WhampsChallenge.Library.Communication;
 
-<#= String.Join("\r\n", file.Keys.Select(x => $"using WhampsChallenge.Library.{x}.Enums;")) #>
+using System.Threading.Tasks;
 
-<#= String.Join("\r\n", file.Keys.Select(x => $"using WhampsChallenge.Library.{x}.Types;")) #>
+using WhampsChallenge.Shared.Communication;
+using WhampsChallenge.Shared.Extensions;
 
 <#  foreach (var _kvp in file) { #>
 <#		var resultType = (string)_kvp.Value["ResultType"]; #>
 namespace WhampsChallenge.Library.<#= _kvp.Key #>.Actions {
+
+	using WhampsChallenge.Library.<#= _kvp.Key #>.Enums;
+	using WhampsChallenge.Library.<#= _kvp.Key #>.Types;	
+
 	public class Game {
 		private readonly ICommunicator _communicator;
 
@@ -38,7 +42,17 @@ namespace WhampsChallenge.Library.<#= _kvp.Key #>.Actions {
 <#			} #>
 			};
 
-			return _communicator.ExecuteAction<<#= resultType #>>(message);
+			return _communicator.SendAndReceive<<#= resultType #>>(message);
+		}
+
+		async Task<<#= resultType #>> <#= action.Name #>Async(<#= String.Join(", ", parameters.Select(x => $"{x.Value} {x.Name.ToLower()}")) #>) {
+			var message = new <#= action.Name #> {
+<#			foreach (var parameter in parameters) { #>
+				<#= parameter.Name #> = <#= parameter.Name.ToLower() #>,
+<#			} #>
+			};
+
+			return await _communicator.SendAndReceiveAsync<<#= resultType #>>(message);
 		}
 
 <#      } #>

@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using WhampsChallenge;
 using WhampsChallenge.Markers;
+using WhampsChallenge.Shared.Extensions;
 using static System.String;
 
 namespace ContractGeneration
@@ -123,7 +124,7 @@ namespace ContractGeneration
 
             foreach (var type in levelTypes)
             {
-                foreach (var attribute in type.GetCustomAttributes())
+                foreach (var attribute in type.GetCustomAttributes(true))
                 {
                     typesByMarker.Add(attribute.GetType(), type);
                 }
@@ -134,20 +135,20 @@ namespace ContractGeneration
 
         public static object Generate()
         {
-            var foundTypes = new Dictionary<int, List<Type>>();
+            var foundTypes = new Dictionary<string, List<Type>>();
 
             foreach (var type in typeof(ActionAttribute).Assembly.GetTypes())
             {
                 if (type.Namespace == null) continue;
 
-                var match = Regex.Match(type.Namespace, "WhampsChallenge\\.Level(?'level'\\d+)");
+                var match = Regex.Match(type.Namespace, "WhampsChallenge\\.Level(?'level'[^\\.]+)");
                 if (match.Success)
                 {
-                    foundTypes.Add(int.Parse(match.Groups["level"].Value), type);
+                    foundTypes.Add($"Level{match.Groups["level"].Value}", type);
                 }
             }
 
-            return foundTypes.ToDictionary(x => $"Level{x.Key}", x => Generate(x.Value));
+            return foundTypes.ToDictionary(x => x.Key, x => Generate(x.Value));
         }
     }
 }

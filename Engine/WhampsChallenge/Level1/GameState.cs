@@ -1,18 +1,14 @@
 ﻿using Newtonsoft.Json;
+using WhampsChallenge.Level3;
 
 namespace WhampsChallenge.Level1
 {
-    public struct GameState
+    public class GameState
     {
         /// <summary>
         /// Gets a value indicating the number of moves left until game over
         /// </summary>
         public int MovesLeft { get; set; }
-
-        /// <summary>
-        /// Gets a value indicting whether the player has an arrow
-        /// </summary>
-        public bool HasArrow { get; set; }
 
         [JsonIgnore]
         internal Map<FieldContent> Map { get; set; }

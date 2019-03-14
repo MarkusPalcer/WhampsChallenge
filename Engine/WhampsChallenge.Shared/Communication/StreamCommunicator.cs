@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
 
-namespace WhampsChallenge.Library.Communication
+namespace WhampsChallenge.Shared.Communication
 {
     /// <summary>
     /// An implementation of <see cref="ICommunicator"/> that reads and writes messages one line per message

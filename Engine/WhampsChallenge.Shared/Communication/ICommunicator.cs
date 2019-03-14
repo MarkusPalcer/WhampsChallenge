@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace WhampsChallenge.Library.Communication
+namespace WhampsChallenge.Shared.Communication
 {
     /// <summary>
     /// A means to communicate with the contest host

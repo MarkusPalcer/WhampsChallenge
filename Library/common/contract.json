@@ -1,5 +1,5 @@
 {
-  "Level1": {
+  "Level3": {
     "Enums": {
       "Direction": [
         "North",
@@ -36,8 +36,81 @@
     "ResultType": "Result",
     "Types": {
       "GameState": {
-        "MovesLeft": "Int32",
-        "HasArrow": "Boolean"
+        "HasArrow": "Boolean",
+        "MovesLeft": "Int32"
+      },
+      "Result": {
+        "Perceptions": "Perception[]",
+        "GameState": "GameState"
+      }
+    }
+  },
+  "Level2": {
+    "Enums": {
+      "Direction": [
+        "North",
+        "East",
+        "South",
+        "West"
+      ],
+      "Perception": [
+        "Bump",
+        "Wind",
+        "Glitter",
+        "Win",
+        "Death"
+      ]
+    },
+    "Actions": {
+      "Move": {
+        "Parameters": {
+          "Direction": "Direction"
+        }
+      },
+      "Pickup": {
+        "Parameters": {}
+      }
+    },
+    "ResultType": "Result",
+    "Types": {
+      "GameState": {
+        "MovesLeft": "Int32"
+      },
+      "Result": {
+        "Perceptions": "Perception[]",
+        "GameState": "GameState"
+      }
+    }
+  },
+  "Level1": {
+    "Enums": {
+      "Direction": [
+        "North",
+        "East",
+        "South",
+        "West"
+      ],
+      "Perception": [
+        "Bump",
+        "Glitter",
+        "Win",
+        "Death"
+      ]
+    },
+    "Actions": {
+      "Move": {
+        "Parameters": {
+          "Direction": "Direction"
+        }
+      },
+      "Pickup": {
+        "Parameters": {}
+      }
+    },
+    "ResultType": "Result",
+    "Types": {
+      "GameState": {
+        "MovesLeft": "Int32"
       },
       "Result": {
         "Perceptions": "Perception[]",

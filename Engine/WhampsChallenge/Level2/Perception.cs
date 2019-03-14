@@ -1,12 +1,18 @@
-﻿namespace WhampsChallenge.Level1
+﻿namespace WhampsChallenge.Level2
 {
-    public enum Perception
+    public enum Perception 
     {
         /// <summary>
         /// You ran against a wall.
         /// Ouch!
         /// </summary>
         Bump,
+
+        /// <summary>
+        /// A trap must be on an adjacent square.
+        /// Be careful where you go next.
+        /// </summary>
+        Wind,
 
         /// <summary>
         /// Something is glittering on the ground.

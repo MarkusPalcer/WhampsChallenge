@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using WhampsChallenge.Level1;
+using WhampsChallenge.Shared.Extensions;
 
 namespace WhampsChallenge
 {
@@ -26,7 +27,7 @@ namespace WhampsChallenge
                 West = map[x - 1, y];
             }
 
-            public T Value
+            public T Content
             {
                 get => _map._data[_x][_y];
                 set => _map._data[_x][_y] = value;

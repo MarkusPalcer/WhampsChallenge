@@ -2,11 +2,10 @@
 
 namespace WhampsChallenge.Common
 {
-    public interface IGame 
+    public interface IGame
     {
-        /// <summary>
-        /// Gets the seed of the current game.
-        /// </summary>
-        int Seed { get; }
+        object Execute(IAction action);
+
+        void Initialize();
     }
 }

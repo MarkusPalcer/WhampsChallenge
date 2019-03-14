@@ -12,12 +12,13 @@
 // ReSharper disable all
 <#	var fileName = Path.GetFullPath(Host.ResolvePath("..\\..\\..\\common\\contract.json")); #>
 <#  var file = JsonConvert.DeserializeObject<Dictionary<string,JObject>>(File.ReadAllText(fileName)); #>
-<#= String.Join("\r\n", file.Keys.Select(x => $"using WhampsChallenge.Library.{x}.Enums;")) #>
-
-<#= String.Join("\r\n", file.Keys.Select(x => $"using WhampsChallenge.Library.{x}.Types;")) #>
 
 <#  foreach (var _kvp in file) { #>
 namespace WhampsChallenge.Library.<#= _kvp.Key #>.Actions {
+
+	using WhampsChallenge.Library.<#= _kvp.Key #>.Enums;
+	using WhampsChallenge.Library.<#= _kvp.Key #>.Types;
+
 <#		foreach (var action in ((JObject)_kvp.Value["Actions"]).Properties()) { #>
 <#			var parameters = ((JObject)action.Value["Parameters"]).Properties(); #>
 	internal class <#= action.Name #> {

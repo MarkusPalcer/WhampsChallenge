@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace WhampsChallenge.Library
+namespace WhampsChallenge.Shared.Extensions
 {
     public static class TaskExtensions
     {

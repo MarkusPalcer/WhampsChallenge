@@ -1,4 +1,4 @@
-﻿namespace WhampsChallenge.Level1
+﻿namespace WhampsChallenge.Level3
 {
     enum FieldContent
     {

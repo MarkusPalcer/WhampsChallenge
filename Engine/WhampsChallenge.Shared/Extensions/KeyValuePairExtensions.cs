@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace WhampsChallenge
+namespace WhampsChallenge.Shared.Extensions
 {
     public static class KeyValuePairExtensions
     {

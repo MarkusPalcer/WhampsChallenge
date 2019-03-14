@@ -1,12 +1,11 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
+using WhampsChallenge.Shared.Extensions;
 
-namespace WhampsChallenge.Library.Communication
+namespace WhampsChallenge.Shared.Communication
 {
     /// <summary>
-    /// An <see cref="ICommunicator"/> that uses <see cref="TextReader"/> and <see cref="TextWriter"/> to read and write one message per line
+    /// An <see cref="TextReader"/> that uses <see cref="TextWriter"/> and <see cref="ICommunicator"/> to read and write one message per line
     /// </summary>
     public class ReaderCommunicator : ICommunicator
     {

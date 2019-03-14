@@ -44,6 +44,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\IActionDecoder.cs" />
+    <Compile Include="Generated\Actions.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Actions.tt</DependentUpon>
+    </Compile>
     <Compile Include="Generated\Enums.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -57,6 +63,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Generated\Actions.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Actions.cs</LastGenOutput>
+    </Content>
     <Content Include="Generated\Enums.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Enums.cs</LastGenOutput>
@@ -71,6 +81,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WhampsChallenge\WhampsChallenge.csproj">
+      <Project>{7c4d4485-0348-4d3f-a111-1a60a663502c}</Project>
+      <Name>WhampsChallenge</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

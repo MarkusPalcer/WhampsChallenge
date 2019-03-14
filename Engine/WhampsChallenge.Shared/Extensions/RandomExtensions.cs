@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WhampsChallenge
+namespace WhampsChallenge.Shared.Extensions
 {
     public static class RandomExtensions
     {

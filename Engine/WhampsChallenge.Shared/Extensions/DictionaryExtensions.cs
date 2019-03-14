@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace WhampsChallenge
+namespace WhampsChallenge.Shared.Extensions
 {
     public static class DictionaryExtensions
     {

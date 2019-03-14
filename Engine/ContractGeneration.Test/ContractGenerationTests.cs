@@ -1,8 +1,8 @@
 ﻿using System;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using WhampsChallenge.Level1;
-using WhampsChallenge.Level1.actions;
+using WhampsChallenge.Level3;
+using WhampsChallenge.Level3.Actions;
 using WhampsChallenge.Markers;
 
 namespace ContractGeneration.Test

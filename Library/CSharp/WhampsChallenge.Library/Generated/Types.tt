@@ -15,15 +15,17 @@ using System;
 
 <#	var fileName = Path.GetFullPath(Host.ResolvePath("..\\..\\..\\common\\contract.json")); #>
 <#  var file = JsonConvert.DeserializeObject<Dictionary<string,JObject>>(File.ReadAllText(fileName)); #>
-<#= String.Join("\r\n", file.Keys.Select(x => $"using WhampsChallenge.Library.{x}.Enums;")) #>
 
 <#  foreach (var _kvp in file) { #>
 namespace WhampsChallenge.Library.<#= _kvp.Key #>.Types {
-<#		foreach (var declaredType in ((JObject)_kvp.Value["Types"]).Properties()) { #>
+
+	using WhampsChallenge.Library.<#= _kvp.Key #>.Enums;
+
+<#	foreach (var declaredType in ((JObject)_kvp.Value["Types"]).Properties()) { #>
 	public class <#= declaredType.Name #> {
-<#			foreach (var property in declaredType.Value.Value<JObject>().Properties()) { #>
+<#		foreach (var property in declaredType.Value.Value<JObject>().Properties()) { #>
 		<#= property.Value.Value<string>()#> <#= property.Name #> { get; set; }
-<#          } #>
+<#      } #>
 	}
 
 <#      } #>

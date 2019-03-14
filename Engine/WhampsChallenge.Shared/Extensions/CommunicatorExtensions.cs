@@ -1,8 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Newtonsoft.Json;
+using WhampsChallenge.Shared.Communication;
 
-namespace WhampsChallenge.Library.Communication
+namespace WhampsChallenge.Shared.Extensions
 {
     /// <summary>
     /// Extends all the <see cref="ICommunicator"/> implementations
@@ -10,20 +10,20 @@ namespace WhampsChallenge.Library.Communication
     public static class CommunicatorExtensions
     {
         /// <summary>
-        /// Executes an action on the contest host
+        /// Sends a message and expects a specific reply
         /// </summary>
-        /// <typeparam name="TResponse">The response of the contest host to the action</typeparam>
-        public static TResponse ExecuteAction<TResponse>(this ICommunicator self, object message)
+        /// <typeparam name="TResponse">The reply type</typeparam>
+        public static TResponse SendAndReceive<TResponse>(this ICommunicator self, object message)
         {
             var response = self.SendAndReceive(JsonConvert.SerializeObject(message));
             return JsonConvert.DeserializeObject<TResponse>(response);
         }
 
         /// <summary>
-        /// Executes an action on the contest host
+        /// Sends a message and expects a specific reply
         /// </summary>
-        /// <typeparam name="TResponse">The response of the contest host to the action</typeparam>
-        public static async Task<TResponse> ExecuteActionAsync<TResponse>(this ICommunicator self, object message)
+        /// <typeparam name="TResponse">The reply type</typeparam>
+        public static async Task<TResponse> SendAndReceiveAsync<TResponse>(this ICommunicator self, object message)
         {
             var request = await Task.Factory.StartNew(() => JsonConvert.SerializeObject(message));
             var response = await self.SendAndReceiveAsync(request);

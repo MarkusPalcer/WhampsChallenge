@@ -40,7 +40,7 @@ namespace WhampsChallenge.Messaging.<#= _kvp.Key #>.Actions {
 
 <#		foreach (var action in ((JObject)_kvp.Value["Actions"]).Properties()) { #>
 		private static WhampsChallenge.Common.IAction Decode<#= action.Name #>(JObject message) {
-			return message.Value<<#= action.Name #>>();
+			return message.ToObject<<#= action.Name #>>();
 		}
 <#      } #>
 

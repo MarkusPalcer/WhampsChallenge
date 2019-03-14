@@ -35,7 +35,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\WhampsChallenge\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -52,20 +52,20 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\WhampsChallenge.Core\WhampsChallenge.Core.csproj">
+      <Project>{612F3DA9-330A-465E-8033-684075C70A02}</Project>
+      <Name>WhampsChallenge.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WhampsChallenge.Shared\WhampsChallenge.Shared.csproj">
       <Project>{43B204D1-9005-48D5-869B-C9168573885A}</Project>
       <Name>WhampsChallenge.Shared</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WhampsChallenge\WhampsChallenge.csproj">
-      <Project>{7c4d4485-0348-4d3f-a111-1a60a663502c}</Project>
-      <Name>WhampsChallenge</Name>
-    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentAssertions" Version="5.6.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="1.3.2" />
+    <PackageReference Include="MSTest.TestFramework" Version="1.3.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Library\CSharp\WhampsChallenge.Library\WhampsChallenge.Library.csproj" />
+    <ProjectReference Include="..\WhampsChallenge.Core\WhampsChallenge.Core.csproj" />
+    <ProjectReference Include="..\WhampsChallenge.Messaging\WhampsChallenge.Messaging.csproj" />
+    <ProjectReference Include="..\WhampsChallenge.Shared\WhampsChallenge.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="FluentAssertions">
+      <HintPath>..\packages\FluentAssertions.5.6.0\lib\net47\FluentAssertions.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

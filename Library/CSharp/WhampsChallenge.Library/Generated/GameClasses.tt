@@ -35,7 +35,7 @@ namespace WhampsChallenge.Library.<#= _kvp.Key #>.Actions {
 
 <#		foreach (var action in ((JObject)_kvp.Value["Actions"]).Properties()) { #>
 <#			var parameters = ((JObject)action.Value["Parameters"]).Properties(); #>
-		<#= resultType #> <#= action.Name #>(<#= String.Join(", ", parameters.Select(x => $"{x.Value} {x.Name.ToLower()}")) #>) {
+		public <#= resultType #> <#= action.Name #>(<#= String.Join(", ", parameters.Select(x => $"{x.Value} {x.Name.ToLower()}")) #>) {
 			var message = new <#= action.Name #> {
 <#			foreach (var parameter in parameters) { #>
 				<#= parameter.Name #> = <#= parameter.Name.ToLower() #>,
@@ -45,7 +45,7 @@ namespace WhampsChallenge.Library.<#= _kvp.Key #>.Actions {
 			return _communicator.SendAndReceive<<#= resultType #>>(message);
 		}
 
-		async Task<<#= resultType #>> <#= action.Name #>Async(<#= String.Join(", ", parameters.Select(x => $"{x.Value} {x.Name.ToLower()}")) #>) {
+		public async Task<<#= resultType #>> <#= action.Name #>Async(<#= String.Join(", ", parameters.Select(x => $"{x.Value} {x.Name.ToLower()}")) #>) {
 			var message = new <#= action.Name #> {
 <#			foreach (var parameter in parameters) { #>
 				<#= parameter.Name #> = <#= parameter.Name.ToLower() #>,

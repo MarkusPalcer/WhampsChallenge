@@ -16,19 +16,19 @@ namespace ContractGeneration.Test
         [TestMethod, ExpectedException(typeof(InvalidOperationException))]
         public void ResultTypeIsNeccesary()
         {
-            var contract = SutCreator.Generate(typeof(Move), typeof(Pickup), typeof(Shoot));
+            var contract = Contract.Generate(new []{typeof(Move), typeof(Pickup), typeof(Shoot)});
         }
 
         [TestMethod, ExpectedException(typeof(InvalidOperationException))]
         public void OnlyOneResultAllowed()
         {
-            var contract = SutCreator.Generate(typeof(Result), typeof(EmptyResultType));
+            var contract = Contract.Generate(new[]{typeof(Result), typeof(EmptyResultType)});
         }
 
         [TestMethod]
         public void ResultTypeIsDetected()
         {
-            var contract = SutCreator.Generate(typeof(EmptyResultType));
+            var contract = Contract.Generate(new []{typeof(EmptyResultType)});
             contract.ResultType.Should().Be(nameof(EmptyResultType));
             contract.Types.Keys.Should().BeEquivalentTo(nameof(EmptyResultType));
         }
@@ -48,7 +48,7 @@ namespace ContractGeneration.Test
         [TestMethod]
         public void EnumsInResultTypeAreDetected()
         {
-            var contract = SutCreator.Generate(typeof(ResultTypeWithEnum));
+            var contract = Contract.Generate(new[]{typeof(ResultTypeWithEnum)});
             contract.Enums.Keys.Should().BeEquivalentTo(nameof(ResultTypeEnum));
             contract.Enums[nameof(ResultTypeEnum)].Should().BeEquivalentTo(Enum.GetNames(typeof(ResultTypeEnum)), "the names of the enums should be included");
             contract.Types.Keys.Should().BeEquivalentTo(nameof(ResultTypeWithEnum));

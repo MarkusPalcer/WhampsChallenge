@@ -1,0 +1,176 @@
+using System.Threading.Tasks;
+using FluentAssertions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using WhampsChallenge.Common;
+using WhampsChallenge.Level1;
+using Direction = WhampsChallenge.Library.Level1.Enums.Direction;
+
+namespace WhampsChallenge.Tests
+{
+    [TestClass]
+    public class RoundTripTestsLevel1
+    {
+        [TestMethod]
+        public async Task MoveOnEmptySpot()
+        {
+            var game = new Level1.Game();
+            var communicator = new TestCommunicator();
+            var gameProxy = new Library.Level1.Actions.Game(communicator);
+            var decoder = new Messaging.Level1.Actions.ActionDecoder();
+
+            game.Seed = 0;
+            game.Initialize();
+            game.State.PlayerPosition = (0, 0);
+
+            var responseTask = gameProxy.MoveAsync(Direction.East);
+            var decodedAction = decoder.Decode(await communicator.GetLastMessage());
+            var sentResponse = game.Execute(decodedAction);
+            sentResponse.As<Result>().GameState.PlayerPosition.Should().Be((1, 0));
+            responseTask.IsCompleted.Should().BeFalse();
+            communicator.SetResponse(sentResponse);
+            var decodedResponse = await responseTask;
+            decodedResponse.Perceptions.Should().BeEmpty();
+            decodedResponse.GameState.MovesLeft.Should().Be(99);
+            game.IsGameOver.Should().BeFalse();
+        }
+
+        [TestMethod]
+        public async Task MoveIntoWall()
+        {
+            var game = new Level1.Game();
+            var communicator = new TestCommunicator();
+            var gameProxy = new Library.Level1.Actions.Game(communicator);
+            var decoder = new Messaging.Level1.Actions.ActionDecoder();
+
+            game.Seed = 0;
+            game.Initialize();
+            game.State.PlayerPosition = (0, 0);
+
+            var responseTask = gameProxy.MoveAsync(Direction.North);
+            var decodedAction = decoder.Decode(await communicator.GetLastMessage());
+            var sentResponse = game.Execute(decodedAction);
+            sentResponse.As<Result>().GameState.PlayerPosition.Should().Be((0, 0));
+            responseTask.IsCompleted.Should().BeFalse();
+            communicator.SetResponse(sentResponse);
+            var decodedResponse = await responseTask;
+            decodedResponse.Perceptions.Should().BeEquivalentTo(Perception.Bump);
+            decodedResponse.GameState.MovesLeft.Should().Be(99);
+            game.IsGameOver.Should().BeFalse();
+        }
+
+        [TestMethod]
+        public async Task MoveOnGold()
+        {
+            var game = new Level1.Game();
+            var communicator = new TestCommunicator();
+            var gameProxy = new Library.Level1.Actions.Game(communicator);
+            var decoder = new Messaging.Level1.Actions.ActionDecoder();
+
+            game.Seed = 0;
+            game.Initialize();
+            game.State.PlayerPosition = (3, 1);
+
+            var responseTask = gameProxy.MoveAsync(Direction.South);
+            var decodedAction = decoder.Decode(await communicator.GetLastMessage());
+            var sentResponse = game.Execute(decodedAction);
+            sentResponse.As<Result>().GameState.PlayerPosition.Should().Be((3, 2));
+            responseTask.IsCompleted.Should().BeFalse();
+            communicator.SetResponse(sentResponse);
+            var decodedResponse = await responseTask;
+            decodedResponse.Perceptions.Should().BeEquivalentTo(Perception.Glitter);
+            decodedResponse.GameState.MovesLeft.Should().Be(99);
+            game.IsGameOver.Should().BeFalse();
+        }
+
+        [TestMethod]
+        public async Task PickupGold()
+        {
+            var game = new Level1.Game();
+            var communicator = new TestCommunicator();
+            var gameProxy = new Library.Level1.Actions.Game(communicator);
+            var decoder = new Messaging.Level1.Actions.ActionDecoder();
+
+            game.Seed = 0;
+            game.Initialize();
+            game.State.PlayerPosition = (3, 2);
+
+            var responseTask = gameProxy.PickupAsync();
+            var decodedResponse = await ExecuteRequestedAction(decoder, communicator, game, responseTask);
+            decodedResponse.Perceptions.Should().Contain(Library.Level1.Enums.Perception.Win);
+            decodedResponse.GameState.MovesLeft.Should().Be(99);
+            game.IsGameOver.Should().BeTrue();
+        }
+
+        [TestMethod]
+        public async Task PickupNothing()
+        {
+            var game = new Level1.Game();
+            var communicator = new TestCommunicator();
+            var gameProxy = new Library.Level1.Actions.Game(communicator);
+            var decoder = new Messaging.Level1.Actions.ActionDecoder();
+
+            game.Seed = 0;
+            game.Initialize();
+
+            var responseTask = gameProxy.PickupAsync();
+            var decodedResponse = await ExecuteRequestedAction(decoder, communicator, game, responseTask);
+            decodedResponse.Perceptions.Should().BeEmpty();
+            decodedResponse.GameState.MovesLeft.Should().Be(99);
+            game.IsGameOver.Should().BeFalse();
+        }
+
+        [TestMethod]
+        public async Task RunOutOfMoves()
+        {
+            var game = new Level1.Game();
+            var communicator = new TestCommunicator();
+            var gameProxy = new Library.Level1.Actions.Game(communicator);
+            var decoder = new Messaging.Level1.Actions.ActionDecoder();
+
+            game.Seed = 0;
+            game.Initialize();
+            game.State.MovesLeft = 1;
+
+            var responseTask = gameProxy.PickupAsync();
+            var decodedResponse = await ExecuteRequestedAction(decoder, communicator, game, responseTask);
+            decodedResponse.Perceptions.Should().Contain(Library.Level1.Enums.Perception.Death);
+            decodedResponse.Perceptions.Should().NotContain(Library.Level1.Enums.Perception.Win);
+            decodedResponse.GameState.MovesLeft.Should().Be(0);
+            game.IsGameOver.Should().BeTrue();
+        }
+
+        [TestMethod]
+        public async Task PickupGoldInLastMove()
+        {
+            var game = new Level1.Game();
+            var communicator = new TestCommunicator();
+            var gameProxy = new Library.Level1.Actions.Game(communicator);
+            var decoder = new Messaging.Level1.Actions.ActionDecoder();
+
+            game.Seed = 0;
+            game.Initialize();
+            game.State.PlayerPosition = (3, 2);
+            game.State.MovesLeft = 1;
+
+            var responseTask = gameProxy.PickupAsync();
+            var decodedResponse = await ExecuteRequestedAction(decoder, communicator, game, responseTask);
+            decodedResponse.Perceptions.Should().BeEquivalentTo(Perception.Win);
+            decodedResponse.GameState.MovesLeft.Should().Be(0);
+            game.IsGameOver.Should().BeTrue();
+        }
+
+        private static async Task<Library.Level1.Types.Result> ExecuteRequestedAction(
+            Messaging.Level1.Actions.ActionDecoder decoder, 
+            TestCommunicator communicator, 
+            IGame game,
+            Task<Library.Level1.Types.Result> responseTask)
+        {
+            var decodedAction = decoder.Decode(await communicator.GetLastMessage());
+            var sentResponse = game.Execute(decodedAction);
+            responseTask.IsCompleted.Should().BeFalse();
+            communicator.SetResponse(sentResponse);
+            var decodedResponse = await responseTask;
+            return decodedResponse;
+        }
+    }
+}

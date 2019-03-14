@@ -15,7 +15,8 @@ namespace WhampsChallenge.Level3
             {Level2.Perception.Bump, Perception.Bump},
             {Level2.Perception.Death, Perception.Death},
             {Level2.Perception.Glitter, Perception.Glitter},
-            {Level2.Perception.Win, Perception.Win}
+            {Level2.Perception.Win, Perception.Win},
+            {Level2.Perception.Wind, Perception.Wind}
         };
 
         public override void Initialize()
@@ -71,6 +72,12 @@ namespace WhampsChallenge.Level3
         public virtual void AddPerception(Perception perception)
         {
             _perceptions.Add(perception);
+        }
+
+        protected override bool IsSquareFree(int x, int y)
+        {
+            // Check that there is no stench on the field
+            return base.IsSquareFree(x, y) && State.Map[x,y].AdjacentFields.Values.SelectMany(f => f.AdjacentFields.Values).All(f => f.Content != FieldContent.Whamps);
         }
     }
 }

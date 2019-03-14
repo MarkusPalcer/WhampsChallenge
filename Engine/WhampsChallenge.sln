@@ -3,22 +3,28 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2036
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WhampsChallenge", "WhampsChallenge\WhampsChallenge.csproj", "{7C4D4485-0348-4D3F-A111-1A60A663502C}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContractGeneration", "ContractGeneration\ContractGeneration.csproj", "{09F2D405-0174-4CC3-9C00-607545F43CF3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContractGeneration.Test", "ContractGeneration.Test\ContractGeneration.Test.csproj", "{E07C7289-ECEF-4747-A9B2-30693AF369FC}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WhampsChallenge.Messaging", "WhampsChallenge.Messaging\WhampsChallenge.Messaging.csproj", "{B0392AD6-79BD-421A-98B9-A8C2652316B7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WhampsChallenge.Shared", "WhampsChallenge.Shared\WhampsChallenge.Shared.csproj", "{43B204D1-9005-48D5-869B-C9168573885A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WhampsChallenge.Library", "..\Library\CSharp\WhampsChallenge.Library\WhampsChallenge.Library.csproj", "{785B6419-CAED-41EF-8754-F66ECA633B5C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Files", "Files", "{06EE79D8-5CCA-49BC-8F53-36477F4C7C91}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "External Files", "External Files", "{06EE79D8-5CCA-49BC-8F53-36477F4C7C91}"
 	ProjectSection(SolutionItems) = preProject
 		..\Library\common\contract.json = ..\Library\common\contract.json
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Engine", "Engine", "{00AA61EB-2D73-41DD-8285-D484FAC68D93}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Library", "Library", "{1C832327-A813-4DCD-B9ED-BB9C1FF6110C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WhampsChallenge.Core", "WhampsChallenge.Core\WhampsChallenge.Core.csproj", "{612F3DA9-330A-465E-8033-684075C70A02}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WhampsChallenge.Messaging", "WhampsChallenge.Messaging\WhampsChallenge.Messaging.csproj", "{CD16CC8C-A291-4CA4-8D07-60FDE3FD4DCE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WhampsChallenge.Tests", "WhampsChallenge.Tests\WhampsChallenge.Tests.csproj", "{C940E3C9-4BE6-467F-9AAA-09652342D953}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,10 +32,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7C4D4485-0348-4D3F-A111-1A60A663502C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7C4D4485-0348-4D3F-A111-1A60A663502C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7C4D4485-0348-4D3F-A111-1A60A663502C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7C4D4485-0348-4D3F-A111-1A60A663502C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{09F2D405-0174-4CC3-9C00-607545F43CF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{09F2D405-0174-4CC3-9C00-607545F43CF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09F2D405-0174-4CC3-9C00-607545F43CF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -38,10 +40,6 @@ Global
 		{E07C7289-ECEF-4747-A9B2-30693AF369FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E07C7289-ECEF-4747-A9B2-30693AF369FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E07C7289-ECEF-4747-A9B2-30693AF369FC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B0392AD6-79BD-421A-98B9-A8C2652316B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B0392AD6-79BD-421A-98B9-A8C2652316B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B0392AD6-79BD-421A-98B9-A8C2652316B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B0392AD6-79BD-421A-98B9-A8C2652316B7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{43B204D1-9005-48D5-869B-C9168573885A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{43B204D1-9005-48D5-869B-C9168573885A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{43B204D1-9005-48D5-869B-C9168573885A}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -50,9 +48,26 @@ Global
 		{785B6419-CAED-41EF-8754-F66ECA633B5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{785B6419-CAED-41EF-8754-F66ECA633B5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{785B6419-CAED-41EF-8754-F66ECA633B5C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{612F3DA9-330A-465E-8033-684075C70A02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{612F3DA9-330A-465E-8033-684075C70A02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{612F3DA9-330A-465E-8033-684075C70A02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{612F3DA9-330A-465E-8033-684075C70A02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD16CC8C-A291-4CA4-8D07-60FDE3FD4DCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD16CC8C-A291-4CA4-8D07-60FDE3FD4DCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD16CC8C-A291-4CA4-8D07-60FDE3FD4DCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD16CC8C-A291-4CA4-8D07-60FDE3FD4DCE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C940E3C9-4BE6-467F-9AAA-09652342D953}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C940E3C9-4BE6-467F-9AAA-09652342D953}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C940E3C9-4BE6-467F-9AAA-09652342D953}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C940E3C9-4BE6-467F-9AAA-09652342D953}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{785B6419-CAED-41EF-8754-F66ECA633B5C} = {1C832327-A813-4DCD-B9ED-BB9C1FF6110C}
+		{612F3DA9-330A-465E-8033-684075C70A02} = {00AA61EB-2D73-41DD-8285-D484FAC68D93}
+		{CD16CC8C-A291-4CA4-8D07-60FDE3FD4DCE} = {00AA61EB-2D73-41DD-8285-D484FAC68D93}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EA0F7FCD-01FB-491D-BF71-BEB719D831EC}

@@ -42,10 +42,10 @@ namespace WhampsChallenge.Level1
                 .ToDictionary(x => x, _ => mainRandom.GetNewChild());
 
             // Create 5x5 array of empty fields
-            State.Map = new Map<FieldContent>(5, 5)
-            {
-                [GetFreeSquare()] = {Content = FieldContent.Gold}
-            };
+            State.Map = new Map<FieldContent>(5, 5);
+
+            // Put Gold somewhere
+            State.Map[GetFreeSquare()].Content = FieldContent.Gold;
 
             State.PlayerPosition = GetFreeSquare();
             State.MovesLeft = 100;
@@ -59,9 +59,10 @@ namespace WhampsChallenge.Level1
 
         protected virtual void PostProcessAction()
         {
+            State.MovesLeft--;
+            
             if (IsGameOver) return;
 
-            State.MovesLeft--;
             if (State.MovesLeft < 1)
             {
                 AddPerception(Perception.Death);
@@ -72,6 +73,12 @@ namespace WhampsChallenge.Level1
             if (State.Map[State.PlayerPosition].Content == FieldContent.Gold) AddPerception(Perception.Glitter);
         }
 
+        protected virtual bool IsSquareFree(int x, int y)
+        {
+            // Check if chosen field is empty
+            return State.Map[x, y].Content == FieldContent.Empty;
+        }
+
         protected ValueTuple<int,int> GetFreeSquare()
         {
             while (true)
@@ -79,11 +86,7 @@ namespace WhampsChallenge.Level1
                 var x = _randomizers[Randomizers.Level].Next(0, 4);
                 var y = _randomizers[Randomizers.Level].Next(0, 4);
 
-                // Check if chosen field is empty
-                if (State.Map[x, y].Content != FieldContent.Empty) continue;
-
-                // Check if this field has neither smell nor wind on it
-                var adjacentSquares = State.Map[State.PlayerPosition].AdjacentFields.Values.Select(f => f.Content).ToArray();
+                if (!IsSquareFree(x, y)) continue;
 
                 return (x,y);
             }

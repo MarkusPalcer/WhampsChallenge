@@ -19,15 +19,15 @@
       ]
     },
     "Actions": {
-      "Pickup": {
-        "Parameters": {}
-      },
-      "Shoot": {
+      "Move": {
         "Parameters": {
           "Direction": "Direction"
         }
       },
-      "Move": {
+      "Pickup": {
+        "Parameters": {}
+      },
+      "Shoot": {
         "Parameters": {
           "Direction": "Direction"
         }

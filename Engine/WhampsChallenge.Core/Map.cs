@@ -15,16 +15,21 @@ namespace WhampsChallenge
             private readonly int _y;
             private readonly Map<T> _map;
 
+            private readonly Lazy<Field> _north;
+            private readonly Lazy<Field> _east;
+            private readonly Lazy<Field> _south;
+            private readonly Lazy<Field> _west;
+
             internal Field(int x, int y, Map<T> map)
             {
                 _x = x;
                 _y = y;
                 _map = map;
 
-                North = map[x, y - 1];
-                East = map[x + 1, y];
-                South = map[x, y + 1];
-                West = map[x - 1, y];
+                _north = new Lazy<Field>(() => map[x, y - 1]);
+                _east = new Lazy<Field>(() => map[x + 1, y]);
+                _south = new Lazy<Field>(() => map[x, y + 1]);
+                _west = new Lazy<Field>(() => map[x - 1, y]);
             }
 
             public T Content
@@ -33,13 +38,13 @@ namespace WhampsChallenge
                 set => _map._data[_x][_y] = value;
             }
 
-            public Field North { get; }
+            public Field North => _north.Value;
 
-            public Field East { get; }
+            public Field East => _east.Value;
 
-            public Field South { get; }
+            public Field South => _south.Value;
 
-            public Field West { get; }
+            public Field West => _west.Value;
 
             public IReadOnlyDictionary<Direction, Field> AdjacentFields => new AdjacentFieldsDictionary(this);
 

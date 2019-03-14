@@ -55,7 +55,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContractGenerationTests.cs" />
-    <Compile Include="SutCreator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -69,9 +68,9 @@
       <Project>{09f2d405-0174-4cc3-9c00-607545f43cf3}</Project>
       <Name>ContractGeneration</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WhampsChallenge\WhampsChallenge.csproj">
-      <Project>{7C4D4485-0348-4D3F-A111-1A60A663502C}</Project>
-      <Name>WhampsChallenge</Name>
+    <ProjectReference Include="..\WhampsChallenge.Core\WhampsChallenge.Core.csproj">
+      <Project>{612F3DA9-330A-465E-8033-684075C70A02}</Project>
+      <Name>WhampsChallenge.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

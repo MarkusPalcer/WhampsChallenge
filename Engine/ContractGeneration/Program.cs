@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace ContractGeneration
 {
-    public class Program
+    public static class Program
     {
         private const string FileName = "..\\..\\..\\..\\Library\\common\\contract.json";
 

@@ -2,10 +2,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using WhampsChallenge.Common;
-using WhampsChallenge.Level2;
+using WhampsChallenge.Core.Common;
+using WhampsChallenge.Core.Level2;
 using Direction = WhampsChallenge.Library.Level2.Enums.Direction;
-using FieldContent = WhampsChallenge.Level3.FieldContent;
+using FieldContent = WhampsChallenge.Core.Level3.FieldContent;
 
 namespace WhampsChallenge.Tests
 {
@@ -15,9 +15,9 @@ namespace WhampsChallenge.Tests
         [TestMethod]
         public async Task MoveOnEmptySpot()
         {
-            var game = new Level2.Game();
+            var game = new Game();
             var communicator = new TestCommunicator();
-            var gameProxy = new Library.Level2.Actions.Game(communicator);
+            var gameProxy = new Library.Level2.Game(communicator);
             var decoder = new Messaging.Level2.Actions.ActionDecoder();
 
             game.Seed = 0;
@@ -33,15 +33,15 @@ namespace WhampsChallenge.Tests
             var decodedResponse = await responseTask;
             decodedResponse.Perceptions.Should().BeEmpty();
             decodedResponse.GameState.MovesLeft.Should().Be(99);
-            game.IsGameOver.Should().BeFalse();
+            game.GameState.Should().Be(GameState.Running);
         }
 
         [TestMethod]
         public async Task MoveIntoWall()
         {
-            var game = new Level2.Game();
+            var game = new Game();
             var communicator = new TestCommunicator();
-            var gameProxy = new Library.Level2.Actions.Game(communicator);
+            var gameProxy = new Library.Level2.Game(communicator);
             var decoder = new Messaging.Level2.Actions.ActionDecoder();
 
             game.Seed = 0;
@@ -57,15 +57,15 @@ namespace WhampsChallenge.Tests
             var decodedResponse = await responseTask;
             decodedResponse.Perceptions.Should().BeEquivalentTo(Perception.Bump);
             decodedResponse.GameState.MovesLeft.Should().Be(99);
-            game.IsGameOver.Should().BeFalse();
+            game.GameState.Should().Be(GameState.Running);
         }
 
         [TestMethod]
         public async Task MoveIntoWind()
         {
-            var game = new Level2.Game();
+            var game = new Game();
             var communicator = new TestCommunicator();
-            var gameProxy = new Library.Level2.Actions.Game(communicator);
+            var gameProxy = new Library.Level2.Game(communicator);
             var decoder = new Messaging.Level2.Actions.ActionDecoder();
 
             game.Seed = 0;
@@ -81,7 +81,7 @@ namespace WhampsChallenge.Tests
             var decodedResponse = await responseTask;
             decodedResponse.Perceptions.Should().BeEquivalentTo(Perception.Wind);
             decodedResponse.GameState.MovesLeft.Should().Be(99);
-            game.IsGameOver.Should().BeFalse();
+            game.GameState.Should().Be(GameState.Running);
         }
 
         [TestMethod]
@@ -102,9 +102,9 @@ namespace WhampsChallenge.Tests
         [TestMethod]
         public async Task MoveOnGold()
         {
-            var game = new Level2.Game();
+            var game = new Game();
             var communicator = new TestCommunicator();
-            var gameProxy = new Library.Level2.Actions.Game(communicator);
+            var gameProxy = new Library.Level2.Game(communicator);
             var decoder = new Messaging.Level2.Actions.ActionDecoder();
 
             game.Seed = 0;
@@ -120,15 +120,15 @@ namespace WhampsChallenge.Tests
             var decodedResponse = await responseTask;
             decodedResponse.Perceptions.Should().BeEquivalentTo(Perception.Glitter, Perception.Wind);
             decodedResponse.GameState.MovesLeft.Should().Be(99);
-            game.IsGameOver.Should().BeFalse();
+            game.GameState.Should().Be(GameState.Running);
         }
 
         [TestMethod]
         public async Task PickupGold()
         {
-            var game = new Level2.Game();
+            var game = new Game();
             var communicator = new TestCommunicator();
-            var gameProxy = new Library.Level2.Actions.Game(communicator);
+            var gameProxy = new Library.Level2.Game(communicator);
             var decoder = new Messaging.Level2.Actions.ActionDecoder();
 
             game.Seed = 0;
@@ -139,15 +139,15 @@ namespace WhampsChallenge.Tests
             var decodedResponse = await ExecuteRequestedAction(decoder, communicator, game, responseTask);
             decodedResponse.Perceptions.Should().Contain(Library.Level2.Enums.Perception.Win);
             decodedResponse.GameState.MovesLeft.Should().Be(99);
-            game.IsGameOver.Should().BeTrue();
+            game.GameState.Should().Be(GameState.Win);
         }
 
         [TestMethod]
         public async Task PickupNothing()
         {
-            var game = new Level2.Game();
+            var game = new Game();
             var communicator = new TestCommunicator();
-            var gameProxy = new Library.Level2.Actions.Game(communicator);
+            var gameProxy = new Library.Level2.Game(communicator);
             var decoder = new Messaging.Level2.Actions.ActionDecoder();
 
             game.Seed = 0;
@@ -157,15 +157,15 @@ namespace WhampsChallenge.Tests
             var decodedResponse = await ExecuteRequestedAction(decoder, communicator, game, responseTask);
             decodedResponse.Perceptions.Should().BeEmpty();
             decodedResponse.GameState.MovesLeft.Should().Be(99);
-            game.IsGameOver.Should().BeFalse();
+            game.GameState.Should().Be(GameState.Running);
         }
 
         [TestMethod]
         public async Task RunOutOfMoves()
         {
-            var game = new Level2.Game();
+            var game = new Game();
             var communicator = new TestCommunicator();
-            var gameProxy = new Library.Level2.Actions.Game(communicator);
+            var gameProxy = new Library.Level2.Game(communicator);
             var decoder = new Messaging.Level2.Actions.ActionDecoder();
 
             game.Seed = 0;
@@ -177,15 +177,15 @@ namespace WhampsChallenge.Tests
             decodedResponse.Perceptions.Should().Contain(Library.Level2.Enums.Perception.Death);
             decodedResponse.Perceptions.Should().NotContain(Library.Level2.Enums.Perception.Win);
             decodedResponse.GameState.MovesLeft.Should().Be(0);
-            game.IsGameOver.Should().BeTrue();
+            game.GameState.Should().Be(GameState.Lose);
         }
 
         [TestMethod]
         public async Task MoveOnTrap()
         {
-            var game = new Level2.Game();
+            var game = new Game();
             var communicator = new TestCommunicator();
-            var gameProxy = new Library.Level2.Actions.Game(communicator);
+            var gameProxy = new Library.Level2.Game(communicator);
             var decoder = new Messaging.Level2.Actions.ActionDecoder();
 
             game.Seed = 0;
@@ -197,15 +197,15 @@ namespace WhampsChallenge.Tests
             decodedResponse.Perceptions.Should().Contain(Library.Level2.Enums.Perception.Death);
             decodedResponse.Perceptions.Should().NotContain(Library.Level2.Enums.Perception.Win);
             decodedResponse.GameState.MovesLeft.Should().Be(99);
-            game.IsGameOver.Should().BeTrue();
+            game.GameState.Should().Be(GameState.Lose);
         }
 
         [TestMethod]
         public async Task PickupGoldInLastMove()
         {
-            var game = new Level2.Game();
+            var game = new Game();
             var communicator = new TestCommunicator();
-            var gameProxy = new Library.Level2.Actions.Game(communicator);
+            var gameProxy = new Library.Level2.Game(communicator);
             var decoder = new Messaging.Level2.Actions.ActionDecoder();
 
             game.Seed = 0;
@@ -218,7 +218,7 @@ namespace WhampsChallenge.Tests
             decodedResponse.Perceptions.Should().Contain(Library.Level2.Enums.Perception.Win);
             decodedResponse.Perceptions.Should().NotContain(Library.Level2.Enums.Perception.Death);
             decodedResponse.GameState.MovesLeft.Should().Be(0);
-            game.IsGameOver.Should().BeTrue();
+            game.GameState.Should().Be(GameState.Win);
         }
 
         private static async Task<Library.Level2.Types.Result> ExecuteRequestedAction(

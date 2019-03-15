@@ -10,6 +10,7 @@
 <#@ output extension=".cs" #>
 // Generated file, so ReSharper-Checks are disabled. 
 // ReSharper disable all
+
 <#	var fileName = Path.GetFullPath(Host.ResolvePath("..\\..\\..\\common\\contract.json")); #>
 <#  var file = JsonConvert.DeserializeObject<Dictionary<string,JObject>>(File.ReadAllText(fileName)); #>
 
@@ -20,10 +21,11 @@ using WhampsChallenge.Shared.Extensions;
 
 <#  foreach (var _kvp in file) { #>
 <#		var resultType = (string)_kvp.Value["ResultType"]; #>
-namespace WhampsChallenge.Library.<#= _kvp.Key #>.Actions {
+namespace WhampsChallenge.Library.<#= _kvp.Key #> {
 
 	using WhampsChallenge.Library.<#= _kvp.Key #>.Enums;
 	using WhampsChallenge.Library.<#= _kvp.Key #>.Types;	
+	using WhampsChallenge.Library.<#= _kvp.Key #>.Actions;	
 
 	public class Game {
 		private readonly ICommunicator _communicator;

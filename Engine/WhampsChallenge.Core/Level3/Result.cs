@@ -1,6 +1,6 @@
-﻿using WhampsChallenge.Markers;
+﻿using WhampsChallenge.Core.Markers;
 
-namespace WhampsChallenge.Level3
+namespace WhampsChallenge.Core.Level3
 {
     [Result]
     public class Result

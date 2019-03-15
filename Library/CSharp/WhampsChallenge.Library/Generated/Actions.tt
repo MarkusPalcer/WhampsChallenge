@@ -10,6 +10,7 @@
 <#@ output extension=".cs" #>
 // Generated file, so ReSharper-Checks are disabled. 
 // ReSharper disable all
+
 <#	var fileName = Path.GetFullPath(Host.ResolvePath("..\\..\\..\\common\\contract.json")); #>
 <#  var file = JsonConvert.DeserializeObject<Dictionary<string,JObject>>(File.ReadAllText(fileName)); #>
 

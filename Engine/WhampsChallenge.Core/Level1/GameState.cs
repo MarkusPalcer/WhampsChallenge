@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
-using WhampsChallenge.Level3;
+using WhampsChallenge.Core.Level3;
 
-namespace WhampsChallenge.Level1
+namespace WhampsChallenge.Core.Level1
 {
     public class GameState
     {

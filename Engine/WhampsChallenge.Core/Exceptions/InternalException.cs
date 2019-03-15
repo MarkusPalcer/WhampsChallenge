@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Reflection;
 
-namespace WhampsChallenge.Exceptions
+namespace WhampsChallenge.Core.Exceptions
 {
     /// <summary>
     /// This exception models that something happened internally to the engine.

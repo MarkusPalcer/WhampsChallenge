@@ -1,4 +1,4 @@
-﻿namespace WhampsChallenge.Level2
+﻿namespace WhampsChallenge.Core.Level2
 {
     public enum Perception 
     {

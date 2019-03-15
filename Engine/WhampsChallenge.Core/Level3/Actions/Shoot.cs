@@ -1,7 +1,9 @@
-﻿using WhampsChallenge.Level1;
-using WhampsChallenge.Markers;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using WhampsChallenge.Core.Level1;
+using WhampsChallenge.Core.Markers;
 
-namespace WhampsChallenge.Level3.Actions
+namespace WhampsChallenge.Core.Level3.Actions
 {
     [Action]
     public class Shoot : IAction

@@ -2,59 +2,59 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using WhampsChallenge.Level1;
+using WhampsChallenge.Core.Level1;
 using WhampsChallenge.Shared.Extensions;
 
-namespace WhampsChallenge
+namespace WhampsChallenge.Core
 {
     internal class Map<T>
     {
         internal class Field
         {
-            private readonly int _x;
-            private readonly int _y;
-            private readonly Map<T> _map;
+            private readonly int x;
+            private readonly int y;
+            private readonly Map<T> map;
 
-            private readonly Lazy<Field> _north;
-            private readonly Lazy<Field> _east;
-            private readonly Lazy<Field> _south;
-            private readonly Lazy<Field> _west;
+            private readonly Lazy<Field> north;
+            private readonly Lazy<Field> east;
+            private readonly Lazy<Field> south;
+            private readonly Lazy<Field> west;
 
             internal Field(int x, int y, Map<T> map)
             {
-                _x = x;
-                _y = y;
-                _map = map;
+                this.x = x;
+                this.y = y;
+                this.map = map;
 
-                _north = new Lazy<Field>(() => map[x, y - 1]);
-                _east = new Lazy<Field>(() => map[x + 1, y]);
-                _south = new Lazy<Field>(() => map[x, y + 1]);
-                _west = new Lazy<Field>(() => map[x - 1, y]);
+                north = new Lazy<Field>(() => map[x, y - 1]);
+                east = new Lazy<Field>(() => map[x + 1, y]);
+                south = new Lazy<Field>(() => map[x, y + 1]);
+                west = new Lazy<Field>(() => map[x - 1, y]);
             }
 
             public T Content
             {
-                get => _map._data[_x][_y];
-                set => _map._data[_x][_y] = value;
+                get => map.data[x][y];
+                set => map.data[x][y] = value;
             }
 
-            public Field North => _north.Value;
+            public Field North => north.Value;
 
-            public Field East => _east.Value;
+            public Field East => east.Value;
 
-            public Field South => _south.Value;
+            public Field South => south.Value;
 
-            public Field West => _west.Value;
+            public Field West => west.Value;
 
             public IReadOnlyDictionary<Direction, Field> AdjacentFields => new AdjacentFieldsDictionary(this);
 
             private class AdjacentFieldsDictionary : IReadOnlyDictionary<Direction, Field>
             {
-                private Field _data;
+                private Field data;
 
                 public AdjacentFieldsDictionary(Field data)
                 {
-                    _data = data;
+                    this.data = data;
                 }
 
                 public IEnumerator<KeyValuePair<Direction, Field>> GetEnumerator()
@@ -87,13 +87,13 @@ namespace WhampsChallenge
                         switch (key)
                         {
                             case Direction.North:
-                                return _data.North;
+                                return data.North;
                             case Direction.East:
-                                return _data.East;
+                                return data.East;
                             case Direction.South:
-                                return _data.South;
+                                return data.South;
                             case Direction.West:
-                                return _data.West;
+                                return data.West;
                             default:
                                 throw new ArgumentOutOfRangeException(nameof(key), key, null);
                         }
@@ -109,13 +109,13 @@ namespace WhampsChallenge
         public int SizeX { get; }
         public int SizeY { get; }
 
-        private readonly T[][] _data;
+        private readonly T[][] data;
 
         public Map(int sizeX, int sizeY, T initialFieldContent = default(T))
         {
             SizeX = sizeX;
             SizeY = sizeY;
-            _data = EnumerableExtensions.Repeat(() => Enumerable.Repeat(initialFieldContent, sizeY).ToArray(), sizeX).ToArray();
+            data = EnumerableExtensions.Repeat(() => Enumerable.Repeat(initialFieldContent, sizeY).ToArray(), sizeX).ToArray();
         }
 
         internal Field this[ValueTuple<int, int> position] => this[position.Item1, position.Item2];
@@ -124,8 +124,8 @@ namespace WhampsChallenge
         {
             get
             {
-                if (x < 0 || x >= _data.Length) return null;
-                if (y < 0 || y >= _data[0].Length) return null;
+                if (x < 0 || x >= data.Length) return null;
+                if (y < 0 || y >= data[0].Length) return null;
 
                 return new Field(x, y, this);
             }

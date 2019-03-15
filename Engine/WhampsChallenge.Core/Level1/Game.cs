@@ -1,27 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using WhampsChallenge.Common;
-using WhampsChallenge.Level3;
+using WhampsChallenge.Core.Common;
+using WhampsChallenge.Core.Level3;
 using WhampsChallenge.Shared.Extensions;
 
-namespace WhampsChallenge.Level1
+namespace WhampsChallenge.Core.Level1
 {
     public class Game : IGame
     {
-        private Dictionary<Randomizers, Random> _randomizers;
-        private bool _isStarted;
+        private Dictionary<Randomizers, Random> randomizers;
+        private bool isStarted;
         internal GameState State = new GameState();
-        private List<Perception> _perceptions = new List<Perception>();
-
-        public bool IsGameOver { get; internal set; }
+        private List<Perception> perceptions = new List<Perception>();
 
         public int Seed
         {
             get => State.Seed;
             set
             {
-                if (_isStarted) throw new InvalidOperationException("Seed cannot be changed when game is already started.");
+                if (isStarted) throw new InvalidOperationException("Seed cannot be changed when game is already started.");
                 State.Seed = value;
             }
         }
@@ -33,11 +31,11 @@ namespace WhampsChallenge.Level1
 
         public virtual void Initialize()
         {
-            if (_isStarted) throw new InvalidOperationException("Game can only be started once.");
-            _isStarted = true;
+            if (isStarted) throw new InvalidOperationException("Game can only be started once.");
+            isStarted = true;
 
             var mainRandom = new Random(Seed);
-            _randomizers = Enum.GetValues(typeof(Randomizers))
+            randomizers = Enum.GetValues(typeof(Randomizers))
                 .OfType<Randomizers>()
                 .ToDictionary(x => x, _ => mainRandom.GetNewChild());
 
@@ -49,24 +47,26 @@ namespace WhampsChallenge.Level1
 
             State.PlayerPosition = GetFreeSquare();
             State.MovesLeft = 100;
-            IsGameOver = false;
+            GameState = Common.GameState.Running;
         }
+
+        public int Score => State.MovesLeft;
 
         internal virtual void AddPerception(Perception perception)
         {
-            _perceptions.Add(perception);
+            perceptions.Add(perception);
         }
 
         protected virtual void PostProcessAction()
         {
             State.MovesLeft--;
             
-            if (IsGameOver) return;
+            if (GameState != Common.GameState.Running) return;
 
             if (State.MovesLeft < 1)
             {
                 AddPerception(Perception.Death);
-                IsGameOver = true;
+                GameState = Common.GameState.Lose;
                 return;
             }
 
@@ -83,14 +83,16 @@ namespace WhampsChallenge.Level1
         {
             while (true)
             {
-                var x = _randomizers[Randomizers.Level].Next(0, 4);
-                var y = _randomizers[Randomizers.Level].Next(0, 4);
+                var x = randomizers[Randomizers.Level].Next(0, 4);
+                var y = randomizers[Randomizers.Level].Next(0, 4);
 
                 if (!IsSquareFree(x, y)) continue;
 
                 return (x,y);
             }
         }
+        
+        public Common.GameState GameState { get; internal set; }
 
         public virtual object Execute(Common.IAction action)
         {
@@ -100,10 +102,10 @@ namespace WhampsChallenge.Level1
             var result = new Result()
             {
                 GameState = State,
-                Perceptions = _perceptions.ToArray()
+                Perceptions = perceptions.ToArray()
             };
 
-            _perceptions = new List<Perception>();
+            perceptions = new List<Perception>();
 
             return result;
         }

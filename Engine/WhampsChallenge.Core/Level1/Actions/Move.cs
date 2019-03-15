@@ -1,8 +1,9 @@
 ﻿using System;
-using WhampsChallenge.Level3;
-using WhampsChallenge.Markers;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using WhampsChallenge.Core.Markers;
 
-namespace WhampsChallenge.Level1.Actions
+namespace WhampsChallenge.Core.Level1.Actions
 {
     [Action]
     public class Move : IAction

@@ -1,7 +1,7 @@
-﻿using WhampsChallenge.Level3;
-using WhampsChallenge.Markers;
+﻿using WhampsChallenge.Core.Level3;
+using WhampsChallenge.Core.Markers;
 
-namespace WhampsChallenge.Level1.Actions
+namespace WhampsChallenge.Core.Level1.Actions
 {
     [Action]
     public class Pickup : IAction
@@ -11,7 +11,7 @@ namespace WhampsChallenge.Level1.Actions
             if (game.State.Map[game.State.PlayerPosition].Content == FieldContent.Gold)
             {
                 game.AddPerception(Perception.Win);
-                game.IsGameOver = true;
+                game.GameState = Common.GameState.Win;
             }
         }
     }

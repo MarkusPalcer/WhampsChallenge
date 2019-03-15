@@ -10,8 +10,11 @@
 <#@ output extension=".cs" #>
 // Generated file, so ReSharper-Checks are disabled.
 // ReSharper disable all
+
 <#	var fileName = Path.GetFullPath(Host.ResolvePath("..\\..\\..\\common\\contract.json")); #>
-<#  foreach (var _kvp in JsonConvert.DeserializeObject<Dictionary<string,JObject>>(File.ReadAllText(fileName))) { #>
+<#  var file = JsonConvert.DeserializeObject<Dictionary<string,JObject>>(File.ReadAllText(fileName)); #>
+
+<#  foreach (var _kvp in file) { #>
 namespace WhampsChallenge.Library.<#= _kvp.Key #>.Enums {
 <#		foreach (var declaredEnumProperty in ((JObject)_kvp.Value["Enums"]).Properties()) { #>
 	public enum <#= declaredEnumProperty.Name #> {

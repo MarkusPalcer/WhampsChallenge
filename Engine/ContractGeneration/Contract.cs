@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using WhampsChallenge;
-using WhampsChallenge.Markers;
+using WhampsChallenge.Core.Markers;
 using WhampsChallenge.Shared.Extensions;
 using static System.String;
 
@@ -141,7 +141,7 @@ namespace ContractGeneration
             {
                 if (type.Namespace == null) continue;
 
-                var match = Regex.Match(type.Namespace, "WhampsChallenge\\.Level(?'level'[^\\.]+)");
+                var match = Regex.Match(type.Namespace, "WhampsChallenge\\.Core\\.Level(?'level'[^\\.]+)");
                 if (match.Success)
                 {
                     foundTypes.Add($"Level{match.Groups["level"].Value}", type);

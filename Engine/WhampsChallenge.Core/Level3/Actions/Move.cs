@@ -1,7 +1,6 @@
-﻿using WhampsChallenge.Level1;
-using WhampsChallenge.Markers;
+﻿using WhampsChallenge.Core.Markers;
 
-namespace WhampsChallenge.Level3.Actions
+namespace WhampsChallenge.Core.Level3.Actions
 {
     [Action]
     public class Move : Level2.Actions.Move, IAction

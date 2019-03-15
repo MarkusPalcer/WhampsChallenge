@@ -9,8 +9,8 @@ namespace WhampsChallenge.Shared.Communication
     /// </summary>
     public class ReaderCommunicator : ICommunicator
     {
-        private readonly TextWriter _writer;
-        private readonly TextReader _reader;
+        private readonly TextWriter writer;
+        private readonly TextReader reader;
 
         /// <summary>
         /// Creates a new instance of a ReaderCommunicator
@@ -19,28 +19,28 @@ namespace WhampsChallenge.Shared.Communication
         /// <param name="writer">The <see cref="TextWriter"/> to write messages to</param>
         public ReaderCommunicator(TextReader reader, TextWriter writer)
         {
-            _writer = writer;
-            _reader = reader;
+            this.writer = writer;
+            this.reader = reader;
         }
 
         public void Dispose()
         {
-            _writer?.Dispose();
-            _reader?.Dispose();
+            writer?.Dispose();
+            reader?.Dispose();
         }
 
         public string SendAndReceive(string message)
         {
-            _writer.WriteLine(message);
-            _writer.Flush();
-            return _reader.ReadLine();
+            writer.WriteLine(message);
+            writer.Flush();
+            return reader.ReadLine();
         }
 
         public async Task<string> SendAndReceiveAsync(string request)
         {
-            await _writer.WriteLineAsync(request);
-            _writer.FlushAsync().FireAndForget(); // When flushing is not done yet, the reader will wait longer for the result.
-            return await _reader.ReadLineAsync();
+            await writer.WriteLineAsync(request);
+            writer.FlushAsync().FireAndForget(); // When flushing is not done yet, the reader will wait longer for the result.
+            return await reader.ReadLineAsync();
         }
     }
 }

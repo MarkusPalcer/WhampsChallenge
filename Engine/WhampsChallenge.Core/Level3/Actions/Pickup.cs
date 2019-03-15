@@ -1,6 +1,6 @@
-﻿using WhampsChallenge.Markers;
+﻿using WhampsChallenge.Core.Markers;
 
-namespace WhampsChallenge.Level3.Actions
+namespace WhampsChallenge.Core.Level3.Actions
 {
     [Action]
     public class Pickup : Level2.Actions.Pickup, IAction

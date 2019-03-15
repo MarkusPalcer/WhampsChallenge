@@ -8,8 +8,8 @@ namespace WhampsChallenge.Tests
 {
     public class TestCommunicator : ICommunicator
     {
-        TaskCompletionSource<string> response;
-        TaskCompletionSource<string> request = new TaskCompletionSource<string>();
+        private TaskCompletionSource<string> response;
+        private TaskCompletionSource<string> request = new TaskCompletionSource<string>();
         
         public void Dispose()
         {

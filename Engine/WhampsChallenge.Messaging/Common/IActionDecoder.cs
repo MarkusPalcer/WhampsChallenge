@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
-using WhampsChallenge.Common;
+using WhampsChallenge.Core.Common;
 
 namespace WhampsChallenge.Messaging.Common
 {

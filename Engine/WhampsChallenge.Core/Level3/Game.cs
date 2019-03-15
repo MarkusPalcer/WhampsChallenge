@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using WhampsChallenge.Common;
+using WhampsChallenge.Core.Common;
 
-namespace WhampsChallenge.Level3
+namespace WhampsChallenge.Core.Level3
 {
     public class Game : Level2.Game
     {
-        private List<Perception> _perceptions = new List<Perception>();
+        private List<Perception> perceptions = new List<Perception>();
 
         internal new GameState State = new GameState();
         
-        private readonly Dictionary<Level2.Perception, Perception> _perceptionMappings = new Dictionary<Level2.Perception, Perception>
+        private readonly Dictionary<Level2.Perception, Perception> perceptionMappings = new Dictionary<Level2.Perception, Perception>
         {
             {Level2.Perception.Bump, Perception.Bump},
             {Level2.Perception.Death, Perception.Death},
@@ -37,10 +37,10 @@ namespace WhampsChallenge.Level3
             var result = new Result()
             {
                 GameState = State,
-                Perceptions = _perceptions.ToArray()
+                Perceptions = perceptions.ToArray()
             };
 
-            _perceptions = new List<Perception>();
+            perceptions = new List<Perception>();
 
             return result;
         }
@@ -53,7 +53,7 @@ namespace WhampsChallenge.Level3
             if (State.Map[State.PlayerPosition].Content == FieldContent.Whamps)
             {
                 AddPerception(Perception.Death);
-                IsGameOver = true;
+                GameState = Common.GameState.Lose;
                 return;
             }
 
@@ -66,12 +66,12 @@ namespace WhampsChallenge.Level3
 
         internal override void AddPerception(Level2.Perception perception)
         {
-            AddPerception(_perceptionMappings[perception]);
+            AddPerception(perceptionMappings[perception]);
         }
 
         public virtual void AddPerception(Perception perception)
         {
-            _perceptions.Add(perception);
+            perceptions.Add(perception);
         }
 
         protected override bool IsSquareFree(int x, int y)

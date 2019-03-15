@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WhampsChallenge.Markers
+namespace WhampsChallenge.Core.Markers
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface)]
     public class ResultAttribute : Attribute { }

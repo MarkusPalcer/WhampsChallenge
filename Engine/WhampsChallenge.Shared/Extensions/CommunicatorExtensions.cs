@@ -1,5 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 using WhampsChallenge.Shared.Communication;
 
 namespace WhampsChallenge.Shared.Extensions
@@ -9,6 +11,16 @@ namespace WhampsChallenge.Shared.Extensions
     /// </summary>
     public static class CommunicatorExtensions
     {
+        static CommunicatorExtensions()
+        {
+            JsonConvert.DefaultSettings = () =>
+            {
+                var settings = new JsonSerializerSettings();
+                settings.Converters.Add(new StringEnumConverter());
+                return settings;
+            };
+        }
+
         /// <summary>
         /// Sends a message and expects a specific reply
         /// </summary>

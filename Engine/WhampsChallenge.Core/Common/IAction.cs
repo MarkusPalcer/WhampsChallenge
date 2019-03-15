@@ -1,4 +1,4 @@
-﻿namespace WhampsChallenge.Common
+﻿namespace WhampsChallenge.Core.Common
 {
     public interface IAction
     {

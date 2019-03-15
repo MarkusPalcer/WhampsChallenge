@@ -1,4 +1,4 @@
-﻿namespace WhampsChallenge
+﻿namespace WhampsChallenge.Core
 {
     /// <summary>
     /// Defines all the different types of randomizers which are created when the games start

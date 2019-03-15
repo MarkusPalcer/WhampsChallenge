@@ -12,6 +12,8 @@
 // ReSharper disable all
 
 using System;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 <#	var fileName = Path.GetFullPath(Host.ResolvePath("..\\..\\..\\common\\contract.json")); #>
 <#  var file = JsonConvert.DeserializeObject<Dictionary<string,JObject>>(File.ReadAllText(fileName)); #>
@@ -21,7 +23,9 @@ namespace WhampsChallenge.Library.<#= _kvp.Key #>.Types {
 
 	using WhampsChallenge.Library.<#= _kvp.Key #>.Enums;
 
-<#	foreach (var declaredType in ((JObject)_kvp.Value["Types"]).Properties()) { #>
+<#  var types = ((JObject)_kvp.Value["Types"]).Properties(); #>
+<#  var enums = ((JObject)_kvp.Value["Enums"]).Properties().Select(x => x.Name).ToArray(); #>
+<#	foreach (var declaredType in types) { #>
 	public class <#= declaredType.Name #> {
 <#		foreach (var property in declaredType.Value.Value<JObject>().Properties()) { #>
 		public <#= property.Value.Value<string>()#> <#= property.Name #> { get; set; }

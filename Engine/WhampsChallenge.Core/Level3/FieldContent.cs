@@ -1,6 +1,6 @@
-﻿namespace WhampsChallenge.Level3
+﻿namespace WhampsChallenge.Core.Level3
 {
-    enum FieldContent
+    internal enum FieldContent
     {
         Empty,
         Trap,

@@ -1,4 +1,4 @@
-﻿namespace WhampsChallenge.Level2.Actions
+﻿namespace WhampsChallenge.Core.Level2.Actions
 {
     public interface IAction
     {

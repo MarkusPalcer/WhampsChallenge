@@ -8,7 +8,7 @@ namespace WhampsChallenge.Shared.Communication
     /// </summary>
     public class StreamCommunicator : ICommunicator
     {
-        private readonly ReaderCommunicator _internalCommunicator;
+        private readonly ReaderCommunicator internalCommunicator;
 
         /// <summary>
         /// Creates a new instance of a StreamCommunicator
@@ -17,22 +17,22 @@ namespace WhampsChallenge.Shared.Communication
         /// <param name="outStream">The stream to write to</param>
         public StreamCommunicator(Stream inStream, Stream outStream)
         {
-            _internalCommunicator = new ReaderCommunicator(new StreamReader(inStream), new StreamWriter(outStream));
+            internalCommunicator = new ReaderCommunicator(new StreamReader(inStream), new StreamWriter(outStream));
         }
 
         public void Dispose()
         {
-            _internalCommunicator?.Dispose();
+            internalCommunicator?.Dispose();
         }
 
         public string SendAndReceive(string message)
         {
-            return _internalCommunicator.SendAndReceive(message);
+            return internalCommunicator.SendAndReceive(message);
         }
 
         public async Task<string> SendAndReceiveAsync(string request)
         {
-            return await _internalCommunicator.SendAndReceiveAsync(request);
+            return await internalCommunicator.SendAndReceiveAsync(request);
         }
     }
 }

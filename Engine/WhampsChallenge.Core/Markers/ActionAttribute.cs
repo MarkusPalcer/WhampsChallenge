@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WhampsChallenge.Markers
+namespace WhampsChallenge.Core.Markers
 {
     [AttributeUsage(AttributeTargets.Class)]
     public class ActionAttribute : Attribute { }

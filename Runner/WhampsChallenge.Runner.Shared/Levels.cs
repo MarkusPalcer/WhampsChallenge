@@ -3,19 +3,12 @@
 
 using System;
 using System.Collections.Generic;
-using WhampsChallenge.Core.Common;
-using WhampsChallenge.Messaging.Common;
+using WhampsChallenge.Library;
 
 
 namespace WhampsChallenge.Runner.Shared {
-	
 
 	public static class LevelTypes {
-		public enum Levels {
-			Level3,
-			Level2,
-			Level1,
-		}
 
 		public static readonly IReadOnlyDictionary<Levels, Type> GameEngines;
 		public static readonly IReadOnlyDictionary<Levels, Type> ActionDecoders;

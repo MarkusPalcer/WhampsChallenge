@@ -13,21 +13,14 @@
 
 using System;
 using System.Collections.Generic;
-using WhampsChallenge.Core.Common;
-using WhampsChallenge.Messaging.Common;
+using WhampsChallenge.Library;
 
 <#	var fileName = Path.GetFullPath(Host.ResolvePath("..\\..\\Library\\common\\contract.json")); #>
 <#  var file = JsonConvert.DeserializeObject<Dictionary<string,JObject>>(File.ReadAllText(fileName)); #>
 
 namespace WhampsChallenge.Runner.Shared {
-	
 
 	public static class LevelTypes {
-		public enum Levels {
-<#  foreach (var _kvp in file) { #>
-			<#= _kvp.Key #>,
-<# } #>
-		}
 
 		public static readonly IReadOnlyDictionary<Levels, Type> GameEngines;
 		public static readonly IReadOnlyDictionary<Levels, Type> ActionDecoders;

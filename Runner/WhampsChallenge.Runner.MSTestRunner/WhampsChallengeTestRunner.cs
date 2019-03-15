@@ -1,9 +1,9 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using WhampsChallenge.Runner.Shared;
+using WhampsChallenge.Library;
 using WhampsChallenge.Runner.Shared.Direct;
-using WhampsChallenge.SampleContestants.Level1;
+using WhampsChallenge.SampleContestants;
 
 namespace WhampsChallenge.Runner.MSTestRunner
 {
@@ -17,7 +17,7 @@ namespace WhampsChallenge.Runner.MSTestRunner
         [TestMethod]
         public async Task Run()
         {
-            var result = await new DirectRunner<Contestant>(LevelTypes.Levels.Level1).Run();
+            var result = await DirectRunner.Create<Level1>(Levels.Level1).Run();
             Console.WriteLine("Game over. Result: {0} Score: {1} Seed: {2}", result.Died ? "Dead" : "Alive", result.Score, result.Seed);
         }
     }

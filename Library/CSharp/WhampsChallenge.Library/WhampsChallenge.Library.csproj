@@ -43,6 +43,10 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Enums.cs</LastGenOutput>
     </None>
+    <None Update="Generated\Levels.tt">
+      <LastGenOutput>Levels.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
     <None Update="Generated\Types.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Types.cs</LastGenOutput>
@@ -68,6 +72,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Enums.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Generated\Levels.cs">
+      <DependentUpon>Levels.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
     </Compile>
     <Compile Update="Generated\Types.cs">
       <DesignTime>True</DesignTime>

@@ -2,8 +2,7 @@
 
 namespace WhampsChallenge.Library
 {
-    [Contract]
-    public interface IContestant
+    public interface IAgent
     {
         void Run();
     }

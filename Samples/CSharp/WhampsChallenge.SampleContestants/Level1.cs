@@ -1,17 +1,15 @@
 ﻿using System.Linq;
 using WhampsChallenge.Library;
 using WhampsChallenge.Library.Level1;
-using WhampsChallenge.Library.Level1.Actions;
 using WhampsChallenge.Library.Level1.Enums;
-using WhampsChallenge.Shared.Communication;
 
-namespace WhampsChallenge.SampleContestants.Level1
+namespace WhampsChallenge.SampleContestants
 {
-    public class Contestant : IContestant
+    public class Level1 : IAgent
     {
         private readonly Game game;
 
-        public Contestant(Game game)
+        public Level1(Game game)
         {
             this.game = game;
         }

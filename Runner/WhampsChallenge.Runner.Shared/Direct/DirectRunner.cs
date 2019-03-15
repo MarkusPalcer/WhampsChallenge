@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using PantherDI.ContainerCreation;
 using WhampsChallenge.Core.Common;
 using WhampsChallenge.Library;
@@ -7,8 +8,7 @@ using WhampsChallenge.Shared.Communication;
 
 namespace WhampsChallenge.Runner.Shared.Direct
 {
-    public class DirectRunner<TContestant>
-        where TContestant : IContestant
+    public class DirectRunner
     {
         public class Result
         {
@@ -18,15 +18,23 @@ namespace WhampsChallenge.Runner.Shared.Direct
             public int Seed { get; set; }
         }
 
-        private readonly LevelTypes.Levels level;
-        private TContestant contestant;
+        private readonly Levels level;
+        private readonly Type agentType;
+        private IAgent contestant;
         private IGame game;
         private DirectCommunicator communicator;
 
-        public DirectRunner(LevelTypes.Levels level)
+        public DirectRunner(Levels level, Type agentType)
         {
             this.level = level;
+            this.agentType = agentType;
+
             ScanWholeContestantAssembly = false;
+        }
+
+        public static DirectRunner Create<TAgent>(Levels level) where TAgent : IAgent
+        {
+            return new DirectRunner(level, typeof(TAgent));
         }
 
         public bool ScanWholeContestantAssembly { get; set; }
@@ -39,11 +47,11 @@ namespace WhampsChallenge.Runner.Shared.Direct
 
             if (ScanWholeContestantAssembly)
             {
-                builder.WithAssemblyOf<TContestant>();
+                builder.WithAssemblyOf(agentType);
             }
             else
             {
-                builder.WithType<TContestant>();
+                builder.WithType(agentType);
             }
 
             communicator = new DirectCommunicator();
@@ -57,7 +65,7 @@ namespace WhampsChallenge.Runner.Shared.Direct
 
             var container = builder.Build();
 
-            contestant = container.Resolve<TContestant>();
+            contestant = container.Resolve<IAgent>(agentType);
             game = container.Resolve<IGame>();
             var actionDecoder = container.Resolve<IActionDecoder>();
 

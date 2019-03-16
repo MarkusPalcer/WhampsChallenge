@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using WhampsChallenge.Core.Level1;
 using WhampsChallenge.Shared.Extensions;
 
@@ -9,11 +7,12 @@ namespace WhampsChallenge.Core
 {
     internal class Map<T>
     {
+        private readonly Func<int, int, T> initialFieldContentFactory;
+
         internal class Field
         {
-            private readonly int x;
-            private readonly int y;
-            private readonly Map<T> map;
+            public int X { get; }
+            public int Y { get; }
 
             private readonly Lazy<Field> north;
             private readonly Lazy<Field> east;
@@ -22,9 +21,8 @@ namespace WhampsChallenge.Core
 
             internal Field(int x, int y, Map<T> map)
             {
-                this.x = x;
-                this.y = y;
-                this.map = map;
+                X = x;
+                Y = y;
 
                 north = new Lazy<Field>(() => map[x, y - 1]);
                 east = new Lazy<Field>(() => map[x + 1, y]);
@@ -32,11 +30,7 @@ namespace WhampsChallenge.Core
                 west = new Lazy<Field>(() => map[x - 1, y]);
             }
 
-            public T Content
-            {
-                get => map.data[x][y];
-                set => map.data[x][y] = value;
-            }
+            public T Content { get; set; }
 
             public Field North => north.Value;
 
@@ -46,76 +40,48 @@ namespace WhampsChallenge.Core
 
             public Field West => west.Value;
 
-            public IReadOnlyDictionary<Direction, Field> AdjacentFields => new AdjacentFieldsDictionary(this);
-
-            private class AdjacentFieldsDictionary : IReadOnlyDictionary<Direction, Field>
+            public Field this[Direction direction]
             {
-                private Field data;
-
-                public AdjacentFieldsDictionary(Field data)
+                get
                 {
-                    this.data = data;
-                }
-
-                public IEnumerator<KeyValuePair<Direction, Field>> GetEnumerator()
-                {
-                    return Keys.Select(direction => new KeyValuePair<Direction, Field>(direction, this[direction])).GetEnumerator();
-                }
-
-                IEnumerator IEnumerable.GetEnumerator()
-                {
-                    return GetEnumerator();
-                }
-
-                public int Count => Keys.Count();
-
-                public bool ContainsKey(Direction key)
-                {
-                    return this[key] != null;
-                }
-
-                public bool TryGetValue(Direction key, out Field value)
-                {
-                    value = this[key];
-                    return value != null;
-                }
-
-                public Field this[Direction key]
-                {
-                    get
+                    switch (direction)
                     {
-                        switch (key)
-                        {
-                            case Direction.North:
-                                return data.North;
-                            case Direction.East:
-                                return data.East;
-                            case Direction.South:
-                                return data.South;
-                            case Direction.West:
-                                return data.West;
-                            default:
-                                throw new ArgumentOutOfRangeException(nameof(key), key, null);
-                        }
+                        case Direction.North:
+                            return North;
+                        case Direction.East:
+                            return East;
+                        case Direction.South:
+                            return South;
+                        case Direction.West:
+                            return West;
+                        default:
+                            throw new ArgumentOutOfRangeException(nameof(direction), direction, null);
                     }
                 }
+            }
 
-                public IEnumerable<Direction> Keys => Enum.GetValues(typeof(Direction)).OfType<Direction>().Where(direction => this[direction] != null);
-
-                public IEnumerable<Field> Values => Keys.Select(direction => this[direction]);
+            public IEnumerable<Field> AdjacentFields
+            {
+                get
+                {
+                    if (North != null) yield return North;
+                    if (East != null) yield return East;
+                    if (South != null) yield return South;
+                    if (West != null) yield return West;
+                }
             }
         }
 
         public int SizeX { get; }
         public int SizeY { get; }
 
-        private readonly T[][] data;
+        private readonly Dictionary<int, Dictionary<int, Field>> data = new Dictionary<int, Dictionary<int, Field>>();
 
-        public Map(int sizeX, int sizeY, T initialFieldContent = default(T))
+        public Map(int sizeX, int sizeY, Func<int,int,T> initialFieldContentFactory)
         {
+            this.initialFieldContentFactory = initialFieldContentFactory;
             SizeX = sizeX;
             SizeY = sizeY;
-            data = EnumerableExtensions.Repeat(() => Enumerable.Repeat(initialFieldContent, sizeY).ToArray(), sizeX).ToArray();
         }
 
         internal Field this[ValueTuple<int, int> position] => this[position.Item1, position.Item2];
@@ -124,10 +90,22 @@ namespace WhampsChallenge.Core
         {
             get
             {
-                if (x < 0 || x >= data.Length) return null;
-                if (y < 0 || y >= data[0].Length) return null;
+                if (x < 0 || x >= SizeX) return null;
+                if (y < 0 || y >= SizeY) return null;
 
-                return new Field(x, y, this);
+                if (!data.TryGetValue(x, out var row))
+                {
+                    row = new Dictionary<int, Field>();
+                    data[x] = row;
+                }
+
+                if (!row.TryGetValue(y, out var field))
+                {
+                    field = new Field(x, y, this) {Content = initialFieldContentFactory(x, y)};
+                    row[y] = field;
+                }
+
+                return field;
             }
         }
 

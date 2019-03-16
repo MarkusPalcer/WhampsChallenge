@@ -40,7 +40,7 @@ namespace WhampsChallenge.Core.Level1
                 .ToDictionary(x => x, _ => mainRandom.GetNewChild());
 
             // Create 5x5 array of empty fields
-            State.Map = new Map<FieldContent>(5, 5);
+            State.Map = new Map<FieldContent>(5, 5, (_,__) => FieldContent.Empty);
 
             // Put Gold somewhere
             State.Map[GetFreeSquare()].Content = FieldContent.Gold;

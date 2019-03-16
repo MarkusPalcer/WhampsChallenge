@@ -19,7 +19,7 @@ namespace WhampsChallenge.Core.Level3.Actions
             else
             {
                 // Move into the direction until the end of the playing field.
-                var field = game.State.Map[game.State.PlayerPosition].AdjacentFields[Direction];
+                var field = game.State.Map[game.State.PlayerPosition][Direction];
                 while (field != null)
                 {
                     if (field.Content == FieldContent.Whamps)
@@ -28,7 +28,7 @@ namespace WhampsChallenge.Core.Level3.Actions
                         field.Content = FieldContent.Empty;
                     }
 
-                    field = field.AdjacentFields[Direction];
+                    field = field[Direction];
                 }
             }
         }

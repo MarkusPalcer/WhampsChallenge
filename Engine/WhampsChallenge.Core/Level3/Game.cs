@@ -58,7 +58,7 @@ namespace WhampsChallenge.Core.Level3
             }
 
             // Feel stench when adjacent to whamps
-            foreach (var adjacentFieldContent in State.Map[State.PlayerPosition].AdjacentFields.Values.Select(x => x.Content))
+            foreach (var adjacentFieldContent in State.Map[State.PlayerPosition].AdjacentFields.Select(x => x.Content))
             {
                 if (adjacentFieldContent == FieldContent.Whamps) AddPerception(Perception.Stench);
             }
@@ -77,7 +77,7 @@ namespace WhampsChallenge.Core.Level3
         protected override bool IsSquareFree(int x, int y)
         {
             // Check that there is no stench on the field
-            return base.IsSquareFree(x, y) && State.Map[x,y].AdjacentFields.Values.SelectMany(f => f.AdjacentFields.Values).All(f => f.Content != FieldContent.Whamps);
+            return base.IsSquareFree(x, y) && State.Map[x,y].AdjacentFields.SelectMany(f => f.AdjacentFields).All(f => f.Content != FieldContent.Whamps);
         }
     }
 }

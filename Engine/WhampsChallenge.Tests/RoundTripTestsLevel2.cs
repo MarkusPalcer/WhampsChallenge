@@ -4,7 +4,7 @@ using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WhampsChallenge.Core.Common;
 using WhampsChallenge.Core.Level2;
-using Direction = WhampsChallenge.Library.Level2.Enums.Direction;
+using WhampsChallenge.Shared.Maps.FourDirections;
 using FieldContent = WhampsChallenge.Core.Level3.FieldContent;
 
 namespace WhampsChallenge.Tests

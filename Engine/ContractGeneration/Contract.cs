@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using WhampsChallenge;
 using WhampsChallenge.Core.Markers;
 using WhampsChallenge.Shared.Extensions;
+using WhampsChallenge.Shared.Marker;
 using static System.String;
 
 namespace ContractGeneration
@@ -26,6 +27,8 @@ namespace ContractGeneration
 
         public Dictionary<string, Dictionary<string, string>> Types { get; } = new Dictionary<string, Dictionary<string, string>>();
 
+        public ICollection<string> NotGeneratedTypes { get; } = new HashSet<string>();
+
         private void AddAction(Type action)
         {
             if (Actions.ContainsKey(action.Name)) return;
@@ -36,7 +39,7 @@ namespace ContractGeneration
             foreach (var parameter in action.GetProperties())
             {
                 AddType(parameter.PropertyType);
-                result.Parameters.Add(parameter.Name, parameter.PropertyType.Name);
+                result.Parameters.Add(parameter.Name, AddType(parameter.PropertyType));
             }
 
             // Ignore return value
@@ -48,6 +51,12 @@ namespace ContractGeneration
         private string AddType(Type type)
         {
             if (type == typeof(object)) return "object";
+
+            if (type.GetCustomAttribute<NoContractGenerationAttribute>() != null)
+            {
+                NotGeneratedTypes.Add(type.FullName);
+                return type.FullName;
+            }
 
             if (type.IsEnum)
             {

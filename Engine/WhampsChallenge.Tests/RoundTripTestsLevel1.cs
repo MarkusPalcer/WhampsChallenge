@@ -3,7 +3,7 @@ using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WhampsChallenge.Core.Common;
 using WhampsChallenge.Core.Level1;
-using Direction = WhampsChallenge.Library.Level1.Enums.Direction;
+using WhampsChallenge.Shared.Maps.FourDirections;
 using GameState = WhampsChallenge.Core.Common.GameState;
 
 namespace WhampsChallenge.Tests

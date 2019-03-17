@@ -4,6 +4,7 @@ using System.Linq;
 using WhampsChallenge.Core.Common;
 using WhampsChallenge.Core.Level3;
 using WhampsChallenge.Shared.Extensions;
+using WhampsChallenge.Shared.Maps.FourDirections;
 
 namespace WhampsChallenge.Core.Level1
 {
@@ -40,7 +41,7 @@ namespace WhampsChallenge.Core.Level1
                 .ToDictionary(x => x, _ => mainRandom.GetNewChild());
 
             // Create 5x5 array of empty fields
-            State.Map = new Map<FieldContent>(5, 5, (_,__) => FieldContent.Empty);
+            State.Map = new FixedSizeMap<FieldContent>(5, 5, (_,__) => FieldContent.Empty);
 
             // Put Gold somewhere
             State.Map[GetFreeSquare()].Content = FieldContent.Gold;

@@ -1,12 +1,6 @@
 {
   "Level3": {
     "Enums": {
-      "Direction": [
-        "North",
-        "East",
-        "South",
-        "West"
-      ],
       "Perception": [
         "Bump",
         "Stench",
@@ -21,7 +15,7 @@
     "Actions": {
       "Move": {
         "Parameters": {
-          "Direction": "Direction"
+          "Direction": "WhampsChallenge.Shared.Maps.FourDirections.Direction"
         }
       },
       "Pickup": {
@@ -29,7 +23,7 @@
       },
       "Shoot": {
         "Parameters": {
-          "Direction": "Direction"
+          "Direction": "WhampsChallenge.Shared.Maps.FourDirections.Direction"
         }
       }
     },
@@ -43,16 +37,13 @@
         "Perceptions": "Perception[]",
         "GameState": "GameState"
       }
-    }
+    },
+    "NotGeneratedTypes": [
+      "WhampsChallenge.Shared.Maps.FourDirections.Direction"
+    ]
   },
   "Level2": {
     "Enums": {
-      "Direction": [
-        "North",
-        "East",
-        "South",
-        "West"
-      ],
       "Perception": [
         "Bump",
         "Wind",
@@ -64,7 +55,7 @@
     "Actions": {
       "Move": {
         "Parameters": {
-          "Direction": "Direction"
+          "Direction": "WhampsChallenge.Shared.Maps.FourDirections.Direction"
         }
       },
       "Pickup": {
@@ -80,16 +71,13 @@
         "Perceptions": "Perception[]",
         "GameState": "GameState"
       }
-    }
+    },
+    "NotGeneratedTypes": [
+      "WhampsChallenge.Shared.Maps.FourDirections.Direction"
+    ]
   },
   "Level1": {
     "Enums": {
-      "Direction": [
-        "North",
-        "East",
-        "South",
-        "West"
-      ],
       "Perception": [
         "Bump",
         "Glitter",
@@ -100,7 +88,7 @@
     "Actions": {
       "Move": {
         "Parameters": {
-          "Direction": "Direction"
+          "Direction": "WhampsChallenge.Shared.Maps.FourDirections.Direction"
         }
       },
       "Pickup": {
@@ -116,6 +104,9 @@
         "Perceptions": "Perception[]",
         "GameState": "GameState"
       }
-    }
+    },
+    "NotGeneratedTypes": [
+      "WhampsChallenge.Shared.Maps.FourDirections.Direction"
+    ]
   }
 }

@@ -4,7 +4,7 @@ using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WhampsChallenge.Core.Common;
 using WhampsChallenge.Core.Level3;
-using Direction = WhampsChallenge.Library.Level3.Enums.Direction;
+using WhampsChallenge.Shared.Maps.FourDirections;
 using FieldContent = WhampsChallenge.Core.Level3.FieldContent;
 using GameState = WhampsChallenge.Core.Common.GameState;
 
@@ -73,7 +73,7 @@ namespace WhampsChallenge.Tests
             game.Initialize();
             game.State.PlayerPosition = (1, 2);
 
-            var responseTask = gameProxy.MoveAsync(Library.Level3.Enums.Direction.North);
+            var responseTask = gameProxy.MoveAsync(Direction.North);
             var decodedAction = decoder.Decode(await communicator.GetLastMessage());
             var sentResponse = game.Execute(decodedAction);
             sentResponse.As<Result>().GameState.PlayerPosition.Should().Be((1, 1));

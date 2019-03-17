@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using WhampsChallenge.Core.Level1;
-using WhampsChallenge.Shared.Extensions;
 
-namespace WhampsChallenge.Core
+namespace WhampsChallenge.Shared.Maps.FourDirections
 {
-    internal class Map<T>
+    public class FixedSizeMap<TFieldContent>
     {
-        private readonly Func<int, int, T> initialFieldContentFactory;
+        private readonly Func<int, int, TFieldContent> initialFieldContentFactory;
 
-        internal class Field
+        public class Field
         {
             public int X { get; }
             public int Y { get; }
@@ -19,18 +17,18 @@ namespace WhampsChallenge.Core
             private readonly Lazy<Field> south;
             private readonly Lazy<Field> west;
 
-            internal Field(int x, int y, Map<T> map)
+            internal Field(int x, int y, FixedSizeMap<TFieldContent> fixedSizeMap)
             {
                 X = x;
                 Y = y;
 
-                north = new Lazy<Field>(() => map[x, y - 1]);
-                east = new Lazy<Field>(() => map[x + 1, y]);
-                south = new Lazy<Field>(() => map[x, y + 1]);
-                west = new Lazy<Field>(() => map[x - 1, y]);
+                north = new Lazy<Field>(() => fixedSizeMap[x, y - 1]);
+                east = new Lazy<Field>(() => fixedSizeMap[x + 1, y]);
+                south = new Lazy<Field>(() => fixedSizeMap[x, y + 1]);
+                west = new Lazy<Field>(() => fixedSizeMap[x - 1, y]);
             }
 
-            public T Content { get; set; }
+            public TFieldContent Content { get; set; }
 
             public Field North => north.Value;
 
@@ -77,16 +75,16 @@ namespace WhampsChallenge.Core
 
         private readonly Dictionary<int, Dictionary<int, Field>> data = new Dictionary<int, Dictionary<int, Field>>();
 
-        public Map(int sizeX, int sizeY, Func<int,int,T> initialFieldContentFactory)
+        public FixedSizeMap(int sizeX, int sizeY, Func<int,int,TFieldContent> initialFieldContentFactory)
         {
             this.initialFieldContentFactory = initialFieldContentFactory;
             SizeX = sizeX;
             SizeY = sizeY;
         }
 
-        internal Field this[ValueTuple<int, int> position] => this[position.Item1, position.Item2];
+        public Field this[ValueTuple<int, int> position] => this[position.Item1, position.Item2];
 
-        internal Field this[int x, int y]
+        public Field this[int x, int y]
         {
             get
             {

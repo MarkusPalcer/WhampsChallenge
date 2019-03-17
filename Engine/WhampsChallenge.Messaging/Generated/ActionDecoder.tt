@@ -14,7 +14,7 @@
 using System;
 using System.Collections.Generic; 
 using Newtonsoft.Json.Linq; 
-using WhampsChallenge.Common;
+using WhampsChallenge.Core.Common;
 
 using WhampsChallenge.Messaging.Common;
 
@@ -23,23 +23,23 @@ using WhampsChallenge.Messaging.Common;
 
 <#  foreach (var _kvp in file) { #>
 namespace WhampsChallenge.Messaging.<#= _kvp.Key #>.Actions {
-	using WhampsChallenge.<#= _kvp.Key #>.Actions;
+	using WhampsChallenge.Core.<#= _kvp.Key #>.Actions;
 
 	public class ActionDecoder : IActionDecoder {
-		private readonly Dictionary<string, Func<JObject, WhampsChallenge.Common.IAction>> _decoders = 
-			new Dictionary<string, Func<JObject, WhampsChallenge.Common.IAction>> {
+		private readonly Dictionary<string, Func<JObject, WhampsChallenge.Core.Common.IAction>> _decoders = 
+			new Dictionary<string, Func<JObject, WhampsChallenge.Core.Common.IAction>> {
 <#		foreach (var action in ((JObject)_kvp.Value["Actions"]).Properties()) { #>
 				{ "<#= action.Name #>", Decode<#= action.Name #> },
 <#      } #>
 			};
 
-		public WhampsChallenge.Common.IAction Decode(JObject message)
+		public WhampsChallenge.Core.Common.IAction Decode(JObject message)
 	    {
 	        return _decoders[message["Action"].Value<string>()](message);
 	    }
 
 <#		foreach (var action in ((JObject)_kvp.Value["Actions"]).Properties()) { #>
-		private static WhampsChallenge.Common.IAction Decode<#= action.Name #>(JObject message) {
+		private static WhampsChallenge.Core.Common.IAction Decode<#= action.Name #>(JObject message) {
 			return message.ToObject<<#= action.Name #>>();
 		}
 <#      } #>

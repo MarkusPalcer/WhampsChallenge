@@ -17,6 +17,7 @@ namespace WhampsChallenge.Core.Level3.Actions
             else
             {
                 // Move into the direction until the end of the playing field.
+                game.State.HasArrow = false;
                 var field = game.State.Map[game.State.PlayerPosition][Direction];
                 while (field != null)
                 {
@@ -24,6 +25,7 @@ namespace WhampsChallenge.Core.Level3.Actions
                     {
                         game.AddPerception(Perception.Scream);
                         field.Content = FieldContent.Empty;
+                        return;
                     }
 
                     field = field[Direction];

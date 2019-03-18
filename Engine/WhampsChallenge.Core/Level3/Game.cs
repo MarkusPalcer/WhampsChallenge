@@ -27,6 +27,8 @@ namespace WhampsChallenge.Core.Level3
 
             // Add Monster to Level 2 styled map
             State.Map[GetFreeSquare()].Content = FieldContent.Whamps;
+
+            State.HasArrow = true;
         }
 
         public override object Execute(IAction action)

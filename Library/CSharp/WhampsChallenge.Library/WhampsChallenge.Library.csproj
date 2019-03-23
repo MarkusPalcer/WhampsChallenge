@@ -27,7 +27,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Engine\WhampsChallenge.Shared\WhampsChallenge.Shared.csproj" />
+    <ProjectReference Include="..\..\..\Engine\WhampsChallenge.Shared\WhampsChallenge.Shared.csproj">
+      <Private>true</Private>
+    </ProjectReference>
   </ItemGroup>
 
   <ItemGroup>

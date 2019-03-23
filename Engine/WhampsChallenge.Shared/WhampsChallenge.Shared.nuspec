@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+
+    <authors>Markus Palcer</authors>
+    <repository type="git" url="https://github.com/MarkusPalcer/WhampsChallenge" />
+    <description>Shared code between the WhampsChallenge-Engine and Contestants</description>
+
+    <dependencies>
+      <dependency id="Newtonsoft.Json" version="12.0" />
+      <dependency id="PantherDI" version="2.0" />
+    </dependencies>
+  </metadata>
+</package>

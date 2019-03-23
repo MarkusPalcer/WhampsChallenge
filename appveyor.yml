@@ -34,3 +34,13 @@ build:
 
 before_build:
   - cmd: nuget restore
+
+deploy:
+  - provider: NuGet
+    api_key:
+      secure: oy2pl46vuctbe7p3435azd62khfgglzubpfc2wlntavbeq
+
+nuget:
+  account_feed: true
+  project_feed: true
+  disable_publish_on_pr: true

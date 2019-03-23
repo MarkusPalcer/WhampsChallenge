@@ -1,0 +1,32 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="Newtonsoft.Json" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="Newtonsoft.Json" #>
+<#@ import namespace="Newtonsoft.Json.Linq" #>
+<#@ output extension=".cs" #>
+// This file contains all enums as declared by the contracts.json file
+
+// Generated file, so ReSharper-Checks are disabled.
+// ReSharper disable all
+
+using System;
+
+<#	var fileName = Path.GetFullPath(Host.ResolvePath("..\\..\\..\\Library\\common\\contract.json")); #>
+<#  var file = JsonConvert.DeserializeObject<Dictionary<string,JObject>>(File.ReadAllText(fileName)); #>
+
+<#  foreach (var _kvp in file) { #>
+namespace WhampsChallenge.Messaging.<#= _kvp.Key #> {
+<#		foreach (var declaredType in ((JObject)_kvp.Value["Types"]).Properties()) { #>
+	public class <#= declaredType.Name #> {
+<#			foreach (var property in declaredType.Value.Value<JObject>().Properties()) { #>
+		<#= property.Value.Value<string>()#> <#= property.Name #> { get; set; }
+<#          } #>
+	}
+
+<#      } #>
+}
+<# } #>

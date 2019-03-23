@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+    <PackageReference Include="PantherDI" Version="2.0.0.51" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Library\CSharp\WhampsChallenge.Library\WhampsChallenge.Library.csproj" />
+    <ProjectReference Include="..\WhampsChallenge.Runner.Shared\WhampsChallenge.Runner.Shared.csproj" />
+  </ItemGroup>
+
+</Project>

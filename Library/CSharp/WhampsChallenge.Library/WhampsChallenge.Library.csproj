@@ -2,25 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>0.0.0</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Markus Palcer</Authors>
+    <Description>The core of the WhampsChallenge-Engine</Description>
+    <RepositoryUrl>https://github.com/MarkusPalcer/WhampsChallenge</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
-  <!-- Optionally make the import portable across VS versions -->
-  <PropertyGroup>
-    <!-- Get the Visual Studio version: -->
-    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">16.0</VisualStudioVersion>
-    <!-- Keep the next element all on one line: -->
-    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
-  </PropertyGroup>
-
-  <!-- This is the important line: -->
-  <Import Project="$(VSToolsPath)\TextTemplating\Microsoft.TextTemplating.targets" />
-  
-  <PropertyGroup>
-    <TransformOnBuild>true</TransformOnBuild>
-    <TransformOutOfDateOnly>false</TransformOutOfDateOnly>
-    <OverwriteReadOnlyOutputFiles>true</OverwriteReadOnlyOutputFiles>
-  </PropertyGroup>
-  
   <ItemGroup>
     <None Include="Generated\Actions.cs">
       <DesignTime>True</DesignTime>

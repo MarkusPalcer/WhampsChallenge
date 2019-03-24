@@ -2,6 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>0.0.0</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Markus Palcer</Authors>
+    <Description>The core of the WhampsChallenge-Engine</Description>
+    <RepositoryUrl>https://github.com/MarkusPalcer/WhampsChallenge</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "WhampsChallenge.Runner.CLI": {
+      "commandName": "Project",
+      "commandLineArgs": "pipe WhampsChallenge.SampleContestantPipeExecutable.exe",
+      "workingDirectory": "C:\\Users\\Markus Palcer\\source\\repos\\MarkusPalcer\\WhampsChallenge\\Samples\\WhampsChallenge.SampleContestantPipeExecutable\\bin\\Debug"
+    }
+  }
+}

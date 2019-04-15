@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -7,18 +8,79 @@ using Newtonsoft.Json;
 using PantherDI.ContainerCreation;
 using WhampsChallenge.Library;
 using WhampsChallenge.Runner.Shared.Direct;
+using WhampsChallenge.Shared.Communication;
+using WhampsChallenge.Shared.Communication.Messages;
 
 namespace WhampsChallenge.Runner.CLI
 {
     static class Program
     {
-        private static readonly Dictionary<string, Func<string[], int>> Modes = new Dictionary<string, Func<string[], int>>()
+        private static readonly Dictionary<string, Func<string[], int>> Modes = new Dictionary<string, Func<string[], int>>
         {
             {"assembly", RunAssembly},
             {"entry", RunEntry},
             {"level", RunLevel},
+            {"pipe", RunPipe},
             {"exitcodes", PrintExitCodes}
         };
+
+        private static int RunPipe(string[] args)
+        {
+            if (args.Length < 2)
+            {
+                PrintUsage();
+                return 1;
+            }
+
+            var (process, helloMessage, communicator) = StartExternalProcess(args);
+
+            foreach (var level in helloMessage.Levels)
+            {
+                var runner = new Shared.Runner(communicator);
+                var result = runner.Run((Levels) Enum.Parse(typeof(Levels), level));
+                Console.Out.WriteLine("RSLT: " + JsonConvert.SerializeObject(new
+                {
+                    Level = level,
+                    result.Died,
+                    result.Score,
+                    result.Seed
+                }));
+
+                if (!process.HasExited) process.Kill();
+                (process, _, communicator) = StartExternalProcess(args);
+            }
+
+            return 0;
+        }
+
+        private static (Process Process, Hello HelloMessage, ICommunicator Communicator) StartExternalProcess(string[] args)
+        {
+            var process = new Process
+            {
+                StartInfo =
+                {
+                    FileName = args[1],
+                    CreateNoWindow = true,
+                    RedirectStandardInput = true,
+                    RedirectStandardOutput = true
+                }
+            };
+
+            foreach (var argument in args.Skip(2))
+            {
+                process.StartInfo.ArgumentList.Add(argument);
+            }
+
+            process.Start();
+
+            var communicator = Communicator.Create(process.StandardOutput, process.StandardInput);
+
+            // Read hello-message
+            var hello = JsonConvert.DeserializeObject<Hello>(communicator.Receive());
+
+            var processData = (Process: process, HelloMessage: hello, Communicator: communicator);
+            return processData;
+        }
 
         private static int Main(string[] args)
         {
@@ -206,6 +268,8 @@ namespace WhampsChallenge.Runner.CLI
             Console.WriteLine("                               all levels defined therein.");
             Console.WriteLine("Level <filename> <classname> <level> - Loads the given implementation of IAgent and executes it");
             Console.WriteLine("                                       against the given level.");
+            Console.WriteLine("Pipe <commandline> - Runs the given command line and attaches to STDIN, STDOUT and STDERR of the");
+            Console.WriteLine("                     started process to communicate and log.");
             Console.WriteLine("Exitcodes - Prints all exitcodes and their meanings");
             Console.WriteLine();
             Console.WriteLine("This implementation of the CLI-Runner knows the following levels:");

@@ -25,46 +25,46 @@ namespace WhampsChallenge.Library.Level3 {
 			var message = new Move {
 				Direction = direction,
 			};
-
-			return _communicator.SendAndReceive<Result>(message);
+			_communicator.Send(message);
+			return _communicator.Receive<Result>();
 		}
 
 		public async Task<Result> MoveAsync(WhampsChallenge.Shared.Maps.FourDirections.Direction direction) {
 			var message = new Move {
 				Direction = direction,
 			};
-
-			return await _communicator.SendAndReceiveAsync<Result>(message);
+			await _communicator.SendAsync(message);
+			return await _communicator.ReceiveAsync<Result>();
 		}
 
 		public Result Pickup() {
 			var message = new Pickup {
 			};
-
-			return _communicator.SendAndReceive<Result>(message);
+			_communicator.Send(message);
+			return _communicator.Receive<Result>();
 		}
 
 		public async Task<Result> PickupAsync() {
 			var message = new Pickup {
 			};
-
-			return await _communicator.SendAndReceiveAsync<Result>(message);
+			await _communicator.SendAsync(message);
+			return await _communicator.ReceiveAsync<Result>();
 		}
 
 		public Result Shoot(WhampsChallenge.Shared.Maps.FourDirections.Direction direction) {
 			var message = new Shoot {
 				Direction = direction,
 			};
-
-			return _communicator.SendAndReceive<Result>(message);
+			_communicator.Send(message);
+			return _communicator.Receive<Result>();
 		}
 
 		public async Task<Result> ShootAsync(WhampsChallenge.Shared.Maps.FourDirections.Direction direction) {
 			var message = new Shoot {
 				Direction = direction,
 			};
-
-			return await _communicator.SendAndReceiveAsync<Result>(message);
+			await _communicator.SendAsync(message);
+			return await _communicator.ReceiveAsync<Result>();
 		}
 
 	}
@@ -88,30 +88,30 @@ namespace WhampsChallenge.Library.Level2 {
 			var message = new Move {
 				Direction = direction,
 			};
-
-			return _communicator.SendAndReceive<Result>(message);
+			_communicator.Send(message);
+			return _communicator.Receive<Result>();
 		}
 
 		public async Task<Result> MoveAsync(WhampsChallenge.Shared.Maps.FourDirections.Direction direction) {
 			var message = new Move {
 				Direction = direction,
 			};
-
-			return await _communicator.SendAndReceiveAsync<Result>(message);
+			await _communicator.SendAsync(message);
+			return await _communicator.ReceiveAsync<Result>();
 		}
 
 		public Result Pickup() {
 			var message = new Pickup {
 			};
-
-			return _communicator.SendAndReceive<Result>(message);
+			_communicator.Send(message);
+			return _communicator.Receive<Result>();
 		}
 
 		public async Task<Result> PickupAsync() {
 			var message = new Pickup {
 			};
-
-			return await _communicator.SendAndReceiveAsync<Result>(message);
+			await _communicator.SendAsync(message);
+			return await _communicator.ReceiveAsync<Result>();
 		}
 
 	}
@@ -135,30 +135,30 @@ namespace WhampsChallenge.Library.Level1 {
 			var message = new Move {
 				Direction = direction,
 			};
-
-			return _communicator.SendAndReceive<Result>(message);
+			_communicator.Send(message);
+			return _communicator.Receive<Result>();
 		}
 
 		public async Task<Result> MoveAsync(WhampsChallenge.Shared.Maps.FourDirections.Direction direction) {
 			var message = new Move {
 				Direction = direction,
 			};
-
-			return await _communicator.SendAndReceiveAsync<Result>(message);
+			await _communicator.SendAsync(message);
+			return await _communicator.ReceiveAsync<Result>();
 		}
 
 		public Result Pickup() {
 			var message = new Pickup {
 			};
-
-			return _communicator.SendAndReceive<Result>(message);
+			_communicator.Send(message);
+			return _communicator.Receive<Result>();
 		}
 
 		public async Task<Result> PickupAsync() {
 			var message = new Pickup {
 			};
-
-			return await _communicator.SendAndReceiveAsync<Result>(message);
+			await _communicator.SendAsync(message);
+			return await _communicator.ReceiveAsync<Result>();
 		}
 
 	}

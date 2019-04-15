@@ -11,13 +11,24 @@ namespace WhampsChallenge.Shared.Communication
     public interface ICommunicator : IDisposable
     {
         /// <summary>
-        /// Sends and receives a single message
+        /// Sends the given message
         /// </summary>
-        string SendAndReceive(string message);
+        void Send(string message);
 
         /// <summary>
-        /// Sends and receives a single message
+        /// Sends the given message asynchronously
         /// </summary>
-        Task<string> SendAndReceiveAsync(string request);
+        Task SendAsync(string message);
+
+        /// <summary>
+        /// Receives a single message
+        /// </summary>
+        string Receive();
+
+        /// <summary>
+        /// Receives a single message asynchronously
+        /// </summary>
+        /// <returns></returns>
+        Task<string> ReceiveAsync();
     }
 }

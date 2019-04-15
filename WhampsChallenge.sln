@@ -37,7 +37,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Additional Files", "Additio
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WhampsChallenge.Runner.CLI", "Runner\WhampsChallenge.Runner.CLI\WhampsChallenge.Runner.CLI.csproj", "{E2ADF2C8-0399-4780-8C21-1BA50607F074}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WhampsChallenge.Runner.CLI", "Runner\WhampsChallenge.Runner.CLI\WhampsChallenge.Runner.CLI.csproj", "{E2ADF2C8-0399-4780-8C21-1BA50607F074}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WhampsChallenge.SampleContestantPipeExecutable", "Samples\WhampsChallenge.SampleContestantPipeExecutable\WhampsChallenge.SampleContestantPipeExecutable.csproj", "{2F701F3A-42AB-4D31-8487-24AC98FCCBF3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -85,6 +87,10 @@ Global
 		{E2ADF2C8-0399-4780-8C21-1BA50607F074}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E2ADF2C8-0399-4780-8C21-1BA50607F074}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E2ADF2C8-0399-4780-8C21-1BA50607F074}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F701F3A-42AB-4D31-8487-24AC98FCCBF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F701F3A-42AB-4D31-8487-24AC98FCCBF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F701F3A-42AB-4D31-8487-24AC98FCCBF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F701F3A-42AB-4D31-8487-24AC98FCCBF3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -100,6 +106,7 @@ Global
 		{316CBC49-AB12-41A0-A861-0DA85F1232BC} = {72BD1D91-AA32-4F71-894C-84603962E4F8}
 		{D77CEAEC-B01B-4289-8AEA-705706A211DF} = {B4B2D33E-5E50-4E2F-B1D0-52B7CBFD7945}
 		{E2ADF2C8-0399-4780-8C21-1BA50607F074} = {1A924772-54AC-4A93-8ADE-50895329358F}
+		{2F701F3A-42AB-4D31-8487-24AC98FCCBF3} = {72BD1D91-AA32-4F71-894C-84603962E4F8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AD3797D1-AA70-461F-9893-0EA4A730A81E}

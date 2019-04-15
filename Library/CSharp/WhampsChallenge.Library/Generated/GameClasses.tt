@@ -43,8 +43,8 @@ namespace WhampsChallenge.Library.<#= _kvp.Key #> {
 				<#= parameter.Name #> = <#= parameter.Name.ToLower() #>,
 <#			} #>
 			};
-
-			return _communicator.SendAndReceive<<#= resultType #>>(message);
+			_communicator.Send(message);
+			return _communicator.Receive<<#= resultType #>>();
 		}
 
 		public async Task<<#= resultType #>> <#= action.Name #>Async(<#= String.Join(", ", parameters.Select(x => $"{x.Value} {x.Name.ToLower()}")) #>) {
@@ -53,8 +53,8 @@ namespace WhampsChallenge.Library.<#= _kvp.Key #> {
 				<#= parameter.Name #> = <#= parameter.Name.ToLower() #>,
 <#			} #>
 			};
-
-			return await _communicator.SendAndReceiveAsync<<#= resultType #>>(message);
+			await _communicator.SendAsync(message);
+			return await _communicator.ReceiveAsync<<#= resultType #>>();
 		}
 
 <#      } #>

@@ -1,11 +1,11 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
-using WhampsChallenge.Shared.Extensions;
 
 namespace WhampsChallenge.Shared.Communication
 {
+    /// <inheritdoc />
     /// <summary>
-    /// An <see cref="TextReader"/> that uses <see cref="TextWriter"/> and <see cref="ICommunicator"/> to read and write one message per line
+    /// An <see cref="T:WhampsChallenge.Shared.Communication.ICommunicator" /> that uses <see cref="T:System.IO.TextWriter" /> and <see cref="T:System.IO.TextReader" /> to read and write one message per line
     /// </summary>
     public class ReaderCommunicator : ICommunicator
     {
@@ -29,17 +29,25 @@ namespace WhampsChallenge.Shared.Communication
             reader?.Dispose();
         }
 
-        public string SendAndReceive(string message)
+        public void Send(string message)
         {
             writer.WriteLine(message);
             writer.Flush();
+        }
+
+        public async Task SendAsync(string message)
+        {
+            await writer.WriteLineAsync(message);
+            await writer.FlushAsync();
+        }
+
+        public string Receive()
+        {
             return reader.ReadLine();
         }
 
-        public async Task<string> SendAndReceiveAsync(string request)
+        public async Task<string> ReceiveAsync()
         {
-            await writer.WriteLineAsync(request);
-            writer.FlushAsync().FireAndForget(); // When flushing is not done yet, the reader will wait longer for the result.
             return await reader.ReadLineAsync();
         }
     }

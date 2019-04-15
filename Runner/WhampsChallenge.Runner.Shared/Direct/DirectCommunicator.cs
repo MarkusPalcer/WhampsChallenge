@@ -25,19 +25,6 @@ namespace WhampsChallenge.Runner.Shared.Direct
             isDisposed = true;
         }
 
-        string ICommunicator.SendAndReceive(string message)
-        {
-            return ((ICommunicator)this).SendAndReceiveAsync(message).Result;
-        }
-
-        Task<string> ICommunicator.SendAndReceiveAsync(string message)
-        {
-            hostMessage = new TaskCompletionSource<string>();
-            if (isDisposed) hostMessage.SetCanceled();
-            contestantMessage.SetResult(message);
-            return hostMessage.Task;
-        }
-
         public async Task<JObject> ReceiveFromContestantAsync()
         {
             var lastMessage = await contestantMessage.Task;
@@ -51,6 +38,29 @@ namespace WhampsChallenge.Runner.Shared.Direct
             var serializedMessage = JsonConvert.SerializeObject(message);
             Console.WriteLine("SEND: " + serializedMessage);
             hostMessage.SetResult(serializedMessage);
+        }
+
+        public void Send(string message)
+        {
+            hostMessage = new TaskCompletionSource<string>();
+            if (isDisposed) hostMessage.SetCanceled();
+            contestantMessage.SetResult(message);
+        }
+
+        public Task SendAsync(string message)
+        {
+            Send(message);
+            return Task.CompletedTask;
+        }
+
+        public string Receive()
+        {
+            return ReceiveAsync().Result;
+        }
+
+        public async Task<string> ReceiveAsync()
+        {
+            return await hostMessage.Task;
         }
     }
 }

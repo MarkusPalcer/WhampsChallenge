@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.168
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Engine", "Engine", "{B4B2D33E-5E50-4E2F-B1D0-52B7CBFD7945}"
 EndProject
@@ -16,6 +16,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Library", "Library", "{BC4ADBA8-D4AB-4946-9B31-13FCA83A383D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WhampsChallenge.Library", "Library\CSharp\WhampsChallenge.Library\WhampsChallenge.Library.csproj", "{F05460F9-18D5-419D-B100-B8DC4A0C2DE9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{09F2D405-0174-4CC3-9C00-607545F43CF3} = {09F2D405-0174-4CC3-9C00-607545F43CF3}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Runner", "Runner", "{1A924772-54AC-4A93-8ADE-50895329358F}"
 EndProject

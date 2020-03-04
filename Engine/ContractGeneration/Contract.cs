@@ -144,7 +144,7 @@ namespace ContractGeneration
 
         public static object Generate()
         {
-            var foundTypes = new Dictionary<string, List<Type>>();
+            var foundTypes = new Dictionary<int, List<Type>>();
 
             foreach (var type in typeof(ActionAttribute).Assembly.GetTypes())
             {
@@ -153,11 +153,11 @@ namespace ContractGeneration
                 var match = Regex.Match(type.Namespace, "WhampsChallenge\\.Core\\.Level(?'level'[^\\.]+)");
                 if (match.Success)
                 {
-                    foundTypes.Add($"Level{match.Groups["level"].Value}", type);
+                    foundTypes.Add(key: short.Parse(match.Groups["level"].Value), type);
                 }
             }
 
-            return foundTypes.ToDictionary(x => x.Key, x => Generate(x.Value));
+            return foundTypes.ToDictionary(x => $"Level{x.Key}", x => Generate(x.Value));
         }
     }
 }

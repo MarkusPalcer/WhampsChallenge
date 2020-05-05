@@ -20,24 +20,13 @@ using WhampsChallenge.Messaging.Common;
 namespace WhampsChallenge.Messaging.<%= level %>.Actions {
 	using WhampsChallenge.Core.<%= level %>.Actions;
 
-	public class ActionDecoder : IActionDecoder {
-		private readonly Dictionary<string, Func<JObject, WhampsChallenge.Core.Common.IAction>> _decoders = 
-			new Dictionary<string, Func<JObject, WhampsChallenge.Core.Common.IAction>> {
-<%    leveldata['Actions'].each_pair do |action, actiondata| %>
-				{ "<%= action %>", Decode<%= action %> },
-<%    end %>
-			};
+	public class ActionDecoder : Common.ActionDecoder {
 
-		public WhampsChallenge.Core.Common.IAction Decode(JObject message)
-	    {
-	        return _decoders[message["Action"].Value<string>()](message);
+	    public ActionDecoder() {
+<%          leveldata['Actions'].each_pair do |action, actiondata| %>
+            registeredTypes.Add("<%= action %>", typeof(<%= action %>));
+<%          end %>
 	    }
-
-<%    leveldata['Actions'].each_pair do |action, actiondata| %>
-		private static WhampsChallenge.Core.Common.IAction Decode<%= action %>(JObject message) {
-			return message.ToObject<<%= action %>>();
-		}
-<%    end %>
 
 	}
 }

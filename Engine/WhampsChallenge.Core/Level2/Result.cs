@@ -4,6 +4,7 @@ using WhampsChallenge.Core.Markers;
 namespace WhampsChallenge.Core.Level2
 {
     [Result]
+    [Level(2)]
     public class Result
     {
         public Perception[] Perceptions { get; set; }

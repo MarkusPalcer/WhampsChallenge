@@ -3,7 +3,8 @@ using WhampsChallenge.Core.Markers;
 
 namespace WhampsChallenge.Core.Level1.Actions
 {
-    [Action(1)]
+    [Action]
+    [Level(1)]
     public class Pickup : IAction
     {
         public void Execute(Game game)

@@ -2,7 +2,8 @@
 
 namespace WhampsChallenge.Core.Level2.Actions
 {
-    [Action(2)]
+    [Action]
+    [Level(2)]
     public class Move : Level1.Actions.Move, IAction
     {
         public void Execute(Game game)

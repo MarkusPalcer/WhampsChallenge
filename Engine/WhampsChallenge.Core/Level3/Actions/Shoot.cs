@@ -3,7 +3,8 @@ using WhampsChallenge.Shared.Maps.FourDirections;
 
 namespace WhampsChallenge.Core.Level3.Actions
 {
-    [Action(3)]
+    [Action]
+    [Level(3)]
     public class Shoot : IAction
     {
         public Direction Direction { get; set; }

@@ -2,13 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using WhampsChallenge;
-using WhampsChallenge.Core.Markers;
-using WhampsChallenge.Shared.Extensions;
+using WhampsChallenge.Core.Common;
 using WhampsChallenge.Shared.Marker;
-using static System.String;
 
 namespace ContractGeneration
 {
@@ -97,67 +93,24 @@ namespace ContractGeneration
             Enums.Add(type.Name, Enum.GetNames(type));
         }
 
-        public static Contract Generate(IEnumerable<Type> levelTypes)
+        public static Contract Generate(LevelDiscoverer.LevelData data)
         {
-            var typesByMarkerInterfaces = SplitTypesByMarkerInterfaces(levelTypes);
-
-            if (typesByMarkerInterfaces[typeof(ResultAttribute)].Count > 1)
-            {
-                var offendingTypeNames = Join(", ", typesByMarkerInterfaces[typeof(ResultAttribute)].Select(x => x.FullName));
-                throw new InvalidOperationException("Found multiple result types: [" + offendingTypeNames + "]");
-            } 
-            else if (!typesByMarkerInterfaces[typeof(ResultAttribute)].Any())
-            {
-                throw new InvalidOperationException("No result types found");
-            }
-
             var result = new Contract();
 
-            foreach (var action in typesByMarkerInterfaces[typeof(ActionAttribute)])
+            foreach (var action in data.Actions)
             {
                 result.AddAction(action);
             }
 
-            result.ResultType = result.AddType(typesByMarkerInterfaces[typeof(ResultAttribute)].Single());
+            result.ResultType = result.AddType(data.Result);
 
             return result;
         }
 
-        private static Dictionary<Type, List<Type>> SplitTypesByMarkerInterfaces(IEnumerable<Type> levelTypes)
-        {
-            var typesByMarker = new Dictionary<Type, List<Type>>
-            {
-                {typeof(ActionAttribute), new List<Type>()},
-                {typeof(ResultAttribute), new List<Type>()}
-            };
-
-            foreach (var type in levelTypes)
-            {
-                foreach (var attribute in type.GetCustomAttributes(true))
-                {
-                    typesByMarker.Add(attribute.GetType(), type);
-                }
-            }
-
-            return typesByMarker;
-        }
-
         public static object Generate()
         {
-            var foundTypes = new Dictionary<int, List<Type>>();
-
-            foreach (var type in typeof(ActionAttribute).Assembly.GetTypes())
-            {
-                if (type.Namespace == null) continue;
-
-                var match = Regex.Match(type.Namespace, "WhampsChallenge\\.Core\\.Level(?'level'[^\\.]+)");
-                if (match.Success)
-                {
-                    foundTypes.Add(key: short.Parse(match.Groups["level"].Value), type);
-                }
-            }
-
-            return foundTypes.ToDictionary(x => $"Level{x.Key}", x => Generate(x.Value));
+            var discoverer = new LevelDiscoverer();
+            return discoverer.Levels.ToDictionary(x => $"Level{x}", x => Generate(discoverer[x]));
         }
     }
 }

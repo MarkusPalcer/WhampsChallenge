@@ -2,14 +2,8 @@
 
 namespace WhampsChallenge.Core.Markers
 {
-    [AttributeUsage(AttributeTargets.Class)]
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public class ActionAttribute : Attribute
     {
-        public ActionAttribute(int level)
-        {
-            Level = level;
-        }
-
-        public int Level { get; }
     }
 }

@@ -7,7 +7,7 @@ using WhampsChallenge.Shared.Maps.FourDirections;
 
 namespace WhampsChallenge.Core.Level1.Actions
 {
-    [Action]
+    [Action(1)]
     public class Move : IAction
     {
         public Direction Direction { get; set; }

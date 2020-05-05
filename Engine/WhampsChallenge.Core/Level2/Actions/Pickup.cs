@@ -2,7 +2,7 @@
 
 namespace WhampsChallenge.Core.Level2.Actions
 {
-    [Action]
+    [Action(2)]
     public class Pickup: Level1.Actions.Pickup, IAction
     {
         public void Execute(Game game)

@@ -9,7 +9,7 @@ namespace WhampsChallenge.Core.Maps
 
         public int SizeY { get; }
 
-        private readonly Dictionary<(int,int), IField<Direction, TFieldContent>> data = new Dictionary<(int, int), IField<Direction, TFieldContent>>();
+        private readonly Dictionary<(int,int), IField<TFieldContent>> data = new Dictionary<(int, int), IField<TFieldContent>>();
 
         public FixedSizeMap(int sizeX, int sizeY, Func<int,int,TFieldContent> initialFieldContentFactory) : base(initialFieldContentFactory)
         {
@@ -17,7 +17,7 @@ namespace WhampsChallenge.Core.Maps
             SizeY = sizeY;
         }
 
-        public override IField<Direction, TFieldContent> this[int x, int y]
+        public override IField<TFieldContent> this[int x, int y]
         {
             get
             {

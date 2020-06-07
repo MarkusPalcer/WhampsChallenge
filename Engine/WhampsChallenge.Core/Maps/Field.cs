@@ -5,7 +5,7 @@ using System.Diagnostics;
 namespace WhampsChallenge.Core.Maps
 {
     [DebuggerDisplay("{Position} = {Content}")]
-    public class Field<TFieldContent> : IField<Direction, TFieldContent>
+    public class Field<TFieldContent> : IField<TFieldContent>
     {
         public int X { get; }
         
@@ -13,25 +13,25 @@ namespace WhampsChallenge.Core.Maps
 
         public (int X, int Y) Position => (X, Y);
 
-        private readonly Lazy<IField<Direction, TFieldContent>> north;
-        private readonly Lazy<IField<Direction, TFieldContent>> east;
-        private readonly Lazy<IField<Direction, TFieldContent>> south;
-        private readonly Lazy<IField<Direction, TFieldContent>> west;
+        private readonly Lazy<IField<TFieldContent>> north;
+        private readonly Lazy<IField<TFieldContent>> east;
+        private readonly Lazy<IField<TFieldContent>> south;
+        private readonly Lazy<IField<TFieldContent>> west;
 
-        internal Field(int x, int y, IMap<Direction, TFieldContent> map)
+        internal Field(int x, int y, IMap<TFieldContent> map)
         {
             X = x;
             Y = y;
 
-            north = new Lazy<IField<Direction, TFieldContent>>(() => map[x, y - 1]);
-            east = new Lazy<IField<Direction, TFieldContent>>(() => map[x + 1, y]);
-            south = new Lazy<IField<Direction, TFieldContent>>(() => map[x, y + 1]);
-            west = new Lazy<IField<Direction, TFieldContent>>(() => map[x - 1, y]);
+            north = new Lazy<IField<TFieldContent>>(() => map[x, y - 1]);
+            east = new Lazy<IField<TFieldContent>>(() => map[x + 1, y]);
+            south = new Lazy<IField<TFieldContent>>(() => map[x, y + 1]);
+            west = new Lazy<IField<TFieldContent>>(() => map[x - 1, y]);
         }
 
         public TFieldContent Content { get; set; }
 
-        public IField<Direction, TFieldContent> this[Direction direction]
+        public IField<TFieldContent> this[Direction direction]
         {
             get
             {
@@ -51,7 +51,7 @@ namespace WhampsChallenge.Core.Maps
             }
         }
 
-        public IEnumerable<IField<Direction, TFieldContent>> AdjacentFields
+        public IEnumerable<IField<TFieldContent>> AdjacentFields
         {
             get
             {

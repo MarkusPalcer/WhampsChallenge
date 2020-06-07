@@ -2,7 +2,7 @@
 
 namespace WhampsChallenge.Core.Maps
 {
-    public interface IField<in TDirection, TFieldContent>
+    public interface IField<TFieldContent>
     {
         int X { get; }
         int Y { get; }
@@ -11,8 +11,8 @@ namespace WhampsChallenge.Core.Maps
 
         TFieldContent Content { get; set; }
 
-        IField<TDirection, TFieldContent> this[TDirection direction] { get; }
+        IField<TFieldContent> this[Direction direction] { get; }
 
-        IEnumerable<IField<TDirection, TFieldContent>> AdjacentFields { get; }
+        IEnumerable<IField<TFieldContent>> AdjacentFields { get; }
     }
 }

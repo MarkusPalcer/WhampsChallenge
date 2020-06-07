@@ -6,6 +6,6 @@ namespace WhampsChallenge.Core.Maps
     {
         IField<TFieldContent> this[int x, int y] { get; }
 
-        IField<TFieldContent> this[ValueTuple<int, int> position] { get; }
+        IField<TFieldContent> this[Coordinate pos] { get; }
     }
 }

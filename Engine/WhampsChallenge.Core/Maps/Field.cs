@@ -7,11 +7,11 @@ namespace WhampsChallenge.Core.Maps
     [DebuggerDisplay("{Position} = {Content}")]
     public class Field<TFieldContent> : IField<TFieldContent>
     {
-        public int X { get; }
-        
-        public int Y { get; }
+        public int X => Position.X;
 
-        public (int X, int Y) Position => (X, Y);
+        public int Y => Position.Y;
+
+        public Coordinate Position { get; }
 
         private readonly Lazy<IField<TFieldContent>> north;
         private readonly Lazy<IField<TFieldContent>> east;
@@ -20,8 +20,7 @@ namespace WhampsChallenge.Core.Maps
 
         internal Field(int x, int y, IMap<TFieldContent> map)
         {
-            X = x;
-            Y = y;
+            Position = (x, y);
 
             north = new Lazy<IField<TFieldContent>>(() => map[x, y - 1]);
             east = new Lazy<IField<TFieldContent>>(() => map[x + 1, y]);

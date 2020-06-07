@@ -7,7 +7,7 @@ namespace WhampsChallenge.Core.Maps
         int X { get; }
         int Y { get; }
 
-        (int X, int Y) Position { get; }
+        Coordinate Position { get; }
 
         TFieldContent Content { get; set; }
 

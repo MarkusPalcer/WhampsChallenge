@@ -27,6 +27,6 @@ namespace WhampsChallenge.Core.Maps
             }
         }
 
-        public IField<TFieldContent> this[(int, int) position] => this[position.Item1, position.Item2];
+        public IField<TFieldContent> this[Coordinate pos] => this[pos.X, pos.Y];
     }
 }

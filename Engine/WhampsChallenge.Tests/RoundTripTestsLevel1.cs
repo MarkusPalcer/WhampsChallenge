@@ -3,9 +3,9 @@ using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WhampsChallenge.Core.Common;
 using WhampsChallenge.Core.Level1;
+using WhampsChallenge.Shared.Maps.FourDirections;
 using WhampsChallenge.Messaging.Common;
 using WhampsChallenge.Runner.Shared.Direct;
-using WhampsChallenge.Shared.Maps.FourDirections;
 using GameState = WhampsChallenge.Core.Common.GameState;
 
 namespace WhampsChallenge.Tests

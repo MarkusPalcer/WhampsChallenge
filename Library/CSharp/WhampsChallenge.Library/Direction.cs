@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using WhampsChallenge.Shared.Marker;
+﻿using WhampsChallenge.Shared.Marker;
 
 namespace WhampsChallenge.Shared.Maps.FourDirections
 {

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 using WhampsChallenge.Core.Level3;
-using WhampsChallenge.Shared.Maps.FourDirections;
+using WhampsChallenge.Core.Maps.FourDirections;
 
 namespace WhampsChallenge.Core.Level1
 {

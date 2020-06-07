@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace WhampsChallenge.Shared.Maps.FourDirections
+namespace WhampsChallenge.Core.Maps.FourDirections
 {
     [DebuggerDisplay("{Position} = {Content}")]
     public class Field<TFieldContent> : IField<Direction, TFieldContent>

@@ -1,5 +1,5 @@
-﻿using WhampsChallenge.Core.Markers;
-using WhampsChallenge.Shared.Maps.FourDirections;
+﻿using WhampsChallenge.Core.Maps.FourDirections;
+using WhampsChallenge.Core.Markers;
 
 namespace WhampsChallenge.Core.Level3.Actions
 {

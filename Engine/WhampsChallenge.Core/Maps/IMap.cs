@@ -1,7 +1,6 @@
 ﻿using System;
-using WhampsChallenge.Shared.Maps.FourDirections;
 
-namespace WhampsChallenge.Shared.Maps
+namespace WhampsChallenge.Core.Maps
 {
     public interface IMap<in TDirections,TFieldContent>
     {

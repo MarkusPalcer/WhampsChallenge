@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace WhampsChallenge.Shared.Maps.FourDirections
+namespace WhampsChallenge.Core.Maps.FourDirections
 {
     public class DynamicSizeMap<TFieldContent> : IMap<Direction, TFieldContent>
     {

@@ -6,6 +6,7 @@ using WhampsChallenge.Library.Level2;
 using WhampsChallenge.Library.Level2.Enums;
 using WhampsChallenge.Shared.Maps.FourDirections;
 
+
 namespace WhampsChallenge.SampleContestants
 {
     public class Level2 : IAgent

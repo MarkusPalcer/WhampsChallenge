@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace WhampsChallenge.Shared.Maps
+namespace WhampsChallenge.Core.Maps
 {
     public interface IField<in TDirection, TFieldContent>
     {

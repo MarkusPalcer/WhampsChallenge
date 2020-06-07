@@ -1,9 +1,8 @@
 ﻿using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using WhampsChallenge.Core.Maps.FourDirections;
 using WhampsChallenge.Core.Markers;
-using WhampsChallenge.Shared.Maps;
-using WhampsChallenge.Shared.Maps.FourDirections;
 
 namespace WhampsChallenge.Core.Level1.Actions
 {

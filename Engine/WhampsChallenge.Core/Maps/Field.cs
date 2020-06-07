@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace WhampsChallenge.Core.Maps
 {
@@ -13,51 +14,27 @@ namespace WhampsChallenge.Core.Maps
 
         public Coordinate Position { get; }
 
-        private readonly Lazy<IField<TFieldContent>> north;
-        private readonly Lazy<IField<TFieldContent>> east;
-        private readonly Lazy<IField<TFieldContent>> south;
-        private readonly Lazy<IField<TFieldContent>> west;
+        private readonly Dictionary<Direction, Lazy<IField<TFieldContent>>> adjacents;
+        private static readonly Direction[] Directions = {Direction.North, Direction.East, Direction.South, Direction.West};
 
         internal Field(int x, int y, IMap<TFieldContent> map)
         {
             Position = (x, y);
 
-            north = new Lazy<IField<TFieldContent>>(() => map[x, y - 1]);
-            east = new Lazy<IField<TFieldContent>>(() => map[x + 1, y]);
-            south = new Lazy<IField<TFieldContent>>(() => map[x, y + 1]);
-            west = new Lazy<IField<TFieldContent>>(() => map[x - 1, y]);
+            adjacents = Directions.ToDictionary(
+                d => d, 
+                d => new Lazy<IField<TFieldContent>>(() => map[Position.Go(d)]));
         }
 
         public TFieldContent Content { get; set; }
 
-        public IField<TFieldContent> this[Direction direction]
-        {
-            get
-            {
-                switch (direction)
-                {
-                    case Direction.North:
-                        return north.Value;
-                    case Direction.East:
-                        return east.Value;
-                    case Direction.South:
-                        return south.Value;
-                    case Direction.West:
-                        return west.Value;
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(direction), direction, null);
-                }
-            }
-        }
+        public IField<TFieldContent> this[Direction direction] => adjacents[direction].Value;
 
         public IEnumerable<IField<TFieldContent>> AdjacentFields
         {
             get
             {
-                if (north.Value != null) yield return north.Value;
-                if (east.Value != null) yield return east.Value;
-                if (south.Value != null) yield return south.Value;
-                if (west.Value != null) yield return west.Value;
+                return Directions.Select(x => this[x]).Where(x => x != null);
             }
         }
     }

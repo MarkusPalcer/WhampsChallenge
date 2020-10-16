@@ -5,7 +5,7 @@ namespace ContractGeneration
 {
     public static class Program
     {
-        private const string FileName = "..\\..\\..\\..\\Library\\common\\contract.json";
+        private const string FileName = "Library\\common\\contract.json";
 
         public static void Main()
         {

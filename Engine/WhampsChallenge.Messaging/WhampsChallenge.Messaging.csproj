@@ -14,45 +14,51 @@
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\WhampsChallenge.Core\WhampsChallenge.Core.csproj" />
-  </ItemGroup>
+<!--
+  <PropertyGroup>
+    <CustomBuildBeforeTargets>ClCompile</CustomBuildBeforeTargets>
+  </PropertyGroup>
+-->
 
   <ItemGroup>
-    <None Update="Generated\ActionDecoder.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ActionDecoder.cs</LastGenOutput>
-    </None>
-    <None Update="Generated\Enums.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Enums.cs</LastGenOutput>
-    </None>
-    <None Update="Generated\Types.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Types.cs</LastGenOutput>
-    </None>
+    <ProjectReference Include="..\WhampsChallenge.Core\WhampsChallenge.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="Generated\ActionDecoder.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ActionDecoder.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Generated\Enums.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Enums.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Generated\Types.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Types.tt</DependentUpon>
-    </Compile>
-  </ItemGroup>
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <MSBuild Projects="$(MSBuildProjectFile)"
+            Targets="TransformErubisTemplates" />
+  </Target>
 
+  <Target Name="CleanErubisTemplates" BeforeTargets="Clean">
+    <ItemGroup>
+      <ErubisGenerated Include="Generated\*.erb.cs" />
+    </ItemGroup>
+    <Delete Files="@(ErubisGenerated)" />
+  </Target>
+
+  <Target Name="BuildGenerateSources"
+        DependsOnTargets="TransformErubisTemplates;BuildGenerateSourcesTraverse;$(BuildGenerateSourcesAction)" />
+
+  <Target Name="TransformErubisTemplates">
+    <ItemGroup>
+      <ErubisTemplate Include="Generated\*.erb" />
+      <Compile Remove="Generated\*.erb.cs" />
+    </ItemGroup>
+    
+    <MSBuild Projects="$(MSBuildProjectFile)"
+            Properties="CurrentFile=%(ErubisTemplate.Identity)"
+            Targets="TransformErubisTemplate" />
+    <ItemGroup>
+      <Compile Include="Generated\*.erb.cs" />
+    </ItemGroup>
+  </Target>
+
+  <Target Name="TransformErubisTemplate">
+    <Message Text="Transforming $(CurrentFile) to $(CurrentFile).cs" />
+    <Exec Command="erb -T 1 $(CurrentFile) > $(CurrentFile).cs" />
+  </Target>
 </Project>

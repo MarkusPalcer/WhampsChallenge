@@ -1,0 +1,24 @@
+﻿<%
+	require 'json'
+
+	file = nil
+	File.open('../../Library/common/contract.json', 'r') do |f|
+		file = JSON.load(f)
+	end
+%>
+// This file contains all enums as declared by the contracts.json file
+
+// Generated file, so ReSharper-Checks are disabled.
+// ReSharper disable all
+
+<% file.each_pair do |level, leveldata| %>
+namespace WhampsChallenge.Messaging.<%= level %> {
+<%    leveldata['Enums'].each_pair do |enum, enumdata| %>
+	public enum <%= enum %> {
+<%        enumdata.each do |enumvalue| %>
+		<%= enumvalue %>,
+<%        end %>
+	}
+<%    end %>
+}
+<% end %>

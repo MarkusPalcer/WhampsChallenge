@@ -262,3 +262,6 @@ __pycache__/
 
 # Local History
 .history
+
+# Generated files
+*.erb.cs

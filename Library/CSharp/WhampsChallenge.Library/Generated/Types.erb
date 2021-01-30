@@ -1,0 +1,30 @@
+﻿<%
+	require 'json'
+
+	file = nil
+	File.open('../../../Library/common/contract.json', 'r') do |f|
+		file = JSON.load(f)
+	end
+%>
+// Generated file, so ReSharper-Checks are disabled.
+// ReSharper disable all
+
+using System;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+
+<% file.each_pair do |level, leveldata| %>
+namespace WhampsChallenge.Library.<%= level %>.Types {
+
+    using WhampsChallenge.Library.<%= level %>.Enums;
+
+<%  leveldata['Types'].each_pair do |type_name, type_properties| %>
+    public class <%= type_name %> {
+<%      type_properties.each_pair do |property_name, property_type| %>
+        public <%= property_type %> <%= property_name %> { get; set; }
+        
+<%      end %>
+    }
+<%  end %>
+}
+<% end %>

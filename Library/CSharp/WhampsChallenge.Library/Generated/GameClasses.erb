@@ -1,0 +1,61 @@
+﻿<%
+	require 'json'
+
+	file = nil
+	File.open('../../../Library/common/contract.json', 'r') do |f|
+		file = JSON.load(f)
+	end
+%>
+// Generated file, so ReSharper-Checks are disabled.
+// ReSharper disable all
+
+using System.Threading.Tasks;
+
+using WhampsChallenge.Shared.Communication;
+using WhampsChallenge.Shared.Extensions;
+
+<% file.each_pair do |level, leveldata| %>
+namespace WhampsChallenge.Library.<%= level %> {
+
+    using WhampsChallenge.Library.<%= level %>.Enums;
+    using WhampsChallenge.Library.<%= level %>.Types;
+    using WhampsChallenge.Library.<%= level %>.Actions;
+
+    public class Game {
+
+        private readonly ICommunicator _communicator;
+
+        public Game(ICommunicator communicator)
+        {
+            _communicator = communicator;
+        }
+
+<%      leveldata['Actions'].each_pair do |action_name, action_data| %>
+        public <%= leveldata['ResultType'] %> <%= action_name %>(<%= action_data['Parameters'].map {|n, t| "#{t} #{n.downcase}"}.join(', ') %>) {
+            var message = new <%= action_name %> {
+<%          action_data['Parameters'].each_pair do |name, type| %>
+                <%= name %> = <%= name.downcase %>,
+<%          end %>
+            };
+
+            _communicator.Send(message);
+            return _communicator.Receive<<%= leveldata['ResultType'] %>>();
+        }
+
+        public async Task<<%= leveldata['ResultType'] %>> <%= action_name %>Async(<%= action_data['Parameters'].map {|n, t| "#{t} #{n.downcase}"}.join(', ') %>) {
+            var message = new <%= action_name %> {
+<%          action_data['Parameters'].each_pair do |name, type| %>
+                <%= name %> = <%= name.downcase %>,
+<%          end %>
+            };
+
+            await _communicator.SendAsync(message);
+            return await _communicator.ReceiveAsync<<%= leveldata['ResultType'] %>>();
+        }
+
+<%      end %>
+
+    }
+}
+
+<% end %>

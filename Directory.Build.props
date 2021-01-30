@@ -24,7 +24,7 @@
                  Properties="CurrentFile=%(ErubisTemplate.Identity)"
                  Targets="TransformErubisTemplate"/>
         <ItemGroup>
-            <Compile Include="Generated\*.erb.cs"/>
+            <Compile Include="Generated\*.erb.cs" />
         </ItemGroup>
     </Target>
 

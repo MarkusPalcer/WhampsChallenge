@@ -1,0 +1,37 @@
+﻿<%
+	require 'json'
+
+	file = nil
+	File.open('../../Library/common/contract.json', 'r') do |f|
+		file = JSON.load(f)
+	end
+%>
+// Generated file, so ReSharper-Checks are disabled.
+// ReSharper disable all
+
+using System;
+using System.Collections.Generic;
+using WhampsChallenge.Library;
+
+namespace WhampsChallenge.Runner.Shared {
+
+	public static class LevelTypes {
+
+		public static readonly IReadOnlyDictionary<Levels, Type> GameEngines;
+		public static readonly IReadOnlyDictionary<Levels, Type> ActionDecoders;
+
+		static LevelTypes() {
+			GameEngines = new Dictionary<Levels, Type> {
+<%              file.each_key do |level| %>
+                { Levels.<%= level %>, typeof(WhampsChallenge.Core.<%= level %>.Game) },
+<%              end %>
+			};
+
+			ActionDecoders = new Dictionary<Levels, Type> {
+<%              file.each_key do |level| %>
+				{ Levels.<%= level %>, typeof(WhampsChallenge.Messaging.<%= level %>.Actions.ActionDecoder) },
+<%              end %>
+			};
+		}
+	}
+}

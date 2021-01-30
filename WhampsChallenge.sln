@@ -33,6 +33,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Additional Files", "Additio
 		Library\common\contract.json = Library\common\contract.json
 		LICENSE = LICENSE
 		README.md = README.md
+		Directory.Build.props = Directory.Build.props
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WhampsChallenge.Runner.CLI", "Runner\WhampsChallenge.Runner.CLI\WhampsChallenge.Runner.CLI.csproj", "{E2ADF2C8-0399-4780-8C21-1BA50607F074}"

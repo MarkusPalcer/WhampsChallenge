@@ -1,0 +1,35 @@
+<Project>
+    <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+        <MSBuild Projects="$(MSBuildProjectFile)"
+                 Targets="TransformErubisTemplates"/>
+    </Target>
+
+    <Target Name="CleanErubisTemplates" BeforeTargets="Clean">
+        <ItemGroup>
+            <ErubisGenerated Include="Generated\*.erb.cs"/>
+        </ItemGroup>
+        <Delete Files="@(ErubisGenerated)"/>
+    </Target>
+
+    <Target Name="BuildGenerateSources"
+            DependsOnTargets="TransformErubisTemplates;BuildGenerateSourcesTraverse;$(BuildGenerateSourcesAction)"/>
+
+    <Target Name="TransformErubisTemplates">
+        <ItemGroup>
+            <ErubisTemplate Include="Generated\*.erb"/>
+            <Compile Remove="Generated\*.erb.cs"/>
+        </ItemGroup>
+
+        <MSBuild Projects="$(MSBuildProjectFile)"
+                 Properties="CurrentFile=%(ErubisTemplate.Identity)"
+                 Targets="TransformErubisTemplate"/>
+        <ItemGroup>
+            <Compile Include="Generated\*.erb.cs"/>
+        </ItemGroup>
+    </Target>
+
+    <Target Name="TransformErubisTemplate" Condition="$(CurrentFile) != ''">
+        <Message Text="Transforming $(CurrentFile) to $(CurrentFile).cs"/>
+        <Exec Command="erb -T 1 $(CurrentFile) > $(CurrentFile).cs"/>
+    </Target>
+</Project>

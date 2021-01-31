@@ -1,112 +1,122 @@
 {
-  "Level3": {
-    "Enums": {
-      "Perception": [
-        "Bump",
-        "Stench",
-        "Wind",
-        "Twang",
-        "Scream",
-        "Glitter",
-        "Win",
-        "Death"
-      ]
-    },
-    "Actions": {
-      "Move": {
-        "Parameters": {
-          "Direction": "WhampsChallenge.Shared.Maps.FourDirections.Direction"
+  "Levels": {
+    "Level3": {
+      "Enums": {
+        "Perception": [
+          "Bump",
+          "Stench",
+          "Wind",
+          "Twang",
+          "Scream",
+          "Glitter",
+          "Win",
+          "Death"
+        ]
+      },
+      "Actions": {
+        "Move": {
+          "Parameters": {
+            "Direction": "WhampsChallenge.Shared.Maps.FourDirections.Direction"
+          }
+        },
+        "Pickup": {
+          "Parameters": {}
+        },
+        "Shoot": {
+          "Parameters": {
+            "Direction": "WhampsChallenge.Shared.Maps.FourDirections.Direction"
+          }
         }
       },
-      "Pickup": {
-        "Parameters": {}
-      },
-      "Shoot": {
-        "Parameters": {
-          "Direction": "WhampsChallenge.Shared.Maps.FourDirections.Direction"
+      "ResultType": "Result",
+      "Types": {
+        "GameState": {
+          "HasArrow": "Boolean",
+          "MovesLeft": "Int32"
+        },
+        "Result": {
+          "Perceptions": "Perception[]",
+          "GameState": "GameState"
         }
-      }
-    },
-    "ResultType": "Result",
-    "Types": {
-      "GameState": {
-        "HasArrow": "Boolean",
-        "MovesLeft": "Int32"
       },
-      "Result": {
-        "Perceptions": "Perception[]",
-        "GameState": "GameState"
-      }
+      "NotGeneratedTypes": [
+        "WhampsChallenge.Shared.Maps.FourDirections.Direction"
+      ],
+      "Index": 3
     },
-    "NotGeneratedTypes": [
-      "WhampsChallenge.Shared.Maps.FourDirections.Direction"
-    ]
+    "Level2": {
+      "Enums": {
+        "Perception": [
+          "Bump",
+          "Wind",
+          "Glitter",
+          "Win",
+          "Death"
+        ]
+      },
+      "Actions": {
+        "Move": {
+          "Parameters": {
+            "Direction": "WhampsChallenge.Shared.Maps.FourDirections.Direction"
+          }
+        },
+        "Pickup": {
+          "Parameters": {}
+        }
+      },
+      "ResultType": "Result",
+      "Types": {
+        "GameState": {
+          "MovesLeft": "Int32"
+        },
+        "Result": {
+          "Perceptions": "Perception[]",
+          "GameState": "GameState"
+        }
+      },
+      "NotGeneratedTypes": [
+        "WhampsChallenge.Shared.Maps.FourDirections.Direction"
+      ],
+      "Index": 2
+    },
+    "Level1": {
+      "Enums": {
+        "Perception": [
+          "Bump",
+          "Glitter",
+          "Win",
+          "Death"
+        ]
+      },
+      "Actions": {
+        "Move": {
+          "Parameters": {
+            "Direction": "WhampsChallenge.Shared.Maps.FourDirections.Direction"
+          }
+        },
+        "Pickup": {
+          "Parameters": {}
+        }
+      },
+      "ResultType": "Result",
+      "Types": {
+        "GameState": {
+          "MovesLeft": "Int32"
+        },
+        "Result": {
+          "Perceptions": "Perception[]",
+          "GameState": "GameState"
+        }
+      },
+      "NotGeneratedTypes": [
+        "WhampsChallenge.Shared.Maps.FourDirections.Direction"
+      ],
+      "Index": 1
+    }
   },
-  "Level2": {
-    "Enums": {
-      "Perception": [
-        "Bump",
-        "Wind",
-        "Glitter",
-        "Win",
-        "Death"
-      ]
-    },
-    "Actions": {
-      "Move": {
-        "Parameters": {
-          "Direction": "WhampsChallenge.Shared.Maps.FourDirections.Direction"
-        }
-      },
-      "Pickup": {
-        "Parameters": {}
-      }
-    },
-    "ResultType": "Result",
-    "Types": {
-      "GameState": {
-        "MovesLeft": "Int32"
-      },
-      "Result": {
-        "Perceptions": "Perception[]",
-        "GameState": "GameState"
-      }
-    },
-    "NotGeneratedTypes": [
-      "WhampsChallenge.Shared.Maps.FourDirections.Direction"
-    ]
-  },
-  "Level1": {
-    "Enums": {
-      "Perception": [
-        "Bump",
-        "Glitter",
-        "Win",
-        "Death"
-      ]
-    },
-    "Actions": {
-      "Move": {
-        "Parameters": {
-          "Direction": "WhampsChallenge.Shared.Maps.FourDirections.Direction"
-        }
-      },
-      "Pickup": {
-        "Parameters": {}
-      }
-    },
-    "ResultType": "Result",
-    "Types": {
-      "GameState": {
-        "MovesLeft": "Int32"
-      },
-      "Result": {
-        "Perceptions": "Perception[]",
-        "GameState": "GameState"
-      }
-    },
-    "NotGeneratedTypes": [
-      "WhampsChallenge.Shared.Maps.FourDirections.Direction"
-    ]
+  "Version": {
+    "Major": 2,
+    "Minor": 0,
+    "Revision": 0
   }
 }

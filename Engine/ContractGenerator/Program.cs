@@ -9,7 +9,7 @@ namespace ContractGeneration
 
         public static void Main()
         {
-            File.WriteAllText(FileName, JsonConvert.SerializeObject(Contract.Generate(), Formatting.Indented));
+            File.WriteAllText(FileName, JsonConvert.SerializeObject(new Contract(), Formatting.Indented));
         }
     }
 }

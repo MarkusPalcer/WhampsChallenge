@@ -11,7 +11,7 @@
 
 namespace WhampsChallenge.Library {
     public enum Levels : int {
-<%  file.each_pair do |level, leveldata| %>
+<%  file['Levels'].each_pair do |level, leveldata| %>
         <%= level %> = <%= level[5..-1] %>,
 <%  end %>
     }

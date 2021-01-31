@@ -13,7 +13,7 @@
 
 using System;
 
-<% file.each_pair do |level, leveldata| %>
+<% file['Levels'].each_pair do |level, leveldata| %>
 namespace WhampsChallenge.Messaging.<%= level %> {
 <%    leveldata['Types'].each_pair do |type, typedata| %>
 	public class <%= type %> {

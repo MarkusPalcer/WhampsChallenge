@@ -22,7 +22,7 @@ namespace WhampsChallenge.Runner.Shared {
 
 		static LevelTypes() {
 			GameEngines = new Dictionary<Levels, Type> {
-<%              file.each_key do |level| %>
+<%              file['Levels'].each_key do |level| %>
                 { Levels.<%= level %>, typeof(WhampsChallenge.Core.<%= level %>.Game) },
 <%              end %>
 			};

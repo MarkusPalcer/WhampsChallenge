@@ -10,7 +10,7 @@
 // ReSharper disable all
 
 
-<% file.each_pair do |level, leveldata| %>
+<% file['Levels'].each_pair do |level, leveldata| %>
 namespace WhampsChallenge.Library.<%= level %>.Enums {
 
 <%  leveldata['Enums'].each_pair do |enum, enum_data| %>

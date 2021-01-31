@@ -13,7 +13,7 @@ using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-<% file.each_pair do |level, leveldata| %>
+<% file['Levels'].each_pair do |level, leveldata| %>
 namespace WhampsChallenge.Library.<%= level %>.Types {
 
     using WhampsChallenge.Library.<%= level %>.Enums;

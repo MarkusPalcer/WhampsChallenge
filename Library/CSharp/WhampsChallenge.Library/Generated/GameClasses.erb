@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 using WhampsChallenge.Shared.Communication;
 using WhampsChallenge.Shared.Extensions;
 
-<% file.each_pair do |level, leveldata| %>
+<% file['Levels'].each_pair do |level, leveldata| %>
 namespace WhampsChallenge.Library.<%= level %> {
 
     using WhampsChallenge.Library.<%= level %>.Enums;

@@ -1,4 +1,5 @@
-﻿using WhampsChallenge.Core.Level3;
+﻿using WhampsChallenge.Core.Extensions;
+using WhampsChallenge.Core.Level1.Fields;
 using WhampsChallenge.Core.Markers;
 
 namespace WhampsChallenge.Core.Level1.Actions
@@ -9,11 +10,10 @@ namespace WhampsChallenge.Core.Level1.Actions
     {
         public void Execute(Game game)
         {
-            if (game.State.Map[game.State.PlayerPosition].Content == FieldContent.Gold)
-            {
-                game.AddPerception(Perception.Win);
-                game.GameState = Common.GameState.Win;
-            }
+            if (game.State.Map[game.State.PlayerPosition].Content.IsNot<Gold>()) return;
+
+            game.AddPerception(Perception.Win);
+            game.GameState = Common.GameState.Win;
         }
     }
 }

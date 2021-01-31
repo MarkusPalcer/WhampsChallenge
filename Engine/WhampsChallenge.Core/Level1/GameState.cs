@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using WhampsChallenge.Core.Level3;
 using WhampsChallenge.Core.Maps;
 
 namespace WhampsChallenge.Core.Level1
@@ -12,7 +11,7 @@ namespace WhampsChallenge.Core.Level1
         public int MovesLeft { get; set; }
 
         [JsonIgnore]
-        internal FixedSizeMap<FieldContent> Map { get; set; }
+        internal FixedSizeMap Map { get; set; }
 
         [JsonIgnore]
         internal (int, int) PlayerPosition { get; set; }

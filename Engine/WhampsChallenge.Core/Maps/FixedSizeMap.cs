@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace WhampsChallenge.Core.Maps
 {
-    public class FixedSizeMap<TFieldContent> : DynamicSizeMap<TFieldContent>
+    public class FixedSizeMap : DynamicSizeMap
     {
         public int SizeX { get; }
 
@@ -11,16 +11,14 @@ namespace WhampsChallenge.Core.Maps
 
         public int SizeZ { get; }
 
-        private readonly Dictionary<(int,int), IField<TFieldContent>> data = new Dictionary<(int, int), IField<TFieldContent>>();
-
-        public FixedSizeMap(int sizeX, int sizeY, int sizeZ, Func<Coordinate, TFieldContent> initialFieldContentFactory) : base(initialFieldContentFactory)
+        public FixedSizeMap(int sizeX, int sizeY, int sizeZ, Func<Coordinate, object> initialFieldContentFactory) : base(initialFieldContentFactory)
         {
             SizeX = sizeX;
             SizeY = sizeY;
             SizeZ = sizeZ;
         }
 
-        public override IField<TFieldContent> this[Coordinate pos]
+        public override IField this[Coordinate pos]
         {
             get
             {

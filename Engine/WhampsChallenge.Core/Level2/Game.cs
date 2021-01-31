@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using WhampsChallenge.Core.Common;
-using WhampsChallenge.Core.Level3;
+using WhampsChallenge.Core.Extensions;
+using WhampsChallenge.Core.Level2.Fields;
 using WhampsChallenge.Core.Maps;
 using GameState = WhampsChallenge.Core.Common.GameState;
 
@@ -12,7 +12,7 @@ namespace WhampsChallenge.Core.Level2
     {
         private List<Perception> perceptions = new List<Perception>();
 
-        internal static IEnumerable<IField<FieldContent>> GetAdjacentFieldsOf(IField<FieldContent> source)
+        internal static IEnumerable<IField> GetAdjacentFieldsOf(IField source)
         {
             return new[] {Direction.North, Direction.East, Direction.South, Direction.West}.Select(x => source[x]).Where(x => x != null);
         }
@@ -47,8 +47,8 @@ namespace WhampsChallenge.Core.Level2
             base.Initialize();
             
             // Add 2 Traps to Level 1 style map
-            State.Map[GetFreeSquare()].Content = FieldContent.Trap;
-            State.Map[GetFreeSquare()].Content = FieldContent.Trap;
+            State.Map[GetFreeSquare()].Content = new Trap();
+            State.Map[GetFreeSquare()].Content = new Trap();
         }
 
         protected override void PostProcessAction()
@@ -56,7 +56,7 @@ namespace WhampsChallenge.Core.Level2
             base.PostProcessAction();
 
             // Die when stepping on a trap
-            if (State.Map[State.PlayerPosition].Content == FieldContent.Trap)
+            if (State.Map[State.PlayerPosition].Content is Trap)
             {
                 AddPerception(Perception.Death);
                 GameState = GameState.Lose;
@@ -66,7 +66,7 @@ namespace WhampsChallenge.Core.Level2
             // Feel wind when adjacent to a trap
             foreach (var adjacentFieldContent in GetAdjacentFieldsOf(State.Map[State.PlayerPosition]).Select(x => x.Content))
             {
-                if (adjacentFieldContent == FieldContent.Trap) AddPerception(Perception.Wind);
+                if (adjacentFieldContent is Trap) AddPerception(Perception.Wind);
             }
         }
 
@@ -86,7 +86,7 @@ namespace WhampsChallenge.Core.Level2
             // Check that there is no wind adjacent to this field 
             // This means that all fields adjacend to the adjacent fields must be trap-free
             return base.IsSquareFree(x, y)
-                && GetAdjacentFieldsOf(State.Map[(x, y)]).SelectMany(GetAdjacentFieldsOf).All(f => f.Content != FieldContent.Trap)
+                && GetAdjacentFieldsOf(State.Map[(x, y)]).SelectMany(GetAdjacentFieldsOf).All(f => f.Content.IsNot<Trap>())
                 && !State.PlayerPosition.Equals((x, y));
         }
     }

@@ -3,24 +3,24 @@ using System.Collections.Generic;
 
 namespace WhampsChallenge.Core.Maps
 {
-    public class DynamicSizeMap<TFieldContent> : IMap<TFieldContent>
+    public class DynamicSizeMap : IMap
     {
-        private readonly Func<Coordinate, TFieldContent> initialFieldContentFactory;
+        private readonly Func<Coordinate, object> initialFieldContentFactory;
 
-        private readonly Dictionary<Coordinate, IField<TFieldContent>> data = new Dictionary<Coordinate, IField<TFieldContent>>();
+        private readonly Dictionary<Coordinate, IField> data = new Dictionary<Coordinate, IField>();
 
-        public DynamicSizeMap(Func<Coordinate, TFieldContent> initialFieldContentFactory)
+        public DynamicSizeMap(Func<Coordinate, object> initialFieldContentFactory)
         {
             this.initialFieldContentFactory = initialFieldContentFactory;
         }
 
-        public virtual IField<TFieldContent> this[Coordinate pos]
+        public virtual IField this[Coordinate pos]
         {
             get
             {
                 if (data.TryGetValue(pos, out var field)) return field;
 
-                field = new Field<TFieldContent>(pos.X, pos.Y, pos.Z, this)
+                field = new Field(pos.X, pos.Y, pos.Z, this)
                 {
                     Content = initialFieldContentFactory(pos)
                 };

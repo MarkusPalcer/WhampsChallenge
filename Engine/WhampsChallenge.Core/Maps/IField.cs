@@ -2,17 +2,17 @@
 
 namespace WhampsChallenge.Core.Maps
 {
-    public interface IField<TFieldContent>
+    public interface IField
     {
         int X { get; }
         int Y { get; }
 
         Coordinate Position { get; }
 
-        TFieldContent Content { get; set; }
+        object Content { get; set; }
 
-        IField<TFieldContent> this[Direction direction] { get; }
+        IField this[Direction direction] { get; }
 
-        IEnumerable<IField<TFieldContent>> AdjacentFields { get; }
+        IEnumerable<IField> AdjacentFields { get; }
     }
 }

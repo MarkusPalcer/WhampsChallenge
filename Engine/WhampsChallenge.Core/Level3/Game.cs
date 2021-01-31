@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using WhampsChallenge.Core.Common;
+using WhampsChallenge.Core.Extensions;
+using WhampsChallenge.Core.Level3.Fields;
 
 namespace WhampsChallenge.Core.Level3
 {
@@ -26,7 +28,7 @@ namespace WhampsChallenge.Core.Level3
             base.Initialize();
 
             // Add Monster to Level 2 styled map
-            State.Map[GetFreeSquare()].Content = FieldContent.Whamps;
+            State.Map[GetFreeSquare()].Content = new Whamps();
 
             State.HasArrow = true;
         }
@@ -52,7 +54,7 @@ namespace WhampsChallenge.Core.Level3
             base.PostProcessAction();
 
             // Die when stepping on whamps
-            if (State.Map[State.PlayerPosition].Content == FieldContent.Whamps)
+            if (State.Map[State.PlayerPosition].Content is Whamps)
             {
                 AddPerception(Perception.Death);
                 GameState = Common.GameState.Lose;
@@ -62,7 +64,7 @@ namespace WhampsChallenge.Core.Level3
             // Feel stench when adjacent to whamps
             foreach (var adjacentFieldContent in GetAdjacentFieldsOf(State.Map[State.PlayerPosition]).Select(x => x.Content))
             {
-                if (adjacentFieldContent == FieldContent.Whamps) AddPerception(Perception.Stench);
+                if (adjacentFieldContent is Whamps) AddPerception(Perception.Stench);
             }
         }
 
@@ -79,7 +81,7 @@ namespace WhampsChallenge.Core.Level3
         protected override bool IsSquareFree(int x, int y)
         {
             // Check that there is no stench on the field
-            return base.IsSquareFree(x, y) && GetAdjacentFieldsOf(State.Map[(x,y)]).SelectMany(GetAdjacentFieldsOf).All(f => f.Content != FieldContent.Whamps);
+            return base.IsSquareFree(x, y) && GetAdjacentFieldsOf(State.Map[(x,y)]).SelectMany(GetAdjacentFieldsOf).All(f => f.Content.IsNot<Whamps>());
         }
     }
 }

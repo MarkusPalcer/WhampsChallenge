@@ -6,7 +6,7 @@ using System.Linq;
 namespace WhampsChallenge.Core.Maps
 {
     [DebuggerDisplay("{Position} = {Content}")]
-    public class Field<TFieldContent> : IField<TFieldContent>
+    public class Field : IField
     {
         public int X => Position.X;
 
@@ -16,24 +16,24 @@ namespace WhampsChallenge.Core.Maps
 
         public Coordinate Position { get; }
 
-        private readonly Dictionary<Direction, Lazy<IField<TFieldContent>>> adjacents;
+        private readonly Dictionary<Direction, Lazy<IField>> adjacents;
 
         private static readonly Direction[] Directions = Enum.GetValues(typeof(Direction)).OfType<Direction>().ToArray();
 
-        internal Field(int x, int y, int z, IMap<TFieldContent> map)
+        internal Field(int x, int y, int z, IMap map)
         {
             Position = (x, y, z);
 
             adjacents = Directions.ToDictionary(
                 d => d, 
-                d => new Lazy<IField<TFieldContent>>(() => map[Position.Go(d)]));
+                d => new Lazy<IField>(() => map[Position.Go(d)]));
         }
 
-        public TFieldContent Content { get; set; }
+        public object Content { get; set; }
 
-        public IField<TFieldContent> this[Direction direction] => adjacents[direction].Value;
+        public IField this[Direction direction] => adjacents[direction].Value;
 
-        public IEnumerable<IField<TFieldContent>> AdjacentFields
+        public IEnumerable<IField> AdjacentFields
         {
             get
             {

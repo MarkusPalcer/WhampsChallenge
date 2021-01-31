@@ -1,9 +1,7 @@
-﻿using System;
-
-namespace WhampsChallenge.Core.Maps
+﻿namespace WhampsChallenge.Core.Maps
 {
-    public interface IMap<TFieldContent>
+    public interface IMap
     {
-        IField<TFieldContent> this[Coordinate pos] { get; }
+        IField this[Coordinate pos] { get; }
     }
 }

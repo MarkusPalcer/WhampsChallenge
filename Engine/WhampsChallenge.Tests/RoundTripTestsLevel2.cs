@@ -4,10 +4,10 @@ using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WhampsChallenge.Core.Common;
 using WhampsChallenge.Core.Level2;
+using WhampsChallenge.Core.Level2.Fields;
 using WhampsChallenge.Library.Shared.Enums;
 using WhampsChallenge.Messaging.Common;
 using WhampsChallenge.Runner.Shared.Direct;
-using FieldContent = WhampsChallenge.Core.Level3.FieldContent;
 
 namespace WhampsChallenge.Tests
 {
@@ -97,7 +97,7 @@ namespace WhampsChallenge.Tests
             for (var y = 0; y < 5; y++)
             {
                 Game.GetAdjacentFieldsOf(game.State.Map[(x, y)])
-                    .Count(f => f.Content == FieldContent.Trap).Should()
+                    .OfType<Trap>().Count().Should()
                     .BeLessOrEqualTo(1, "the field on [{0},{1}] should have only one wind on it", x, y);
             }
         }

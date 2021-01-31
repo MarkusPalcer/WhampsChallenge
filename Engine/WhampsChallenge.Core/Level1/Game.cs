@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using WhampsChallenge.Core.Common;
-using WhampsChallenge.Core.Level3;
+using WhampsChallenge.Core.Level1.Fields;
 using WhampsChallenge.Core.Maps;
 using WhampsChallenge.Shared.Extensions;
 
@@ -41,10 +41,10 @@ namespace WhampsChallenge.Core.Level1
                 .ToDictionary(x => x, _ => mainRandom.GetNewChild());
 
             // Create 5x5 array of empty fields
-            State.Map = new FixedSizeMap<FieldContent>(5, 5, 1,_ => FieldContent.Empty);
+            State.Map = new FixedSizeMap(5, 5, 1,_ => new Empty());
 
             // Put Gold somewhere
-            State.Map[GetFreeSquare()].Content = FieldContent.Gold;
+            State.Map[GetFreeSquare()].Content = new Gold();
 
             State.PlayerPosition = GetFreeSquare();
             State.MovesLeft = 100;
@@ -71,13 +71,13 @@ namespace WhampsChallenge.Core.Level1
                 return;
             }
 
-            if (State.Map[State.PlayerPosition].Content == FieldContent.Gold) AddPerception(Perception.Glitter);
+            if (State.Map[State.PlayerPosition].Content is Gold) AddPerception(Perception.Glitter);
         }
 
         protected virtual bool IsSquareFree(int x, int y)
         {
             // Check if chosen field is empty
-            return State.Map[(x, y)].Content == FieldContent.Empty;
+            return State.Map[(x, y)].Content is Empty;
         }
 
         protected ValueTuple<int,int> GetFreeSquare()

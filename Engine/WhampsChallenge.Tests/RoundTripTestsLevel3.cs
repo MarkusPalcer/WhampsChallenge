@@ -4,6 +4,7 @@ using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WhampsChallenge.Core.Common;
 using WhampsChallenge.Core.Level3;
+using WhampsChallenge.Messaging.Common;
 using WhampsChallenge.Runner.Shared.Direct;
 using WhampsChallenge.Shared.Maps.FourDirections;
 using FieldContent = WhampsChallenge.Core.Level3.FieldContent;
@@ -20,7 +21,7 @@ namespace WhampsChallenge.Tests
             var game = new Game();
             var communicator = new DirectCommunicator();
             var gameProxy = new Library.Level3.Game(communicator);
-            var decoder = new Messaging.Level3.Actions.ActionDecoder();
+            var decoder = new ActionDecoder(3);
 
             game.Seed = 0;
             game.Initialize();
@@ -45,7 +46,7 @@ namespace WhampsChallenge.Tests
             var game = new Game();
             var communicator = new DirectCommunicator();
             var gameProxy = new Library.Level3.Game(communicator);
-            var decoder = new Messaging.Level3.Actions.ActionDecoder();
+            var decoder = new ActionDecoder(3);
 
             game.Seed = 0;
             game.Initialize();
@@ -70,7 +71,7 @@ namespace WhampsChallenge.Tests
             var game = new Game();
             var communicator = new DirectCommunicator();
             var gameProxy = new Library.Level3.Game(communicator);
-            var decoder = new Messaging.Level3.Actions.ActionDecoder();
+            var decoder = new ActionDecoder(3);
 
             game.Seed = 0;
             game.Initialize();
@@ -110,7 +111,7 @@ namespace WhampsChallenge.Tests
             var game = new Game();
             var communicator = new DirectCommunicator();
             var gameProxy = new Library.Level3.Game(communicator);
-            var decoder = new Messaging.Level3.Actions.ActionDecoder();
+            var decoder = new ActionDecoder(3);
 
             game.Seed = 0;
             game.Initialize();
@@ -135,7 +136,7 @@ namespace WhampsChallenge.Tests
             var game = new Game();
             var communicator = new DirectCommunicator();
             var gameProxy = new Library.Level3.Game(communicator);
-            var decoder = new Messaging.Level3.Actions.ActionDecoder();
+            var decoder = new ActionDecoder(3);
 
             game.Seed = 0;
             game.Initialize();
@@ -156,7 +157,7 @@ namespace WhampsChallenge.Tests
             var game = new Game();
             var communicator = new DirectCommunicator();
             var gameProxy = new Library.Level3.Game(communicator);
-            var decoder = new Messaging.Level3.Actions.ActionDecoder();
+            var decoder = new ActionDecoder(3);
 
             game.Seed = 0;
             game.Initialize();
@@ -175,7 +176,7 @@ namespace WhampsChallenge.Tests
             var game = new Game();
             var communicator = new DirectCommunicator();
             var gameProxy = new Library.Level3.Game(communicator);
-            var decoder = new Messaging.Level3.Actions.ActionDecoder();
+            var decoder = new ActionDecoder(3);
 
             game.Seed = 0;
             game.Initialize();
@@ -196,7 +197,7 @@ namespace WhampsChallenge.Tests
             var game = new Game();
             var communicator = new DirectCommunicator();
             var gameProxy = new Library.Level3.Game(communicator);
-            var decoder = new Messaging.Level3.Actions.ActionDecoder();
+            var decoder = new ActionDecoder(3);
 
             game.Seed = 0;
             game.Initialize();
@@ -217,7 +218,7 @@ namespace WhampsChallenge.Tests
             var game = new Game();
             var communicator = new DirectCommunicator();
             var gameProxy = new Library.Level3.Game(communicator);
-            var decoder = new Messaging.Level3.Actions.ActionDecoder();
+            var decoder = new ActionDecoder(3);
 
             game.Seed = 0;
             game.Initialize();
@@ -238,7 +239,7 @@ namespace WhampsChallenge.Tests
             var game = new Game();
             var communicator = new DirectCommunicator();
             var gameProxy = new Library.Level3.Game(communicator);
-            var decoder = new Messaging.Level3.Actions.ActionDecoder();
+            var decoder = new ActionDecoder(3);
 
             game.Seed = 0;
             game.Initialize();
@@ -281,7 +282,7 @@ namespace WhampsChallenge.Tests
             var game = new Game();
             var communicator = new DirectCommunicator();
             var gameProxy = new Library.Level3.Game(communicator);
-            var decoder = new Messaging.Level3.Actions.ActionDecoder();
+            var decoder = new ActionDecoder(3);
 
             game.Seed = 0;
             game.Initialize();
@@ -298,7 +299,7 @@ namespace WhampsChallenge.Tests
         }
 
         private static async Task<Library.Level3.Types.Result> ExecuteRequestedAction(
-            Messaging.Level3.Actions.ActionDecoder decoder, 
+            ActionDecoder decoder, 
             DirectCommunicator communicator, 
             IGame game,
             Task<Library.Level3.Types.Result> responseTask)

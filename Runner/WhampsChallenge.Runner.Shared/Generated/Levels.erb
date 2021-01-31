@@ -26,12 +26,6 @@ namespace WhampsChallenge.Runner.Shared {
                 { Levels.<%= level %>, typeof(WhampsChallenge.Core.<%= level %>.Game) },
 <%              end %>
 			};
-
-			ActionDecoders = new Dictionary<Levels, Type> {
-<%              file.each_key do |level| %>
-				{ Levels.<%= level %>, typeof(WhampsChallenge.Messaging.<%= level %>.Actions.ActionDecoder) },
-<%              end %>
-			};
 		}
 	}
 }

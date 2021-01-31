@@ -10,9 +10,9 @@
 // ReSharper disable all
 
 namespace WhampsChallenge.Library {
-    public enum Levels {
+    public enum Levels : int {
 <%  file.each_pair do |level, leveldata| %>
-        <%= level %>,
+        <%= level %> = <%= level[5..-1] %>,
 <%  end %>
     }
 }

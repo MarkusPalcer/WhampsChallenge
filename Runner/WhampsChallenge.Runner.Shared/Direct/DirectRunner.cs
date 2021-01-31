@@ -59,7 +59,7 @@ namespace WhampsChallenge.Runner.Shared.Direct
             builder.Register(communicator).WithContract(typeof(ICommunicator));
 
             builder.Register(LevelTypes.GameEngines[level]).As<IGame>().WithConstructors();
-            builder.Register(LevelTypes.ActionDecoders[level]).As<IActionDecoder>().WithConstructors();
+            builder.Register(new ActionDecoder((int) level)).WithContract(typeof(IActionDecoder));
 
             builder.WithSupportForUnregisteredTypes();
 

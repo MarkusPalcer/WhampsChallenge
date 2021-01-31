@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using WhampsChallenge.Core.Markers;
@@ -12,7 +11,7 @@ namespace WhampsChallenge.Core.Common
 
         public class LevelData
         {
-            public List<Type> Actions = new List<Type>();
+            public readonly List<Type> Actions = new List<Type>();
             public Type Result = null;
         }
 

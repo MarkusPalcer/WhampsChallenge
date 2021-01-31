@@ -2,7 +2,7 @@
 
 namespace WhampsChallenge.Core.Markers
 {
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
     public class LevelAttribute : Attribute
     {
         public LevelAttribute(int level)

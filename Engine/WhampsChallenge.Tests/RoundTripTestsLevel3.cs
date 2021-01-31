@@ -100,7 +100,7 @@ namespace WhampsChallenge.Tests
             for (var x = 0; x < 5; x ++)
             for (var y = 0; y < 5; y++)
             {
-                game.State.Map[x, y].AdjacentFields.Count(f => f.Content == FieldContent.Trap).Should()
+                Game.GetAdjacentFieldsOf(game.State.Map[(x, y)]).Count(f => f.Content == FieldContent.Trap).Should()
                     .BeLessOrEqualTo(1, "the field on [{0},{1}] should have only one wind on it", x, y);
             }
         }

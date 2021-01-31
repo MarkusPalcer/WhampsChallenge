@@ -41,7 +41,7 @@ namespace WhampsChallenge.Core.Level1
                 .ToDictionary(x => x, _ => mainRandom.GetNewChild());
 
             // Create 5x5 array of empty fields
-            State.Map = new FixedSizeMap<FieldContent>(5, 5, (_,__) => FieldContent.Empty);
+            State.Map = new FixedSizeMap<FieldContent>(5, 5, 1,_ => FieldContent.Empty);
 
             // Put Gold somewhere
             State.Map[GetFreeSquare()].Content = FieldContent.Gold;
@@ -77,7 +77,7 @@ namespace WhampsChallenge.Core.Level1
         protected virtual bool IsSquareFree(int x, int y)
         {
             // Check if chosen field is empty
-            return State.Map[x, y].Content == FieldContent.Empty;
+            return State.Map[(x, y)].Content == FieldContent.Empty;
         }
 
         protected ValueTuple<int,int> GetFreeSquare()
@@ -95,7 +95,7 @@ namespace WhampsChallenge.Core.Level1
         
         public Common.GameState GameState { get; internal set; }
 
-        public virtual object Execute(Common.IAction action)
+        public virtual object Execute(IAction action)
         {
             ((Level1.Actions.IAction) action).Execute(this);
             PostProcessAction();

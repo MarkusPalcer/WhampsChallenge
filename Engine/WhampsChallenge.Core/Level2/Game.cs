@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using WhampsChallenge.Core.Common;
 using WhampsChallenge.Core.Level3;
+using WhampsChallenge.Core.Maps;
 using GameState = WhampsChallenge.Core.Common.GameState;
 
 namespace WhampsChallenge.Core.Level2
@@ -9,7 +11,12 @@ namespace WhampsChallenge.Core.Level2
     public class Game : Level1.Game
     {
         private List<Perception> perceptions = new List<Perception>();
-        
+
+        internal static IEnumerable<IField<FieldContent>> GetAdjacentFieldsOf(IField<FieldContent> source)
+        {
+            return new[] {Direction.North, Direction.East, Direction.South, Direction.West}.Select(x => source[x]).Where(x => x != null);
+        }
+
         private readonly Dictionary<Level1.Perception, Perception> perceptionMappings = new Dictionary<Level1.Perception, Perception>
         {
             {Level1.Perception.Bump, Perception.Bump},
@@ -57,7 +64,7 @@ namespace WhampsChallenge.Core.Level2
             }
 
             // Feel wind when adjacent to a trap
-            foreach (var adjacentFieldContent in State.Map[State.PlayerPosition].AdjacentFields.Select(x => x.Content))
+            foreach (var adjacentFieldContent in GetAdjacentFieldsOf(State.Map[State.PlayerPosition]).Select(x => x.Content))
             {
                 if (adjacentFieldContent == FieldContent.Trap) AddPerception(Perception.Wind);
             }
@@ -79,7 +86,7 @@ namespace WhampsChallenge.Core.Level2
             // Check that there is no wind adjacent to this field 
             // This means that all fields adjacend to the adjacent fields must be trap-free
             return base.IsSquareFree(x, y)
-                && State.Map[x, y].AdjacentFields.SelectMany(f => f.AdjacentFields).All(f => f.Content != FieldContent.Trap)
+                && GetAdjacentFieldsOf(State.Map[(x, y)]).SelectMany(GetAdjacentFieldsOf).All(f => f.Content != FieldContent.Trap)
                 && !State.PlayerPosition.Equals((x, y));
         }
     }

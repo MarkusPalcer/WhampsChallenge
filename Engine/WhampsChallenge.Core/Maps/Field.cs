@@ -12,14 +12,17 @@ namespace WhampsChallenge.Core.Maps
 
         public int Y => Position.Y;
 
+        public int Z => Position.Z;
+
         public Coordinate Position { get; }
 
         private readonly Dictionary<Direction, Lazy<IField<TFieldContent>>> adjacents;
-        private static readonly Direction[] Directions = {Direction.North, Direction.East, Direction.South, Direction.West};
 
-        internal Field(int x, int y, IMap<TFieldContent> map)
+        private static readonly Direction[] Directions = Enum.GetValues(typeof(Direction)).OfType<Direction>().ToArray();
+
+        internal Field(int x, int y, int z, IMap<TFieldContent> map)
         {
-            Position = (x, y);
+            Position = (x, y, z);
 
             adjacents = Directions.ToDictionary(
                 d => d, 

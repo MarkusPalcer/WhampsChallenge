@@ -5,28 +5,30 @@ namespace WhampsChallenge.Core.Maps
 {
     public class DynamicSizeMap<TFieldContent> : IMap<TFieldContent>
     {
-        private readonly Func<int, int, TFieldContent> initialFieldContentFactory;
+        private readonly Func<Coordinate, TFieldContent> initialFieldContentFactory;
 
-        private readonly Dictionary<(int,int), IField<TFieldContent>> data = new Dictionary<(int, int), IField<TFieldContent>>();
+        private readonly Dictionary<Coordinate, IField<TFieldContent>> data = new Dictionary<Coordinate, IField<TFieldContent>>();
 
-        public DynamicSizeMap(Func<int, int, TFieldContent> initialFieldContentFactory)
+        public DynamicSizeMap(Func<Coordinate, TFieldContent> initialFieldContentFactory)
         {
             this.initialFieldContentFactory = initialFieldContentFactory;
         }
 
-        public virtual IField<TFieldContent> this[int x, int y]
+        public virtual IField<TFieldContent> this[Coordinate pos]
         {
             get
             {
-                if (data.TryGetValue((x, y), out var field)) return field;
+                if (data.TryGetValue(pos, out var field)) return field;
 
-                field = new Field<TFieldContent>(x, y, this);
-                data[(x, y)] = field;
+                field = new Field<TFieldContent>(pos.X, pos.Y, pos.Z, this)
+                {
+                    Content = initialFieldContentFactory(pos)
+                };
+                
+                data[pos] = field;
 
                 return field;
             }
         }
-
-        public IField<TFieldContent> this[Coordinate pos] => this[pos.X, pos.Y];
     }
 }

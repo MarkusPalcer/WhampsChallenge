@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using WhampsChallenge.Core.Common;
 using WhampsChallenge.Core.Level3;
-using WhampsChallenge.Core.Maps.FourDirections;
+using WhampsChallenge.Core.Maps;
 using WhampsChallenge.Shared.Extensions;
 
 namespace WhampsChallenge.Core.Level1

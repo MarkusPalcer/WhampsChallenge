@@ -111,7 +111,13 @@
         "North",
         "East",
         "South",
-        "West"
+        "West",
+        "NorthEast",
+        "SouthEast",
+        "NorthWest",
+        "SouthWest",
+        "Up",
+        "Down"
       ]
     },
     "Types": {}

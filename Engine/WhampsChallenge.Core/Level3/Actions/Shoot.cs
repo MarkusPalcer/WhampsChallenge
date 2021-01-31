@@ -1,4 +1,4 @@
-﻿using WhampsChallenge.Core.Maps.FourDirections;
+﻿using WhampsChallenge.Core.Maps;
 using WhampsChallenge.Core.Markers;
 
 namespace WhampsChallenge.Core.Level3.Actions

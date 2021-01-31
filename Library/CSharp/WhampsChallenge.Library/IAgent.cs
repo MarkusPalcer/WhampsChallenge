@@ -1,6 +1,4 @@
-﻿using PantherDI.Attributes;
-
-namespace WhampsChallenge.Library
+﻿namespace WhampsChallenge.Library
 {
     public interface IAgent
     {

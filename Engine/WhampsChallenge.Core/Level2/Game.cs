@@ -78,7 +78,9 @@ namespace WhampsChallenge.Core.Level2
         {
             // Check that there is no wind adjacent to this field 
             // This means that all fields adjacend to the adjacent fields must be trap-free
-            return base.IsSquareFree(x, y) && State.Map[x, y].AdjacentFields.SelectMany(f => f.AdjacentFields).All(f => f.Content != FieldContent.Trap);
+            return base.IsSquareFree(x, y)
+                && State.Map[x, y].AdjacentFields.SelectMany(f => f.AdjacentFields).All(f => f.Content != FieldContent.Trap)
+                && !State.PlayerPosition.Equals((x, y));
         }
     }
 }

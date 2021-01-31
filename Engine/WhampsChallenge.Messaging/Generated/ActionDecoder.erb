@@ -24,7 +24,7 @@ namespace WhampsChallenge.Messaging.<%= level %>.Actions {
 
 	    public ActionDecoder() {
 <%          leveldata['Actions'].each_pair do |action, actiondata| %>
-            registeredTypes.Add("<%= action %>", typeof(<%= action %>));
+            RegisteredTypes.Add("<%= action %>", typeof(<%= action %>));
 <%          end %>
 	    }
 

@@ -71,6 +71,7 @@ namespace WhampsChallenge.Runner.Shared.Direct
 
             var contestantTask = Task.Run(() => contestant.Run());
 
+            if (Seed.HasValue) game.Seed = Seed.Value;
             game.Initialize();
             while (game.GameState == GameState.Running)
             {

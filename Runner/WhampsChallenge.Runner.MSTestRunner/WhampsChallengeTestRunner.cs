@@ -27,7 +27,7 @@ namespace WhampsChallenge.Runner.MSTestRunner
         public async Task Level2()
         {
             var runner = DirectRunner.Create<Level2>(Levels.Level2);
-            runner.Seed = 123;
+            runner.Seed = 789;
             var result = await runner.Run();
             Console.WriteLine("Game over. Result: {0} Score: {1} Seed: {2}", result.Died ? "Dead" : "Alive",
                               result.Score, result.Seed);

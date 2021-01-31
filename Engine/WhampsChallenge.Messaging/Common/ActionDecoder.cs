@@ -7,12 +7,12 @@ namespace WhampsChallenge.Messaging.Common
 {
     public abstract class ActionDecoder : IActionDecoder
     {
-        protected Dictionary<string, Type> registeredTypes = new Dictionary<string, Type>();
+        protected readonly Dictionary<string, Type> RegisteredTypes = new();
 
         public IAction Decode(JObject message)
         {
             var actionName = message["Action"].Value<string>();
-            var actionType = registeredTypes[actionName];
+            var actionType = RegisteredTypes[actionName];
             return (IAction) message.ToObject(actionType);
         }
     }

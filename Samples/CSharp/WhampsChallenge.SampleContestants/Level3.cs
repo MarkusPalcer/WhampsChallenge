@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using WhampsChallenge.Library;
 using WhampsChallenge.Library.Level3;
 using WhampsChallenge.Library.Level3.Enums;
-using WhampsChallenge.Shared.Maps;
 using WhampsChallenge.Shared.Maps.FourDirections;
 
 namespace WhampsChallenge.SampleContestants
@@ -13,7 +11,6 @@ namespace WhampsChallenge.SampleContestants
     {
         enum FieldData
         {
-            Unknown,
             Safe,
             Dangerous,
             Visited,
@@ -21,8 +18,8 @@ namespace WhampsChallenge.SampleContestants
         }   
 
         private readonly Game game;
-        private IField<Direction, FieldData> currentField;
-        private readonly DynamicSizeMap<FieldData> map = new DynamicSizeMap<FieldData>((_, __) => FieldData.Unknown);
+        private (int,int)  currentField;
+        private readonly Dictionary<(int,int), FieldData> map = new Dictionary<(int, int), FieldData>();
 
         public Level3(Game game)
         {
@@ -32,15 +29,15 @@ namespace WhampsChallenge.SampleContestants
         public void Run()
         {
             // Promise: The field you start on is completely empty and already visited.
-            map[0, 0].Content = FieldData.Visited;
+            map[(0, 0)] = FieldData.Visited;
 
             // Thus the Adjacent fields are safe to enter
-            foreach (var field in map[0,0].AdjacentFields)
+            foreach (var field in (0, 0).AdjacentFields())
             {
-                field.Content = FieldData.Safe;
+                map[field] = FieldData.Safe;
             }
 
-            currentField = map[0, 0];
+            currentField = (0, 0);
 
             while (true)
             {
@@ -49,7 +46,7 @@ namespace WhampsChallenge.SampleContestants
                 foreach (var direction in path.Take(path.Length - 1))
                 {
                     var perceptions = game.Move(direction).Perceptions;
-                    currentField = currentField[direction];
+                    currentField = currentField.Go(direction);
 
                     // Stop when the game ends
                     if (perceptions.Contains(Perception.Win) || perceptions.Contains(Perception.Death)) return;
@@ -65,12 +62,12 @@ namespace WhampsChallenge.SampleContestants
 
                     if (perceptions.Contains(Perception.Bump))
                     {
-                        currentField[direction].Content = FieldData.Wall;
+                        map[currentField.Go(direction)] = FieldData.Wall;
                         continue;
                     }
 
-                    currentField = currentField[direction];
-                    currentField.Content = FieldData.Visited;
+                    currentField = currentField.Go(direction);
+                    map[currentField] = FieldData.Visited;
 
                     if (perceptions.Contains(Perception.Glitter))
                     {
@@ -84,16 +81,16 @@ namespace WhampsChallenge.SampleContestants
                     // This one is a pacifist, it will never use the arrow.
                     if (perceptions.Contains(Perception.Wind) || perceptions.Contains(Perception.Stench))
                     {
-                        foreach (var field in currentField.AdjacentFields.Where(x => x.Content == FieldData.Unknown))
+                        foreach (var field in currentField.AdjacentFields().Where(x => !map.ContainsKey(x)))
                         {
-                            field.Content = FieldData.Dangerous;
+                            map[field] = FieldData.Dangerous;
                         }
                     }
                     else
                     {
-                        foreach (var field in currentField.AdjacentFields.Where(x => x.Content != FieldData.Visited && x.Content != FieldData.Wall))
+                        foreach (var field in currentField.AdjacentFields().Where(x => (!map.ContainsKey(x)) || (map[x] != FieldData.Visited && map[x] != FieldData.Wall)))
                         {
-                            field.Content = FieldData.Safe;
+                            map[field] = FieldData.Safe;
                         }
                     }
                 }
@@ -109,8 +106,8 @@ namespace WhampsChallenge.SampleContestants
             // Try to find the shortest way to a safe field. 
             // If none is found, get the shortest way to a dangerous field.
             // Only traverse visited fields 
-            return currentField.GetShortestPathToField(x => x.Content == FieldData.Safe, x => x.Content != FieldData.Visited) ??
-                   currentField.GetShortestPathToField(x => x.Content == FieldData.Dangerous, x => x.Content != FieldData.Visited);
+            return map.GetShortestPathToField(currentField, x => x == FieldData.Safe, x => x != FieldData.Visited) ??
+                   map.GetShortestPathToField(currentField, x => x == FieldData.Dangerous, x => x != FieldData.Visited);
         }
     }
 }

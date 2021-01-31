@@ -15,32 +15,30 @@ namespace WhampsChallenge.Runner.MSTestRunner
     public class WhampsChallengeTestRunner
     {
         [TestMethod]
-        public async Task Level1()
+        public async Task RunLevel3()
         {
-            var runner = DirectRunner.Create<Level1>(Levels.Level1);
+            var runner = DirectRunner.Create<Level3>(Levels.Level3);
             runner.Seed = -133356616;
             var result = await runner.Run();
             Console.WriteLine("Game over. Result: {0} Score: {1} Seed: {2}", result.Died ? "Dead" : "Alive", result.Score, result.Seed);
         }
 
         [TestMethod]
-        public async Task Level2()
+        public async Task RunLevel2()
         {
             var runner = DirectRunner.Create<Level2>(Levels.Level2);
-            runner.Seed = 789;
+            runner.Seed = -133356616;
             var result = await runner.Run();
-            Console.WriteLine("Game over. Result: {0} Score: {1} Seed: {2}", result.Died ? "Dead" : "Alive",
-                              result.Score, result.Seed);
+            Console.WriteLine("Game over. Result: {0} Score: {1} Seed: {2}", result.Died ? "Dead" : "Alive", result.Score, result.Seed);
         }
 
         [TestMethod]
-        public async Task Level3()
+        public async Task RunLevel1()
         {
-            var runner = DirectRunner.Create<Level3>(Levels.Level3);
-            runner.Seed = 456;
+            var runner = DirectRunner.Create<Level1>(Levels.Level1);
+            runner.Seed = -133356616;
             var result = await runner.Run();
-            Console.WriteLine("Game over. Result: {0} Score: {1} Seed: {2}", result.Died ? "Dead" : "Alive",
-                              result.Score, result.Seed);
+            Console.WriteLine("Game over. Result: {0} Score: {1} Seed: {2}", result.Died ? "Dead" : "Alive", result.Score, result.Seed);
         }
     }
 }

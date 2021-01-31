@@ -24,10 +24,14 @@ namespace ContractGeneration
 
         public Dictionary<string, Level> Levels;
 
+        public readonly SharedTypes Shared = new SharedTypes();
+
         public Contract()
         {
-            var discoverer = new LevelDiscoverer();
+            var discoverer = new Discoverer();
             Levels = discoverer.Levels.ToDictionary(x => $"Level{x}", x => new Level(discoverer[x]) {Index = x});
+
+            discoverer.SharedTypes.ForEach(x => Shared.AddType(x));
         }
     }
 }

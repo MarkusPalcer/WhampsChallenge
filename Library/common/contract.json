@@ -16,7 +16,7 @@
       "Actions": {
         "Move": {
           "Parameters": {
-            "Direction": "WhampsChallenge.Shared.Maps.FourDirections.Direction"
+            "Direction": "Direction"
           }
         },
         "Pickup": {
@@ -24,7 +24,7 @@
         },
         "Shoot": {
           "Parameters": {
-            "Direction": "WhampsChallenge.Shared.Maps.FourDirections.Direction"
+            "Direction": "Direction"
           }
         }
       },
@@ -39,9 +39,6 @@
           "GameState": "GameState"
         }
       },
-      "NotGeneratedTypes": [
-        "WhampsChallenge.Shared.Maps.FourDirections.Direction"
-      ],
       "Index": 3
     },
     "Level2": {
@@ -57,7 +54,7 @@
       "Actions": {
         "Move": {
           "Parameters": {
-            "Direction": "WhampsChallenge.Shared.Maps.FourDirections.Direction"
+            "Direction": "Direction"
           }
         },
         "Pickup": {
@@ -74,9 +71,6 @@
           "GameState": "GameState"
         }
       },
-      "NotGeneratedTypes": [
-        "WhampsChallenge.Shared.Maps.FourDirections.Direction"
-      ],
       "Index": 2
     },
     "Level1": {
@@ -91,7 +85,7 @@
       "Actions": {
         "Move": {
           "Parameters": {
-            "Direction": "WhampsChallenge.Shared.Maps.FourDirections.Direction"
+            "Direction": "Direction"
           }
         },
         "Pickup": {
@@ -108,11 +102,19 @@
           "GameState": "GameState"
         }
       },
-      "NotGeneratedTypes": [
-        "WhampsChallenge.Shared.Maps.FourDirections.Direction"
-      ],
       "Index": 1
     }
+  },
+  "Shared": {
+    "Enums": {
+      "Direction": [
+        "North",
+        "East",
+        "South",
+        "West"
+      ]
+    },
+    "Types": {}
   },
   "Version": {
     "Major": 2,

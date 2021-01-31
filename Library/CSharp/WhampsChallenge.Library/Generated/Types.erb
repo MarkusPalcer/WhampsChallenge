@@ -28,3 +28,16 @@ namespace WhampsChallenge.Library.<%= level %>.Types {
 <%  end %>
 }
 <% end %>
+
+namespace WhampsChallenge.Library.Shared.Types {
+
+    using WhampsChallenge.Library.Shared.Enums;
+
+<%  file['Shared']['Types'].each_pair do |type_name, type_data| %>
+     public class <%= type_name %> {
+<%      type_data.each_pair do |property_name, property_type| %>
+        public <%= property_type %> <%= property_name %> { get; set; }
+<%      end %>
+     }
+<%  end %>
+}

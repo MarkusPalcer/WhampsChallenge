@@ -4,7 +4,7 @@ using System.Linq;
 using WhampsChallenge.Library;
 using WhampsChallenge.Library.Level2;
 using WhampsChallenge.Library.Level2.Enums;
-using WhampsChallenge.Shared.Maps.FourDirections;
+using WhampsChallenge.Library.Shared.Enums;
 
 
 namespace WhampsChallenge.SampleContestants

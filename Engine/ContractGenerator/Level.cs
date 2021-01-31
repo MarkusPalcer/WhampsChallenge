@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using Newtonsoft.Json;
 using WhampsChallenge.Core.Common;
-using WhampsChallenge.Shared.Marker;
+using WhampsChallenge.Core.Markers;
 
 namespace ContractGeneration
 {
@@ -23,8 +23,6 @@ namespace ContractGeneration
 
         public Dictionary<string, Dictionary<string, string>> Types { get; } =
             new Dictionary<string, Dictionary<string, string>>();
-
-        public ICollection<string> NotGeneratedTypes { get; } = new HashSet<string>();
 
         public int Index { get; set; }
         
@@ -51,10 +49,9 @@ namespace ContractGeneration
         {
             if (type == typeof(object)) return "object";
 
-            if (type.GetCustomAttribute<NoContractGenerationAttribute>() != null)
+            if (type.GetCustomAttribute<SharedAttribute>() != null)
             {
-                NotGeneratedTypes.Add(type.FullName);
-                return type.FullName;
+                return type.Name;
             }
 
             if (type.IsEnum)
@@ -96,7 +93,11 @@ namespace ContractGeneration
             Enums.Add(type.Name, Enum.GetNames(type));
         }
 
-        public Level(LevelDiscoverer.LevelData data)
+        public Level()
+        {
+        }
+
+        public Level(Discoverer.LevelData data)
         {
             foreach (var action in data.Actions)
             {

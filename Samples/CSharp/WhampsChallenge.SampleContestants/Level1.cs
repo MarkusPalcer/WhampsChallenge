@@ -2,7 +2,7 @@
 using WhampsChallenge.Library;
 using WhampsChallenge.Library.Level1;
 using WhampsChallenge.Library.Level1.Enums;
-using WhampsChallenge.Shared.Maps.FourDirections;
+using WhampsChallenge.Library.Shared.Enums;
 
 namespace WhampsChallenge.SampleContestants
 {

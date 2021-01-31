@@ -12,7 +12,7 @@ namespace WhampsChallenge.Messaging.Common
 
         public ActionDecoder(int level)
         {
-            var discoverer = new LevelDiscoverer();
+            var discoverer = new Discoverer();
             var levelData = discoverer[level];
             RegisteredTypes = levelData.Actions.ToDictionary(x => x.Name);
         }

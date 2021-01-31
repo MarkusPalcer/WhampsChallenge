@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using WhampsChallenge.Shared.Maps.FourDirections;
+using WhampsChallenge.Library.Shared.Enums;
 
 namespace WhampsChallenge.SampleContestants
 {

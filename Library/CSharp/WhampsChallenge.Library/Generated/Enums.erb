@@ -25,3 +25,13 @@ namespace WhampsChallenge.Library.<%= level %>.Enums {
 }
 
 <% end %>
+
+namespace WhampsChallenge.Library.Shared.Enums {
+<%  file['Shared']['Enums'].each_pair do |enum_name, enum_data| %>
+    public enum <%= enum_name %> {
+<%      enum_data.each do |entry| %>
+        <%= entry %>,
+<%      end %>
+    }
+<%  end %>
+}

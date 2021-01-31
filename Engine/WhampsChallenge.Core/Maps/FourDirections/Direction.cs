@@ -1,8 +1,8 @@
-﻿using WhampsChallenge.Shared.Marker;
+﻿using WhampsChallenge.Core.Markers;
 
 namespace WhampsChallenge.Core.Maps.FourDirections
 {
-    [NoContractGeneration]
+    [Shared]
     public enum Direction
     {
         North,

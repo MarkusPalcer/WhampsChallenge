@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Reflection;
 using WhampsChallenge.Core.Markers;
 
 namespace WhampsChallenge.Core.Common
 {
-    public class LevelDiscoverer
+    public class Discoverer
     {
         private Dictionary<int, LevelData> data = new Dictionary<int, LevelData>();
+
+        public List<Type> SharedTypes = new List<Type>();
 
         public class LevelData
         {
@@ -15,9 +18,9 @@ namespace WhampsChallenge.Core.Common
             public Type Result = null;
         }
 
-        public LevelDiscoverer()
+        public Discoverer()
         {
-            foreach (var type in typeof(LevelDiscoverer).Assembly.DefinedTypes)
+            foreach (var type in typeof(Discoverer).Assembly.DefinedTypes)
             {
                 var levelAttributes = type.GetCustomAttributes<LevelAttribute>();
                 foreach (var levelAttribute in levelAttributes)
@@ -30,6 +33,11 @@ namespace WhampsChallenge.Core.Common
                     {
                         entry.Result = type;
                     }
+                }
+
+                if (type.GetCustomAttribute<SharedAttribute>() != null)
+                {
+                    SharedTypes.Add(type);
                 }
             }
         }

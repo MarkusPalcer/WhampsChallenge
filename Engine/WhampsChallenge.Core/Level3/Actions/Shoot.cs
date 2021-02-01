@@ -1,5 +1,6 @@
 ﻿using WhampsChallenge.Core.Extensions;
 using WhampsChallenge.Core.Level1.Fields;
+using WhampsChallenge.Core.Level3.Events;
 using WhampsChallenge.Core.Level3.Fields;
 using WhampsChallenge.Core.Maps;
 using WhampsChallenge.Core.Markers;
@@ -16,7 +17,7 @@ namespace WhampsChallenge.Core.Level3.Actions
         {
             if (!game.State.HasArrow)
             {
-                game.AddPerception(Perception.Twang);
+                game.AddPerception(new Twang());
             }
             else
             {
@@ -27,7 +28,7 @@ namespace WhampsChallenge.Core.Level3.Actions
                 {
                     if (field.Content is Whamps)
                     {
-                        game.AddPerception(Perception.Scream);
+                        game.AddPerception(new Scream());
                         field.Content = new Empty();
                         return;
                     }

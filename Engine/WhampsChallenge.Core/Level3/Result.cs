@@ -1,4 +1,5 @@
-﻿using WhampsChallenge.Core.Markers;
+﻿using WhampsChallenge.Core.Common.Events;
+using WhampsChallenge.Core.Markers;
 
 namespace WhampsChallenge.Core.Level3
 {
@@ -6,7 +7,7 @@ namespace WhampsChallenge.Core.Level3
     [Level(3)]
     public class Result
     {
-        public Perception[] Perceptions { get; set; }
+        public IEvent[] Perceptions { get; set; }
 
         public GameState GameState { get; set; }
     }

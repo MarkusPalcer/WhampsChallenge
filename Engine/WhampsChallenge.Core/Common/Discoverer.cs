@@ -1,20 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using WhampsChallenge.Core.Common.Events;
 using WhampsChallenge.Core.Markers;
 
 namespace WhampsChallenge.Core.Common
 {
     public class Discoverer
     {
-        private Dictionary<int, LevelData> data = new Dictionary<int, LevelData>();
+        private Dictionary<int, LevelData> data = new();
 
-        public List<Type> SharedTypes = new List<Type>();
+        public List<Type> SharedTypes = new();
 
         public class LevelData
         {
-            public readonly List<Type> Actions = new List<Type>();
-            public Type Result = null;
+            public readonly List<Type> Actions = new();
+            public readonly List<Type> Events = new();
+            public Type Result;
         }
 
         public Discoverer()
@@ -28,7 +30,12 @@ namespace WhampsChallenge.Core.Common
                     if (type.GetCustomAttribute<ActionAttribute>() != null)
                     {
                         entry.Actions.Add(type);
-                    } else if (type.GetCustomAttribute<ResultAttribute>() != null)
+                    }
+                    else if (typeof(IEvent).IsAssignableFrom(type))
+                    {
+                        entry.Events.Add(type);
+                    }
+                    else if (type.GetCustomAttribute<ResultAttribute>() != null)
                     {
                         entry.Result = type;
                     }

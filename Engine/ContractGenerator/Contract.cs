@@ -1,25 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using ContractGeneration;
 using WhampsChallenge.Core.Common;
 
-namespace ContractGeneration
+namespace ContractGenerator
 {
     public class Contract
     {
-        public struct VersionInfo
-        {
-            public int Major;
-            public int Minor;
-            public int Revision;
-
-            public VersionInfo(int major, int minor, int revision)
-            {
-                Major = major;
-                Minor = minor;
-                Revision = revision;
-            }
-        }
-
         public VersionInfo Version => new VersionInfo(2,0,0);
 
         public Dictionary<string, Level> Levels;

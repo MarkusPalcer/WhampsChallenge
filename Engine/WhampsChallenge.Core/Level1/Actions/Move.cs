@@ -1,4 +1,5 @@
 ﻿using System;
+using WhampsChallenge.Core.Level1.Events;
 using WhampsChallenge.Core.Maps;
 using WhampsChallenge.Core.Markers;
 
@@ -35,7 +36,7 @@ namespace WhampsChallenge.Core.Level1.Actions
             var newField = game.State.Map[newPosition];
             if (newField == null)
             {
-                game.AddPerception(Perception.Bump);
+                game.AddPerception(new Bump());
             }
             else
             {

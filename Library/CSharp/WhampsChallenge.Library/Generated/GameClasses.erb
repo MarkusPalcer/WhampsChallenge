@@ -10,6 +10,7 @@
 // ReSharper disable all
 
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 using WhampsChallenge.Shared.Communication;
 using WhampsChallenge.Shared.Extensions;
@@ -22,7 +23,9 @@ namespace WhampsChallenge.Library.<%= level %> {
     using WhampsChallenge.Library.<%= level %>.Enums;
     using WhampsChallenge.Library.<%= level %>.Types;
     using WhampsChallenge.Library.<%= level %>.Actions;
+    using WhampsChallenge.Library.<%= level %>.Events;
 
+    [System.CodeDom.Compiler.GeneratedCode("Erubis", null)]
     public class Game {
 
         private readonly ICommunicator _communicator;
@@ -41,7 +44,10 @@ namespace WhampsChallenge.Library.<%= level %> {
             };
 
             _communicator.Send(message);
-            return _communicator.Receive<<%= leveldata['ResultType'] %>>();
+            var json = _communicator.Receive();
+            var result = JsonConvert.DeserializeObject<Result>(json, new Decoder());
+
+            return result;
         }
 
         public async Task<<%= leveldata['ResultType'] %>> <%= action_name %>Async(<%= action_data['Parameters'].map {|n, t| "#{t} #{n.downcase}"}.join(', ') %>) {
@@ -52,7 +58,11 @@ namespace WhampsChallenge.Library.<%= level %> {
             };
 
             await _communicator.SendAsync(message);
-            return await _communicator.ReceiveAsync<<%= leveldata['ResultType'] %>>();
+            
+            var json = await _communicator.ReceiveAsync();
+            var result = JsonConvert.DeserializeObject<Result>(json, new Decoder());
+
+            return result;
         }
 
 <%      end %>

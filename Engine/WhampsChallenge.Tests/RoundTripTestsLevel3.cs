@@ -5,6 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WhampsChallenge.Core.Common;
 using WhampsChallenge.Core.Level2.Fields;
 using WhampsChallenge.Core.Level3;
+using WhampsChallenge.Library.Level3.Events;
 using WhampsChallenge.Library.Shared.Enums;
 using WhampsChallenge.Messaging.Common;
 using WhampsChallenge.Runner.Shared.Direct;
@@ -59,7 +60,7 @@ namespace WhampsChallenge.Tests
             responseTask.IsCompleted.Should().BeFalse();
             communicator.SendToContestant(sentResponse);
             var decodedResponse = await responseTask;
-            decodedResponse.Perceptions.Should().BeEquivalentTo(Perception.Bump);
+            decodedResponse.Perceptions.OfType<Bump>().Should().NotBeEmpty();
             decodedResponse.GameState.MovesLeft.Should().Be(99);
             decodedResponse.GameState.HasArrow.Should().BeTrue();
             game.GameState.Should().Be(GameState.Running);
@@ -84,7 +85,7 @@ namespace WhampsChallenge.Tests
             responseTask.IsCompleted.Should().BeFalse();
             communicator.SendToContestant(sentResponse);
             var decodedResponse = await responseTask;
-            decodedResponse.Perceptions.Should().BeEquivalentTo(Perception.Wind);
+            decodedResponse.Perceptions.OfType<Wind>().Should().NotBeEmpty();
             decodedResponse.GameState.MovesLeft.Should().Be(99);
             decodedResponse.GameState.HasArrow.Should().BeTrue();
             game.GameState.Should().Be(GameState.Running);
@@ -93,14 +94,13 @@ namespace WhampsChallenge.Tests
         [TestMethod]
         public void NoMoreThanOneWindPerField()
         {
-            var game = new Game();
-            game.Seed = 0;
+            var game = new Game {Seed = 0};
             game.Initialize();
 
             for (var x = 0; x < 5; x ++)
             for (var y = 0; y < 5; y++)
             {
-                Game.GetAdjacentFieldsOf(game.State.Map[(x, y)]).OfType<Trap>().Count().Should()
+                Game.GetAdjacentFieldsOf(game.State.Map[(x, y)]).Select(field => field.Content).OfType<Trap>().Count().Should()
                     .BeLessOrEqualTo(1, "the field on [{0},{1}] should have only one wind on it", x, y);
             }
         }
@@ -124,7 +124,7 @@ namespace WhampsChallenge.Tests
             responseTask.IsCompleted.Should().BeFalse();
             communicator.SendToContestant(sentResponse);
             var decodedResponse = await responseTask;
-            decodedResponse.Perceptions.Should().BeEquivalentTo(Perception.Glitter, Perception.Wind);
+            decodedResponse.Perceptions.Select(x => x.GetType()).Should().BeEquivalentTo(typeof(Glitter), typeof(Wind));
             decodedResponse.GameState.MovesLeft.Should().Be(99);
             decodedResponse.GameState.HasArrow.Should().BeTrue();
             game.GameState.Should().Be(GameState.Running);
@@ -144,8 +144,8 @@ namespace WhampsChallenge.Tests
 
             var responseTask = gameProxy.PickupAsync();
             var decodedResponse = await ExecuteRequestedAction(decoder, communicator, game, responseTask);
-            decodedResponse.Perceptions.Should().Contain(Library.Level3.Enums.Perception.Win);
-            decodedResponse.Perceptions.Should().NotContain(Library.Level3.Enums.Perception.Death);
+            decodedResponse.Perceptions.OfType<Win>().Should().NotBeEmpty();
+            decodedResponse.Perceptions.OfType<Death>().Should().BeEmpty();
             decodedResponse.GameState.MovesLeft.Should().Be(99);
             decodedResponse.GameState.HasArrow.Should().BeTrue();
             game.GameState.Should().Be(GameState.Win);
@@ -184,8 +184,8 @@ namespace WhampsChallenge.Tests
 
             var responseTask = gameProxy.PickupAsync();
             var decodedResponse = await ExecuteRequestedAction(decoder, communicator, game, responseTask);
-            decodedResponse.Perceptions.Should().Contain(Library.Level3.Enums.Perception.Death);
-            decodedResponse.Perceptions.Should().NotContain(Library.Level3.Enums.Perception.Win);
+            decodedResponse.Perceptions.OfType<Death>().Should().NotBeEmpty();
+            decodedResponse.Perceptions.OfType<Win>().Should().BeEmpty();
             decodedResponse.GameState.MovesLeft.Should().Be(0);
             decodedResponse.GameState.HasArrow.Should().BeTrue();
             game.GameState.Should().Be(GameState.Lose);
@@ -205,8 +205,8 @@ namespace WhampsChallenge.Tests
 
             var responseTask = gameProxy.MoveAsync(Direction.South);
             var decodedResponse = await ExecuteRequestedAction(decoder, communicator, game, responseTask);
-            decodedResponse.Perceptions.Should().Contain(Library.Level3.Enums.Perception.Death);
-            decodedResponse.Perceptions.Should().NotContain(Library.Level3.Enums.Perception.Win);
+            decodedResponse.Perceptions.OfType<Death>().Should().NotBeEmpty();
+            decodedResponse.Perceptions.OfType<Win>().Should().BeEmpty();
             decodedResponse.GameState.MovesLeft.Should().Be(99);
             decodedResponse.GameState.HasArrow.Should().BeTrue();
             game.GameState.Should().Be(GameState.Lose);
@@ -226,8 +226,8 @@ namespace WhampsChallenge.Tests
 
             var responseTask = gameProxy.MoveAsync(Direction.North);
             var decodedResponse = await ExecuteRequestedAction(decoder, communicator, game, responseTask);
-            decodedResponse.Perceptions.Should().Contain(Library.Level3.Enums.Perception.Death);
-            decodedResponse.Perceptions.Should().NotContain(Library.Level3.Enums.Perception.Win);
+            decodedResponse.Perceptions.OfType<Death>().Should().NotBeEmpty();
+            decodedResponse.Perceptions.OfType<Win>().Should().BeEmpty();
             decodedResponse.GameState.MovesLeft.Should().Be(99);
             decodedResponse.GameState.HasArrow.Should().BeTrue();
             game.GameState.Should().Be(GameState.Lose);
@@ -247,29 +247,29 @@ namespace WhampsChallenge.Tests
 
             var responseTask = gameProxy.ShootAsync(Direction.North);
             var decodedResponse = await ExecuteRequestedAction(decoder, communicator, game, responseTask);
-            decodedResponse.Perceptions.Should().Contain(Library.Level3.Enums.Perception.Scream);
-            decodedResponse.Perceptions.Should().NotContain(Library.Level3.Enums.Perception.Twang);
-            decodedResponse.Perceptions.Should().NotContain(Library.Level3.Enums.Perception.Win);
-            decodedResponse.Perceptions.Should().NotContain(Library.Level3.Enums.Perception.Death);
+            decodedResponse.Perceptions.OfType<Scream>().Should().NotBeEmpty();
+            decodedResponse.Perceptions.OfType<Twang>().Should().BeEmpty();
+            decodedResponse.Perceptions.OfType<Win>().Should().BeEmpty();
+            decodedResponse.Perceptions.OfType<Death>().Should().BeEmpty();
             decodedResponse.GameState.MovesLeft.Should().Be(99);
             decodedResponse.GameState.HasArrow.Should().BeFalse();
 
             responseTask = gameProxy.ShootAsync(Direction.North);
             decodedResponse = await ExecuteRequestedAction(decoder, communicator, game, responseTask);
-            decodedResponse.Perceptions.Should().NotContain(Library.Level3.Enums.Perception.Scream);
-            decodedResponse.Perceptions.Should().Contain(Library.Level3.Enums.Perception.Twang);
-            decodedResponse.Perceptions.Should().NotContain(Library.Level3.Enums.Perception.Win);
-            decodedResponse.Perceptions.Should().NotContain(Library.Level3.Enums.Perception.Death);
+            decodedResponse.Perceptions.OfType<Scream>().Should().BeEmpty();
+            decodedResponse.Perceptions.OfType<Twang>().Should().NotBeEmpty();
+            decodedResponse.Perceptions.OfType<Win>().Should().BeEmpty();
+            decodedResponse.Perceptions.OfType<Death>().Should().BeEmpty();
             decodedResponse.GameState.MovesLeft.Should().Be(98);
             decodedResponse.GameState.HasArrow.Should().BeFalse();
 
             game.State.PlayerPosition = (0, 1);
             responseTask = gameProxy.MoveAsync(Direction.North);
             decodedResponse = await ExecuteRequestedAction(decoder, communicator, game, responseTask);
-            decodedResponse.Perceptions.Should().NotContain(Library.Level3.Enums.Perception.Scream);
-            decodedResponse.Perceptions.Should().NotContain(Library.Level3.Enums.Perception.Twang);
-            decodedResponse.Perceptions.Should().NotContain(Library.Level3.Enums.Perception.Win);
-            decodedResponse.Perceptions.Should().NotContain(Library.Level3.Enums.Perception.Death);
+            decodedResponse.Perceptions.OfType<Scream>().Should().BeEmpty();
+            decodedResponse.Perceptions.OfType<Twang>().Should().BeEmpty();
+            decodedResponse.Perceptions.OfType<Win>().Should().BeEmpty();
+            decodedResponse.Perceptions.OfType<Death>().Should().BeEmpty();
             decodedResponse.GameState.MovesLeft.Should().Be(97);
             decodedResponse.GameState.HasArrow.Should().BeFalse();
 
@@ -291,8 +291,8 @@ namespace WhampsChallenge.Tests
 
             var responseTask = gameProxy.PickupAsync();
             var decodedResponse = await ExecuteRequestedAction(decoder, communicator, game, responseTask);
-            decodedResponse.Perceptions.Should().Contain(Library.Level3.Enums.Perception.Win);
-            decodedResponse.Perceptions.Should().NotContain(Library.Level3.Enums.Perception.Death);
+            decodedResponse.Perceptions.OfType<Win>().Should().NotBeEmpty();
+            decodedResponse.Perceptions.OfType<Death>().Should().BeEmpty();
             decodedResponse.GameState.MovesLeft.Should().Be(0);
             decodedResponse.GameState.HasArrow.Should().BeTrue();
             game.GameState.Should().Be(GameState.Win);

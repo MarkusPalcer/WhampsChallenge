@@ -2,7 +2,7 @@
 using System.Linq;
 using WhampsChallenge.Library;
 using WhampsChallenge.Library.Level3;
-using WhampsChallenge.Library.Level3.Enums;
+using WhampsChallenge.Library.Level3.Events;
 using WhampsChallenge.Library.Shared.Enums;
 
 namespace WhampsChallenge.SampleContestants
@@ -49,7 +49,7 @@ namespace WhampsChallenge.SampleContestants
                     currentField = currentField.Go(direction);
 
                     // Stop when the game ends
-                    if (perceptions.Contains(Perception.Win) || perceptions.Contains(Perception.Death)) return;
+                    if (perceptions.OfType<Win>().Any() || perceptions.OfType<Death>().Any()) return;
                 }
 
                 {
@@ -57,10 +57,10 @@ namespace WhampsChallenge.SampleContestants
                     var perceptions = game.Move(direction).Perceptions;
 
                     // Stop when the game ends
-                    if (perceptions.Contains(Perception.Win) || perceptions.Contains(Perception.Death)) return;
+                    if (perceptions.OfType<Win>().Any() || perceptions.OfType<Death>().Any()) return;
                     
 
-                    if (perceptions.Contains(Perception.Bump))
+                    if (perceptions.OfType<Bump>().Any())
                     {
                         map[currentField.Go(direction)] = FieldData.Wall;
                         continue;
@@ -69,17 +69,17 @@ namespace WhampsChallenge.SampleContestants
                     currentField = currentField.Go(direction);
                     map[currentField] = FieldData.Visited;
 
-                    if (perceptions.Contains(Perception.Glitter))
+                    if (perceptions.OfType<Glitter>().Any())
                     {
                         perceptions = game.Pickup().Perceptions;
 
                         // Stop when the game ends
-                        if (perceptions.Contains(Perception.Win) || perceptions.Contains(Perception.Death)) return;
+                        if (perceptions.OfType<Win>().Any() || perceptions.OfType<Death>().Any()) return;
                     }
 
                     // If there is wind or stench, flag unknown fields as dangerous, if there is none, flag all fields as safe
                     // This one is a pacifist, it will never use the arrow.
-                    if (perceptions.Contains(Perception.Wind) || perceptions.Contains(Perception.Stench))
+                    if (perceptions.OfType<Wind>().Any() || perceptions.OfType<Stench>().Any())
                     {
                         foreach (var field in currentField.AdjacentFields().Where(x => !map.ContainsKey(x)))
                         {

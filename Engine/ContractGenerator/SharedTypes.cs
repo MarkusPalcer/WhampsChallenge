@@ -4,13 +4,17 @@ using System.Linq;
 using System.Reflection;
 using Newtonsoft.Json;
 
-namespace ContractGeneration
+namespace ContractGenerator
 {
     public class SharedTypes
     {
-        public Dictionary<string, string[]> Enums { get; } = new Dictionary<string, string[]>();
+        public Dictionary<string, string[]> Enums { get; } = new();
 
-        public Dictionary<string, Dictionary<string, string>> Types { get; } = new Dictionary<string, Dictionary<string, string>>();
+        public Dictionary<string, Dictionary<string, string>> Types { get; } = new();
+
+        public Dictionary<string, Dictionary<string, string>> Events { get; } = new();
+
+        public Dictionary<string, Dictionary<string, string>> Actions { get; } = new();
 
         public string AddType(Type type)
         {

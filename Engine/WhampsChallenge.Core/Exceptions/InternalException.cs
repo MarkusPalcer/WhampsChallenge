@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace WhampsChallenge.Core.Exceptions
 {
@@ -6,6 +7,7 @@ namespace WhampsChallenge.Core.Exceptions
     /// This exception models that something happened internally to the engine.
     /// When this exception occurs it is not the fault of the contestant, so it doesn't disqualify the contestant.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class InternalException : Exception
     {
         public InternalException(string message) : base(message)

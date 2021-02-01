@@ -1,18 +1,7 @@
 {
   "Levels": {
     "Level3": {
-      "Enums": {
-        "Perception": [
-          "Bump",
-          "Stench",
-          "Wind",
-          "Twang",
-          "Scream",
-          "Glitter",
-          "Win",
-          "Death"
-        ]
-      },
+      "Enums": {},
       "Actions": {
         "Move": {
           "Parameters": {
@@ -35,22 +24,24 @@
           "MovesLeft": "Int32"
         },
         "Result": {
-          "Perceptions": "Perception[]",
+          "Perceptions": "Event[]",
           "GameState": "GameState"
         }
+      },
+      "Events": {
+        "Scream": {},
+        "Stench": {},
+        "Twang": {},
+        "Wind": {},
+        "Bump": {},
+        "Glitter": {},
+        "Death": {},
+        "Win": {}
       },
       "Index": 3
     },
     "Level2": {
-      "Enums": {
-        "Perception": [
-          "Bump",
-          "Wind",
-          "Glitter",
-          "Win",
-          "Death"
-        ]
-      },
+      "Enums": {},
       "Actions": {
         "Move": {
           "Parameters": {
@@ -67,21 +58,21 @@
           "MovesLeft": "Int32"
         },
         "Result": {
-          "Perceptions": "Perception[]",
+          "Perceptions": "Event[]",
           "GameState": "GameState"
         }
+      },
+      "Events": {
+        "Wind": {},
+        "Bump": {},
+        "Glitter": {},
+        "Death": {},
+        "Win": {}
       },
       "Index": 2
     },
     "Level1": {
-      "Enums": {
-        "Perception": [
-          "Bump",
-          "Glitter",
-          "Win",
-          "Death"
-        ]
-      },
+      "Enums": {},
       "Actions": {
         "Move": {
           "Parameters": {
@@ -98,9 +89,15 @@
           "MovesLeft": "Int32"
         },
         "Result": {
-          "Perceptions": "Perception[]",
+          "Perceptions": "Event[]",
           "GameState": "GameState"
         }
+      },
+      "Events": {
+        "Bump": {},
+        "Glitter": {},
+        "Death": {},
+        "Win": {}
       },
       "Index": 1
     }
@@ -120,7 +117,9 @@
         "Down"
       ]
     },
-    "Types": {}
+    "Types": {},
+    "Events": {},
+    "Actions": {}
   },
   "Version": {
     "Major": 2,

@@ -19,7 +19,8 @@ namespace WhampsChallenge.Library.<%= level %>.Actions {
 	using WhampsChallenge.Library.<%= level %>.Types;
 
 <%  leveldata['Actions'].each_pair do |action, actiondata| %>
-	internal class <%=action%> {
+    [System.CodeDom.Compiler.GeneratedCode("Erubis", null)]
+	internal class <%=action%>  {
 
 	    public string Action => "<%=action%>";
 
@@ -32,3 +33,19 @@ namespace WhampsChallenge.Library.<%= level %>.Actions {
 }
 
 <% end %>
+
+namespace WhampsChallenge.Library.Shared.Actions {
+
+<%  file['Shared']['Actions'].each_pair do |action, actiondata| %>
+[System.CodeDom.Compiler.GeneratedCode("Erubis", null)]
+internal class <%=action%> {
+
+    public string Action => "<%=action%>";
+
+<%      actiondata['Parameters'].each_pair do |parameter_name, parameter_type| %>
+       public <%=parameter_type%> <%=parameter_name%> { get; set; }
+<%      end %>
+   }
+
+<%    end %>
+}

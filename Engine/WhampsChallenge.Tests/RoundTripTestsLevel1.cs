@@ -1,8 +1,10 @@
+using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WhampsChallenge.Core.Common;
 using WhampsChallenge.Core.Level1;
+using WhampsChallenge.Library.Level1.Events;
 using WhampsChallenge.Library.Shared.Enums;
 using WhampsChallenge.Messaging.Common;
 using WhampsChallenge.Runner.Shared.Direct;
@@ -56,7 +58,7 @@ namespace WhampsChallenge.Tests
             responseTask.IsCompleted.Should().BeFalse();
             communicator.SendToContestant(sentResponse);
             var decodedResponse = await responseTask;
-            decodedResponse.Perceptions.Should().BeEquivalentTo(Perception.Bump);
+            decodedResponse.Perceptions.Should().Contain(x => x.GetType() == typeof(Bump));
             decodedResponse.GameState.MovesLeft.Should().Be(99);
             game.GameState.Should().Be(GameState.Running);
         }
@@ -80,7 +82,7 @@ namespace WhampsChallenge.Tests
             responseTask.IsCompleted.Should().BeFalse();
             communicator.SendToContestant(sentResponse);
             var decodedResponse = await responseTask;
-            decodedResponse.Perceptions.Should().BeEquivalentTo(Perception.Glitter);
+            decodedResponse.Perceptions.OfType<Glitter>().Should().NotBeEmpty();
             decodedResponse.GameState.MovesLeft.Should().Be(99);
             game.GameState.Should().Be(GameState.Running);
         }
@@ -99,7 +101,7 @@ namespace WhampsChallenge.Tests
 
             var responseTask = gameProxy.PickupAsync();
             var decodedResponse = await ExecuteRequestedAction(decoder, communicator, game, responseTask);
-            decodedResponse.Perceptions.Should().Contain(Library.Level1.Enums.Perception.Win);
+            decodedResponse.Perceptions.Should().Contain(x => x.GetType() == typeof(Win));
             decodedResponse.GameState.MovesLeft.Should().Be(99);
             game.GameState.Should().Be(GameState.Win);
         }
@@ -136,8 +138,8 @@ namespace WhampsChallenge.Tests
 
             var responseTask = gameProxy.PickupAsync();
             var decodedResponse = await ExecuteRequestedAction(decoder, communicator, game, responseTask);
-            decodedResponse.Perceptions.Should().Contain(Library.Level1.Enums.Perception.Death);
-            decodedResponse.Perceptions.Should().NotContain(Library.Level1.Enums.Perception.Win);
+            decodedResponse.Perceptions.Should().Contain(x => x.GetType() == typeof(Death));
+            decodedResponse.Perceptions.Should().NotContain(x => x.GetType() == typeof(Win));
             decodedResponse.GameState.MovesLeft.Should().Be(0);
             game.GameState.Should().Be(GameState.Lose);
         }
@@ -157,7 +159,7 @@ namespace WhampsChallenge.Tests
 
             var responseTask = gameProxy.PickupAsync();
             var decodedResponse = await ExecuteRequestedAction(decoder, communicator, game, responseTask);
-            decodedResponse.Perceptions.Should().BeEquivalentTo(Perception.Win);
+            decodedResponse.Perceptions.Should().Contain(x => x.GetType() == typeof(Win));
             decodedResponse.GameState.MovesLeft.Should().Be(0);
             game.GameState.Should().Be(GameState.Win);
         }

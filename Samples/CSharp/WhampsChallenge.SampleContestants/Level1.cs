@@ -1,8 +1,9 @@
 ﻿using System.Linq;
 using WhampsChallenge.Library;
 using WhampsChallenge.Library.Level1;
-using WhampsChallenge.Library.Level1.Enums;
+using WhampsChallenge.Library.Level1.Events;
 using WhampsChallenge.Library.Shared.Enums;
+using WhampsChallenge.Library.Shared.Events;
 
 namespace WhampsChallenge.SampleContestants
 {
@@ -18,17 +19,17 @@ namespace WhampsChallenge.SampleContestants
         public void Run()
         {
             // Move all the way up
-            var perceptions = new Perception[]{};
+            var perceptions = System.Array.Empty<Event>();
 
-            while (!perceptions.Contains(Perception.Bump))
+            while (!perceptions.OfType<Bump>().Any())
             {
                 perceptions = game.Move(Direction.North).Perceptions;
             }
 
             // Move all the way to the left
-            perceptions = new Perception[]{};
+            perceptions = System.Array.Empty<Event>();
 
-            while (!perceptions.Contains(Perception.Bump))
+            while (!perceptions.OfType<Bump>().Any())
             {
                 perceptions = game.Move(Direction.West).Perceptions;
             }
@@ -42,13 +43,13 @@ namespace WhampsChallenge.SampleContestants
             while (true)
             {
                 // We lost
-                if (perceptions.Contains(Perception.Death)) return;
+                if (perceptions.OfType<Death>().Any()) return;
 
                 // We won
-                if (perceptions.Contains(Perception.Win)) return;
+                if (perceptions.OfType<Win>().Any()) return;
 
                 // We ran into the left or right wall, go south one and reverse direction
-                if (perceptions.Contains(Perception.Bump))
+                if (perceptions.OfType<Bump>().Any())
                 {
                     direction = direction == Direction.East ? Direction.West : Direction.East;
                     perceptions = game.Move(Direction.South).Perceptions;
@@ -56,7 +57,7 @@ namespace WhampsChallenge.SampleContestants
                 }
 
                 // We stepped on the gold
-                if (perceptions.Contains(Perception.Glitter))
+                if (perceptions.OfType<Glitter>().Any())
                 {
                     perceptions = game.Pickup().Perceptions;
                     continue; // Reevaluate perceptions after pickup

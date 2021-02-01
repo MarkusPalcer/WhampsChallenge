@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using Newtonsoft.Json;
 
-namespace ContractGeneration
+namespace ContractGenerator
 {
     public static class Program
     {

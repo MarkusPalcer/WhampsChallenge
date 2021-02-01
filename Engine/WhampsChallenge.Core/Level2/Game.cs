@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using WhampsChallenge.Core.Common;
+using WhampsChallenge.Core.Common.Events;
 using WhampsChallenge.Core.Extensions;
+using WhampsChallenge.Core.Level2.Events;
 using WhampsChallenge.Core.Level2.Fields;
 using WhampsChallenge.Core.Maps;
 using GameState = WhampsChallenge.Core.Common.GameState;
@@ -10,20 +12,10 @@ namespace WhampsChallenge.Core.Level2
 {
     public class Game : Level1.Game
     {
-        private List<Perception> perceptions = new List<Perception>();
-
         internal static IEnumerable<IField> GetAdjacentFieldsOf(IField source)
         {
             return new[] {Direction.North, Direction.East, Direction.South, Direction.West}.Select(x => source[x]).Where(x => x != null);
         }
-
-        private readonly Dictionary<Level1.Perception, Perception> perceptionMappings = new Dictionary<Level1.Perception, Perception>
-        {
-            {Level1.Perception.Bump, Perception.Bump},
-            {Level1.Perception.Death, Perception.Death},
-            {Level1.Perception.Glitter, Perception.Glitter},
-            {Level1.Perception.Win, Perception.Win}
-        };
 
         public override object Execute(IAction action)
         {
@@ -36,7 +28,7 @@ namespace WhampsChallenge.Core.Level2
                 Perceptions = perceptions.ToArray()
             };
 
-            perceptions = new List<Perception>();
+            perceptions = new List<IEvent>();
 
             return result;
         }
@@ -58,7 +50,7 @@ namespace WhampsChallenge.Core.Level2
             // Die when stepping on a trap
             if (State.Map[State.PlayerPosition].Content is Trap)
             {
-                AddPerception(Perception.Death);
+                AddPerception(new Death());
                 GameState = GameState.Lose;
                 return;
             }
@@ -66,19 +58,8 @@ namespace WhampsChallenge.Core.Level2
             // Feel wind when adjacent to a trap
             foreach (var adjacentFieldContent in GetAdjacentFieldsOf(State.Map[State.PlayerPosition]).Select(x => x.Content))
             {
-                if (adjacentFieldContent is Trap) AddPerception(Perception.Wind);
+                if (adjacentFieldContent is Trap) AddPerception(new Wind());
             }
-        }
-
-        internal override void AddPerception(Level1.Perception perception)
-        {
-            // Map Level 1 Perceptions to Level 2 Perceptions
-            AddPerception(perceptionMappings[perception]);
-        }
-
-        internal virtual void AddPerception(Perception perception)
-        {
-            perceptions.Add(perception);
         }
 
         protected override bool IsSquareFree(int x, int y)

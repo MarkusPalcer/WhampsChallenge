@@ -1,0 +1,55 @@
+<%
+	require 'json'
+
+	file = nil
+	File.open('../../../Library/common/contract.json', 'r') do |f|
+		file = JSON.load(f)
+	end
+%>
+// Generated file, so ReSharper-Checks are disabled.
+// ReSharper disable all
+
+<% file['Levels'].each_pair do |level, leveldata| %>
+namespace WhampsChallenge.Library.<%= level %>.Events {
+
+    public class Decoder : EventDecoder {
+
+        public Decoder() {
+<%          leveldata['Events'].each_pair do |event, event_data| %>
+            Constructors.Add("<%= event %>", () => new <%= event %>());
+<%          end %>
+        }
+
+    }
+
+<%  leveldata['Events'].each_pair do |event, event_data| %>
+	public class <%= event %> : Shared.Events.Event {
+
+<%     event_data.each_pair do |property_name, property_type| %>
+            public <%= property_type %> <%= property_name %> { get; set; }
+            
+<%      end %>
+    }
+
+<%    end %>
+}
+
+<% end %>
+
+namespace WhampsChallenge.Library.Shared.Events {
+
+    public class Event { }
+
+<%  file['Shared']['Events'].each_pair do |event, event_data| %>
+    public class <%= event %> : Event {
+
+<%     event_data.each_pair do |property_name, property_type| %>
+          public <%= property_type %> <%= property_name %> { get; set; }
+
+<%      end %>
+  }
+
+}
+
+<% end %>
+}

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using WhampsChallenge.Core.Common.Events;
 using WhampsChallenge.Shared.Communication;
 
 namespace WhampsChallenge.Runner.Shared.Direct
@@ -35,7 +36,7 @@ namespace WhampsChallenge.Runner.Shared.Direct
 
         public void SendToContestant(object message)
         {
-            var serializedMessage = JsonConvert.SerializeObject(message);
+            var serializedMessage = JsonConvert.SerializeObject(message, new EventJsonConverter());
             Console.WriteLine("SEND: " + serializedMessage);
             hostMessage.SetResult(serializedMessage);
         }

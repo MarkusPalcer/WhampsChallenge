@@ -6,8 +6,7 @@
 		file = JSON.load(f)
 	end
 %>
-// This file contains all enums as declared by the contracts.json file
-
+/*
 // Generated file, so ReSharper-Checks are disabled.
 // ReSharper disable all
 
@@ -16,12 +15,15 @@ using System;
 <% file['Levels'].each_pair do |level, leveldata| %>
 namespace WhampsChallenge.Messaging.<%= level %> {
 <%    leveldata['Types'].each_pair do |type, typedata| %>
-	public class <%= type %> {
+
+    [System.CodeDom.Compiler.GeneratedCode("Erubis", null)] 
+    public class <%= type %> {
 <%      typedata.each_pair do |field, fieldtype| %>
-		<%= fieldtype %> <%= field %> { get; set; }
+        <%= fieldtype %> <%= field %> { get; set; }
 <%      end %>
-	}
+    }
 
 <%    end %>
 }
 <% end %>
+*/

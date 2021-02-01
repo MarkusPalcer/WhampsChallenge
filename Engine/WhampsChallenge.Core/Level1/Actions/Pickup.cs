@@ -1,4 +1,5 @@
-﻿using WhampsChallenge.Core.Extensions;
+﻿using WhampsChallenge.Core.Common.Events;
+using WhampsChallenge.Core.Extensions;
 using WhampsChallenge.Core.Level1.Fields;
 using WhampsChallenge.Core.Markers;
 
@@ -12,7 +13,7 @@ namespace WhampsChallenge.Core.Level1.Actions
         {
             if (game.State.Map[game.State.PlayerPosition].Content.IsNot<Gold>()) return;
 
-            game.AddPerception(Perception.Win);
+            game.AddPerception(new Win());
             game.GameState = Common.GameState.Win;
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using PantherDI.ContainerCreation;
 using WhampsChallenge.Core.Common;
@@ -25,13 +26,13 @@ namespace WhampsChallenge.Runner.Shared
             builder.Register(communicator).WithContract(typeof(ICommunicator));
 
             builder.Register(LevelTypes.GameEngines[level]).As<IGame>().WithConstructors();
-            builder.Register(new ActionDecoder((int) level)).WithContract(typeof(IActionDecoder));
+            builder.Register(new ActionDecoder((int) level)).WithContract(typeof(ActionDecoder));
 
             builder.WithSupportForUnregisteredTypes();
 
             var container = builder.Build();
             var game = container.Resolve<IGame>();
-            var actionDecoder = container.Resolve<IActionDecoder>();
+            var actionDecoder = container.Resolve<ActionDecoder>();
 
             game.Initialize();
             Console.Out.WriteLine($"STRT: {level}");
@@ -42,8 +43,8 @@ namespace WhampsChallenge.Runner.Shared
 
             while (game.GameState == GameState.Running)
             {
-                var receivedMessage = communicator.Receive<JObject>();
-                var decodedAction = actionDecoder.Decode(receivedMessage);
+                var receivedMessage = communicator.Receive();
+                var decodedAction = JsonConvert.DeserializeObject<IAction>(receivedMessage, actionDecoder);
                 var response = game.Execute(decodedAction);
                 communicator.Send(response);
             }

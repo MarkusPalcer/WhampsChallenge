@@ -2,7 +2,9 @@
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using WhampsChallenge.Core.Common;
 using WhampsChallenge.Core.Common.Events;
+using WhampsChallenge.Messaging.Common;
 using WhampsChallenge.Shared.Communication;
 
 namespace WhampsChallenge.Runner.Shared.Direct
@@ -14,9 +16,15 @@ namespace WhampsChallenge.Runner.Shared.Direct
     /// </summary>
     public class DirectCommunicator : ICommunicator
     {
+        private readonly ActionDecoder decoder;
         private TaskCompletionSource<string> hostMessage;
-        private TaskCompletionSource<string> contestantMessage = new TaskCompletionSource<string>();
+        private TaskCompletionSource<string> contestantMessage = new();
         private bool isDisposed;
+
+        public DirectCommunicator(ActionDecoder decoder)
+        {
+            this.decoder = decoder;
+        }
 
         public void Dispose()
         {
@@ -26,12 +34,12 @@ namespace WhampsChallenge.Runner.Shared.Direct
             isDisposed = true;
         }
 
-        public async Task<JObject> ReceiveFromContestantAsync()
+        public async Task<IAction> ReceiveFromContestantAsync()
         {
             var lastMessage = await contestantMessage.Task;
             Console.WriteLine("RECV: " + lastMessage);
             contestantMessage = new TaskCompletionSource<string>();
-            return JsonConvert.DeserializeObject<JObject>(lastMessage);
+            return JsonConvert.DeserializeObject<IAction>(lastMessage, decoder);
         }
 
         public void SendToContestant(object message)

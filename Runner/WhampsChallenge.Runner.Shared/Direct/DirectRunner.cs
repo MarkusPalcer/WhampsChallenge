@@ -54,12 +54,11 @@ namespace WhampsChallenge.Runner.Shared.Direct
                 builder.WithType(agentType);
             }
 
-            communicator = new DirectCommunicator();
+            communicator = new DirectCommunicator(new ActionDecoder((int) level));
 
             builder.Register(communicator).WithContract(typeof(ICommunicator));
 
             builder.Register(LevelTypes.GameEngines[level]).As<IGame>().WithConstructors();
-            builder.Register(new ActionDecoder((int) level)).WithContract(typeof(IActionDecoder));
 
             builder.WithSupportForUnregisteredTypes();
 
@@ -67,7 +66,6 @@ namespace WhampsChallenge.Runner.Shared.Direct
 
             contestant = container.Resolve<IAgent>(agentType);
             game = container.Resolve<IGame>();
-            var actionDecoder = container.Resolve<IActionDecoder>();
 
             var contestantTask = Task.Run(() => contestant.Run());
 
@@ -75,8 +73,7 @@ namespace WhampsChallenge.Runner.Shared.Direct
             game.Initialize();
             while (game.GameState == GameState.Running)
             {
-                var receivedMessage = await communicator.ReceiveFromContestantAsync();
-                var decodedAction = actionDecoder.Decode(receivedMessage);
+                var decodedAction = await communicator.ReceiveFromContestantAsync();
                 var response = game.Execute(decodedAction);
                 communicator.SendToContestant(response);
             }

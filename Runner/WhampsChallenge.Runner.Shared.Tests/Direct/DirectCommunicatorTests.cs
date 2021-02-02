@@ -1,6 +1,8 @@
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using WhampsChallenge.Core.Level3.Actions;
+using WhampsChallenge.Messaging.Common;
 using WhampsChallenge.Runner.Shared.Direct;
 
 namespace WhampsChallenge.Runner.Shared.Tests.Direct
@@ -11,15 +13,15 @@ namespace WhampsChallenge.Runner.Shared.Tests.Direct
         [TestMethod]
         public void SendingAndReceiving()
         {
-            var sut = new DirectCommunicator();
+            var sut = new DirectCommunicator(new ActionDecoder(3));
 
             var hostReceiveTask = sut.ReceiveFromContestantAsync();
             hostReceiveTask.Status.Should().Be(TaskStatus.WaitingForActivation);
 
-            sut.SendAsync("{'Test':true}");
+            sut.SendAsync("{'Action':'Pickup'}");
             hostReceiveTask.Status.Should().Be(TaskStatus.RanToCompletion);
             var hostReceiveResult = hostReceiveTask.Result;
-            hostReceiveResult.Value<bool>("Test").Should().BeTrue();
+            hostReceiveResult.GetType().Should().Be(typeof(Pickup));
 
             var contestantReceiveTask = sut.ReceiveAsync();
             contestantReceiveTask.Status.Should().Be(TaskStatus.WaitingForActivation);

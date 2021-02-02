@@ -43,10 +43,9 @@ namespace WhampsChallenge.Messaging.Tests.Common
             var sut = new ActionDecoder(level);
 
             var json = JsonConvert.SerializeObject(data.SerializedData);
-            var deserialized = JsonConvert.DeserializeObject<JObject>(json);
-            deserialized["Action"] = new JValue(data.SerializedData.GetType().Name);
+            var result = JsonConvert.DeserializeObject<IAction>(json, sut);
 
-            var result = sut.Decode(deserialized);
+            result.Should().NotBeNull();
 
             result.GetType().Should()
                   .Be(data.ExpectedResult.GetType(), $"decoding the action {data.SerializedData.GetType()} should yield an object of type {data.ExpectedResult.GetType()}.");
@@ -61,7 +60,7 @@ namespace WhampsChallenge.Messaging.Tests.Common
         }
 
 
-        private static IDictionary<int, TestCase[]> TestData = new Dictionary<int, TestCase[]>
+        private static readonly IDictionary<int, TestCase[]> TestData = new Dictionary<int, TestCase[]>
         {
             {1, new[]
             {

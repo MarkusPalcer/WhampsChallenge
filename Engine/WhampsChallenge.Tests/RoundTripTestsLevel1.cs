@@ -15,20 +15,28 @@ namespace WhampsChallenge.Tests
     [TestClass]
     public class RoundTripTestsLevel1
     {
+        private Game game;
+        private DirectCommunicator communicator;
+        private Library.Level1.Game gameProxy;
+
+        [TestInitialize]
+        public void Initialize()
+        {
+            game = new Game();
+            var decoder = new ActionDecoder(1);
+            communicator = new DirectCommunicator(decoder);
+            gameProxy = new Library.Level1.Game(communicator);
+        }
+
         [TestMethod]
         public async Task MoveOnEmptySpot()
         {
-            var game = new Game();
-            var communicator = new DirectCommunicator();
-            var gameProxy = new Library.Level1.Game(communicator);
-            var decoder = new ActionDecoder(1);
-
             game.Seed = 0;
             game.Initialize();
             game.State.PlayerPosition = (0, 0);
 
             var responseTask = gameProxy.MoveAsync(Direction.East);
-            var decodedAction = decoder.Decode(await communicator.ReceiveFromContestantAsync());
+            var decodedAction = await communicator.ReceiveFromContestantAsync();
             var sentResponse = game.Execute(decodedAction);
             sentResponse.As<Result>().GameState.PlayerPosition.Should().Be((1, 0));
             responseTask.IsCompleted.Should().BeFalse();
@@ -42,17 +50,12 @@ namespace WhampsChallenge.Tests
         [TestMethod]
         public async Task MoveIntoWall()
         {
-            var game = new Game();
-            var communicator = new DirectCommunicator();
-            var gameProxy = new Library.Level1.Game(communicator);
-            var decoder = new ActionDecoder(1);
-
             game.Seed = 0;
             game.Initialize();
             game.State.PlayerPosition = (0, 0);
 
             var responseTask = gameProxy.MoveAsync(Direction.North);
-            var decodedAction = decoder.Decode(await communicator.ReceiveFromContestantAsync());
+            var decodedAction = await communicator.ReceiveFromContestantAsync();
             var sentResponse = game.Execute(decodedAction);
             sentResponse.As<Result>().GameState.PlayerPosition.Should().Be((0, 0));
             responseTask.IsCompleted.Should().BeFalse();
@@ -66,17 +69,12 @@ namespace WhampsChallenge.Tests
         [TestMethod]
         public async Task MoveOnGold()
         {
-            var game = new Game();
-            var communicator = new DirectCommunicator();
-            var gameProxy = new Library.Level1.Game(communicator);
-            var decoder = new ActionDecoder(1);
-
             game.Seed = 0;
             game.Initialize();
             game.State.PlayerPosition = (3, 1);
 
             var responseTask = gameProxy.MoveAsync(Direction.South);
-            var decodedAction = decoder.Decode(await communicator.ReceiveFromContestantAsync());
+            var decodedAction = await communicator.ReceiveFromContestantAsync();
             var sentResponse = game.Execute(decodedAction);
             sentResponse.As<Result>().GameState.PlayerPosition.Should().Be((3, 2));
             responseTask.IsCompleted.Should().BeFalse();
@@ -90,17 +88,12 @@ namespace WhampsChallenge.Tests
         [TestMethod]
         public async Task PickupGold()
         {
-            var game = new Game();
-            var communicator = new DirectCommunicator();
-            var gameProxy = new Library.Level1.Game(communicator);
-            var decoder = new ActionDecoder(1);
-
             game.Seed = 0;
             game.Initialize();
             game.State.PlayerPosition = (3, 2);
 
             var responseTask = gameProxy.PickupAsync();
-            var decodedResponse = await ExecuteRequestedAction(decoder, communicator, game, responseTask);
+            var decodedResponse = await ExecuteRequestedAction(communicator, game, responseTask);
             decodedResponse.Perceptions.Should().Contain(x => x.GetType() == typeof(Win));
             decodedResponse.GameState.MovesLeft.Should().Be(99);
             game.GameState.Should().Be(GameState.Win);
@@ -109,16 +102,11 @@ namespace WhampsChallenge.Tests
         [TestMethod]
         public async Task PickupNothing()
         {
-            var game = new Game();
-            var communicator = new DirectCommunicator();
-            var gameProxy = new Library.Level1.Game(communicator);
-            var decoder = new ActionDecoder(1);
-
             game.Seed = 0;
             game.Initialize();
 
             var responseTask = gameProxy.PickupAsync();
-            var decodedResponse = await ExecuteRequestedAction(decoder, communicator, game, responseTask);
+            var decodedResponse = await ExecuteRequestedAction(communicator, game, responseTask);
             decodedResponse.Perceptions.Should().BeEmpty();
             decodedResponse.GameState.MovesLeft.Should().Be(99);
             game.GameState.Should().Be(GameState.Running);
@@ -127,17 +115,12 @@ namespace WhampsChallenge.Tests
         [TestMethod]
         public async Task RunOutOfMoves()
         {
-            var game = new Game();
-            var communicator = new DirectCommunicator();
-            var gameProxy = new Library.Level1.Game(communicator);
-            var decoder = new ActionDecoder(1);
-
             game.Seed = 0;
             game.Initialize();
             game.State.MovesLeft = 1;
 
             var responseTask = gameProxy.PickupAsync();
-            var decodedResponse = await ExecuteRequestedAction(decoder, communicator, game, responseTask);
+            var decodedResponse = await ExecuteRequestedAction(communicator, game, responseTask);
             decodedResponse.Perceptions.Should().Contain(x => x.GetType() == typeof(Death));
             decodedResponse.Perceptions.Should().NotContain(x => x.GetType() == typeof(Win));
             decodedResponse.GameState.MovesLeft.Should().Be(0);
@@ -147,30 +130,24 @@ namespace WhampsChallenge.Tests
         [TestMethod]
         public async Task PickupGoldInLastMove()
         {
-            var game = new Game();
-            var communicator = new DirectCommunicator();
-            var gameProxy = new Library.Level1.Game(communicator);
-            var decoder = new ActionDecoder(1);
-
             game.Seed = 0;
             game.Initialize();
             game.State.PlayerPosition = (3, 2);
             game.State.MovesLeft = 1;
 
             var responseTask = gameProxy.PickupAsync();
-            var decodedResponse = await ExecuteRequestedAction(decoder, communicator, game, responseTask);
+            var decodedResponse = await ExecuteRequestedAction(communicator, game, responseTask);
             decodedResponse.Perceptions.Should().Contain(x => x.GetType() == typeof(Win));
             decodedResponse.GameState.MovesLeft.Should().Be(0);
             game.GameState.Should().Be(GameState.Win);
         }
 
         private static async Task<Library.Level1.Types.Result> ExecuteRequestedAction(
-            IActionDecoder decoder, 
-            DirectCommunicator communicator, 
+            DirectCommunicator communicator,
             IGame game,
             Task<Library.Level1.Types.Result> responseTask)
         {
-            var decodedAction = decoder.Decode(await communicator.ReceiveFromContestantAsync());
+            var decodedAction = await communicator.ReceiveFromContestantAsync();
             var sentResponse = game.Execute(decodedAction);
             responseTask.IsCompleted.Should().BeFalse();
             communicator.SendToContestant(sentResponse);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Newtonsoft.Json;
 using PantherDI.ContainerCreation;
 using WhampsChallenge.Shared.Communication;
 using WhampsChallenge.Shared.Communication.Messages;
@@ -40,7 +41,7 @@ namespace WhampsChallenge.Library
             };
 
             communicator.Send(hello);
-            var runInfo = communicator.Receive<StartLevel>();
+            var runInfo = JsonConvert.DeserializeObject<StartLevel>(communicator.Receive());
 
             var builder = new ContainerBuilder();
             

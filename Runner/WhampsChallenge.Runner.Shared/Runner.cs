@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using PantherDI.ContainerCreation;
 using WhampsChallenge.Core.Common;
+using WhampsChallenge.Core.Common.Discovery;
 using WhampsChallenge.Library;
 using WhampsChallenge.Messaging.Common;
 using WhampsChallenge.Shared.Communication;
@@ -21,17 +22,18 @@ namespace WhampsChallenge.Runner.Shared
 
         public (bool Died, int Score, int Seed) Run(Levels level)
         {
+            var discoverer = new Discoverer();
+            var actionDecoder = new ActionDecoder(discoverer, (int) level);
+
             var builder = new ContainerBuilder();
             builder.Register(communicator).WithContract(typeof(ICommunicator));
 
             builder.Register(LevelTypes.GameEngines[level]).As<IGame>().WithConstructors();
-            builder.Register(new ActionDecoder((int) level)).WithContract(typeof(ActionDecoder));
 
             builder.WithSupportForUnregisteredTypes();
 
             var container = builder.Build();
             var game = container.Resolve<IGame>();
-            var actionDecoder = container.Resolve<ActionDecoder>();
 
             game.Initialize();
             Console.Out.WriteLine($"START: {level}");

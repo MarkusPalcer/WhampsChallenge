@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using WhampsChallenge.Core.Common;
+using WhampsChallenge.Core.Common.Discovery;
 using WhampsChallenge.Core.Common.Events;
 using WhampsChallenge.Messaging.Common;
 using WhampsChallenge.Shared.Communication;
@@ -16,14 +16,17 @@ namespace WhampsChallenge.Runner.Shared.Direct
     /// </summary>
     public class DirectCommunicator : ICommunicator
     {
-        private readonly ActionDecoder decoder;
+        private readonly ActionDecoder actionDecoder;
+        private readonly EventJsonConverter eventDecoder;
+
         private TaskCompletionSource<string> hostMessage;
         private TaskCompletionSource<string> contestantMessage = new();
         private bool isDisposed;
 
-        public DirectCommunicator(ActionDecoder decoder)
+        public DirectCommunicator(IDiscoverer discoverer, int level)
         {
-            this.decoder = decoder;
+            actionDecoder = new ActionDecoder(discoverer, level);
+            eventDecoder = new EventJsonConverter(discoverer, level);
         }
 
         public void Dispose()
@@ -39,12 +42,12 @@ namespace WhampsChallenge.Runner.Shared.Direct
             var lastMessage = await contestantMessage.Task;
             Console.WriteLine("RECV: " + lastMessage);
             contestantMessage = new TaskCompletionSource<string>();
-            return JsonConvert.DeserializeObject<IAction>(lastMessage, decoder);
+            return JsonConvert.DeserializeObject<IAction>(lastMessage, actionDecoder);
         }
 
         public void SendToContestant(object message)
         {
-            var serializedMessage = JsonConvert.SerializeObject(message, new EventJsonConverter());
+            var serializedMessage = JsonConvert.SerializeObject(message, eventDecoder);
             Console.WriteLine("SEND: " + serializedMessage);
             hostMessage.SetResult(serializedMessage);
         }

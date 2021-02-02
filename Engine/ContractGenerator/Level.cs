@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using Newtonsoft.Json;
 using WhampsChallenge.Core.Common;
+using WhampsChallenge.Core.Common.Discovery;
 using WhampsChallenge.Core.Markers;
 
 // Disabled inspections due to this being a serialized file
@@ -114,7 +115,7 @@ namespace ContractGenerator
             Enums.Add(type.Name, Enum.GetNames(type));
         }
 
-        public Level(Discoverer.LevelData data)
+        public Level(LevelData data)
         {
             foreach (var action in data.Actions)
             {

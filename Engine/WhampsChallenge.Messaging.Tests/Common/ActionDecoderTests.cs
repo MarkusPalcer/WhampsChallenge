@@ -5,6 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using WhampsChallenge.Core.Common;
+using WhampsChallenge.Core.Common.Discovery;
 using WhampsChallenge.Core.Maps;
 using WhampsChallenge.Messaging.Common;
 
@@ -40,7 +41,8 @@ namespace WhampsChallenge.Messaging.Tests.Common
         [DynamicData(nameof(TestCases))]
         public void DecodingTestData(int level, TestCase data)
         {
-            var sut = new ActionDecoder(level);
+            var discoverer = new Discoverer();
+            var sut = new ActionDecoder(discoverer, level);
 
             var json = JsonConvert.SerializeObject(data.SerializedData);
             var result = JsonConvert.DeserializeObject<IAction>(json, sut);

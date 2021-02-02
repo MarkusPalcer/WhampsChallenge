@@ -4,20 +4,13 @@ using System.Reflection;
 using WhampsChallenge.Core.Common.Events;
 using WhampsChallenge.Core.Markers;
 
-namespace WhampsChallenge.Core.Common
+namespace WhampsChallenge.Core.Common.Discovery
 {
-    public class Discoverer
+    public class Discoverer : IDiscoverer
     {
-        private Dictionary<int, LevelData> data = new();
+        private readonly Dictionary<int, LevelData> data = new();
 
-        public List<Type> SharedTypes = new();
-
-        public class LevelData
-        {
-            public readonly List<Type> Actions = new();
-            public readonly List<Type> Events = new();
-            public Type Result;
-        }
+        public List<Type> SharedTypes { get; }= new();
 
         public Discoverer()
         {

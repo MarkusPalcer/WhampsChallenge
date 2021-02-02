@@ -3,10 +3,10 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WhampsChallenge.Core.Common;
+using WhampsChallenge.Core.Common.Discovery;
 using WhampsChallenge.Core.Level1;
 using WhampsChallenge.Library.Level1.Events;
 using WhampsChallenge.Library.Shared.Enums;
-using WhampsChallenge.Messaging.Common;
 using WhampsChallenge.Runner.Shared.Direct;
 
 namespace WhampsChallenge.Tests
@@ -22,8 +22,7 @@ namespace WhampsChallenge.Tests
         public void Initialize()
         {
             game = new Game();
-            var decoder = new ActionDecoder(1);
-            communicator = new DirectCommunicator(decoder);
+            communicator = new DirectCommunicator(new Discoverer(), 1);
             gameProxy = new Library.Level1.Game(communicator);
         }
 

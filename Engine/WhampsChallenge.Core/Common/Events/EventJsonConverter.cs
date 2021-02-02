@@ -1,29 +1,20 @@
 using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using WhampsChallenge.Core.Common.Discovery;
+using WhampsChallenge.Shared.Communication;
 
 namespace WhampsChallenge.Core.Common.Events
 {
-    public class EventJsonConverter : JsonConverter<IEvent>
+    public class EventJsonConverter : Decoder<IEvent>
     {
-        /// <inheritdoc />
-        public override void WriteJson(JsonWriter writer, IEvent value, JsonSerializer serializer)
+        public EventJsonConverter(IDiscoverer discoverer, int level) : base("Event")
         {
-            var t = JToken.FromObject(value);
-
-            t["Event"] = value.GetType().Name;
-
-            t.WriteTo(writer);
+            var levelData = discoverer[level];
+            foreach (var item in levelData.Events)
+            {
+                Add(item.Name, item);
+            }
         }
-
-        /// <inheritdoc />
-        public override IEvent ReadJson(JsonReader reader, Type objectType, IEvent existingValue, bool hasExistingValue,
-                                        JsonSerializer serializer)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
-        public override bool CanRead => false;
     }
 }

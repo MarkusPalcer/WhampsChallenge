@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using PantherDI.ContainerCreation;
 using WhampsChallenge.Core.Common;
+using WhampsChallenge.Core.Common.Discovery;
 using WhampsChallenge.Library;
 using WhampsChallenge.Messaging.Common;
 using WhampsChallenge.Shared.Communication;
@@ -54,7 +55,7 @@ namespace WhampsChallenge.Runner.Shared.Direct
                 builder.WithType(agentType);
             }
 
-            communicator = new DirectCommunicator(new ActionDecoder((int) level));
+            communicator = new DirectCommunicator(new Discoverer(), (int) level);
 
             builder.Register(communicator).WithContract(typeof(ICommunicator));
 

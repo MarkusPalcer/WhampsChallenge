@@ -7,9 +7,7 @@ namespace WhampsChallenge.Core.Level1.Events
     /// Something is glittering on the ground.
     /// Maybe you should pick it up?
     /// </summary>
-    [Level(1)]
-    [Level(2)]
-    [Level(3)]
+    [Level(1, 3)]
     public class Glitter : IEvent
     {
     }

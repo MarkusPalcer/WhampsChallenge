@@ -7,9 +7,7 @@ namespace WhampsChallenge.Core.Level1.Events
     /// You ran against a wall.
     /// Ouch!
     /// </summary>
-    [Level(1)]
-    [Level(2)]
-    [Level(3)]
+    [Level(1, 3)]
     public class Bump : IEvent
     {
     }

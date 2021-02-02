@@ -3,8 +3,7 @@ using WhampsChallenge.Core.Markers;
 
 namespace WhampsChallenge.Core.Level2.Events
 {
-    [Level(2)]
-    [Level(3)]
+    [Level(2, 3)]
     public class Wind : IEvent
     {
     }

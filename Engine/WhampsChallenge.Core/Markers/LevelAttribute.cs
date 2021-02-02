@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace WhampsChallenge.Core.Markers
 {
@@ -11,7 +12,12 @@ namespace WhampsChallenge.Core.Markers
 
         public LevelAttribute(int level)
         {
-            levels = new[] {level};
+            levels = new [] { level };
+        }
+
+        public LevelAttribute(int from, int to)
+        {
+            levels = Enumerable.Range(from, to - from + 1);
         }
 
         public IEnumerator<int> GetEnumerator()

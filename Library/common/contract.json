@@ -1,5 +1,36 @@
 {
   "Levels": {
+    "Level3": {
+      "Enums": {},
+      "Actions": {
+        "Move": {
+          "Parameters": {
+            "Direction": "Direction"
+          }
+        },
+        "Pickup": {
+          "Parameters": {}
+        },
+        "Shoot": {
+          "Parameters": {
+            "Direction": "Direction"
+          }
+        }
+      },
+      "ResultType": "ActionResult",
+      "Types": {},
+      "Events": {
+        "Scream": {},
+        "Stench": {},
+        "Twang": {},
+        "Wind": {},
+        "Bump": {},
+        "Glitter": {},
+        "Death": {},
+        "Win": {}
+      },
+      "Index": 3
+    },
     "Level2": {
       "Enums": {},
       "Actions": {
@@ -22,37 +53,6 @@
         "Win": {}
       },
       "Index": 2
-    },
-    "Level3": {
-      "Enums": {},
-      "Actions": {
-        "Move": {
-          "Parameters": {
-            "Direction": "Direction"
-          }
-        },
-        "Pickup": {
-          "Parameters": {}
-        },
-        "Shoot": {
-          "Parameters": {
-            "Direction": "Direction"
-          }
-        }
-      },
-      "ResultType": "ActionResult",
-      "Types": {},
-      "Events": {
-        "Wind": {},
-        "Bump": {},
-        "Glitter": {},
-        "Death": {},
-        "Win": {},
-        "Scream": {},
-        "Stench": {},
-        "Twang": {}
-      },
-      "Index": 3
     },
     "Level1": {
       "Enums": {},

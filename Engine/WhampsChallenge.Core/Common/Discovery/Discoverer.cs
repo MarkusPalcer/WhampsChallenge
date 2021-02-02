@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using WhampsChallenge.Core.Common.Events;
 using WhampsChallenge.Core.Markers;
@@ -17,9 +18,9 @@ namespace WhampsChallenge.Core.Common.Discovery
             foreach (var type in typeof(Discoverer).Assembly.DefinedTypes)
             {
                 var levelAttributes = type.GetCustomAttributes<LevelAttribute>();
-                foreach (var levelAttribute in levelAttributes)
+                foreach (var level in levelAttributes.SelectMany(x => x))
                 {
-                    var entry = this[levelAttribute.Level];
+                    var entry = this[level];
                     if (type.GetCustomAttribute<ActionAttribute>() != null)
                     {
                         entry.Actions.Add(type);

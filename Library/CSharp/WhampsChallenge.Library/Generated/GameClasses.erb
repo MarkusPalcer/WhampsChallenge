@@ -14,8 +14,11 @@ using Newtonsoft.Json;
 
 using WhampsChallenge.Shared.Communication;
 using WhampsChallenge.Shared.Extensions;
+
 using WhampsChallenge.Library.Shared.Enums;
 using WhampsChallenge.Library.Shared.Types;
+using WhampsChallenge.Library.Shared.Actions;
+using WhampsChallenge.Library.Shared.Events;
 
 <% file['Levels'].each_pair do |level, leveldata| %>
 namespace WhampsChallenge.Library.<%= level %> {
@@ -29,10 +32,16 @@ namespace WhampsChallenge.Library.<%= level %> {
     public class Game {
 
         private readonly ICommunicator _communicator;
+        private readonly Decoder<Event> _decoder;
 
         public Game(ICommunicator communicator)
         {
             _communicator = communicator;
+            _decoder = new Decoder<Event>("Event") {
+<%              leveldata['Events'].each_pair do |event, event_data| %>
+                { "<%= event %>", typeof(<%= event %>) },
+<%              end %>
+            };
         }
 
 <%      leveldata['Actions'].each_pair do |action_name, action_data| %>
@@ -45,7 +54,7 @@ namespace WhampsChallenge.Library.<%= level %> {
 
             _communicator.Send(message);
             var json = _communicator.Receive();
-            var result = JsonConvert.DeserializeObject<Result>(json, new Decoder());
+            var result = JsonConvert.DeserializeObject<Result>(json, _decoder);
 
             return result;
         }
@@ -60,13 +69,12 @@ namespace WhampsChallenge.Library.<%= level %> {
             await _communicator.SendAsync(message);
             
             var json = await _communicator.ReceiveAsync();
-            var result = JsonConvert.DeserializeObject<Result>(json, new Decoder());
+            var result = JsonConvert.DeserializeObject<Result>(json, _decoder);
 
             return result;
         }
 
 <%      end %>
-
     }
 }
 

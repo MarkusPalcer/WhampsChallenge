@@ -9,18 +9,13 @@
 // Generated file, so ReSharper-Checks are disabled.
 // ReSharper disable all
 
+using WhampsChallenge.Shared.Communication;
+
+using WhampsChallenge.Library.Shared.Events;
+using WhampsChallenge.Library.Shared.Types;
+
 <% file['Levels'].each_pair do |level, leveldata| %>
 namespace WhampsChallenge.Library.<%= level %>.Events {
-
-    public class Decoder : EventDecoder {
-
-        public Decoder() {
-<%          leveldata['Events'].each_pair do |event, event_data| %>
-            Constructors.Add("<%= event %>", () => new <%= event %>());
-<%          end %>
-        }
-
-    }
 
 <%  leveldata['Events'].each_pair do |event, event_data| %>
 	public class <%= event %> : Shared.Events.Event {

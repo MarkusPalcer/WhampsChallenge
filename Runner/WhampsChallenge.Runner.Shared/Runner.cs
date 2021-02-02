@@ -1,6 +1,5 @@
 ﻿using System;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using PantherDI.ContainerCreation;
 using WhampsChallenge.Core.Common;
 using WhampsChallenge.Library;

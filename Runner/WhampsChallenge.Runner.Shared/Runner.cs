@@ -3,8 +3,8 @@ using Newtonsoft.Json;
 using PantherDI.ContainerCreation;
 using WhampsChallenge.Core.Common;
 using WhampsChallenge.Core.Common.Discovery;
+using WhampsChallenge.Core.Common.Events;
 using WhampsChallenge.Library;
-using WhampsChallenge.Messaging.Common;
 using WhampsChallenge.Shared.Communication;
 using WhampsChallenge.Shared.Communication.Messages;
 using WhampsChallenge.Shared.Extensions;
@@ -23,7 +23,8 @@ namespace WhampsChallenge.Runner.Shared
         public (bool Died, int Score, int Seed) Run(Levels level)
         {
             var discoverer = new Discoverer();
-            var actionDecoder = new ActionDecoder(discoverer, (int) level);
+            var actionDecoder = new KnownTypeJsonConverter<Action>("Action", discoverer[(int) level].Actions);
+            var eventDecoder = new KnownTypeJsonConverter<IEvent>("Event", discoverer[(int) level].Events);
 
             var builder = new ContainerBuilder();
             builder.Register(communicator).WithContract(typeof(ICommunicator));
@@ -37,17 +38,18 @@ namespace WhampsChallenge.Runner.Shared
 
             game.Initialize();
             Console.Out.WriteLine($"START: {level}");
-            communicator.Send(new StartLevel
+            communicator.Send(JsonConvert.SerializeObject(new StartLevel
             {
                 Level = level.ToString()
-            });
+            }));
 
             while (game.GameCompletionState == GameCompletionStates.Running)
             {
                 var receivedMessage = communicator.Receive();
                 var decodedAction = JsonConvert.DeserializeObject<IAction>(receivedMessage, actionDecoder);
                 var response = game.Execute(decodedAction);
-                communicator.Send(response);
+                var encodedResponse = JsonConvert.SerializeObject(response, eventDecoder);
+                communicator.Send(encodedResponse);
             }
 
             return (

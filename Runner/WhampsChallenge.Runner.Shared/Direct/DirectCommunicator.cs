@@ -4,7 +4,6 @@ using Newtonsoft.Json;
 using WhampsChallenge.Core.Common;
 using WhampsChallenge.Core.Common.Discovery;
 using WhampsChallenge.Core.Common.Events;
-using WhampsChallenge.Messaging.Common;
 using WhampsChallenge.Shared.Communication;
 
 namespace WhampsChallenge.Runner.Shared.Direct
@@ -16,8 +15,8 @@ namespace WhampsChallenge.Runner.Shared.Direct
     /// </summary>
     public class DirectCommunicator : ICommunicator
     {
-        private readonly ActionDecoder actionDecoder;
-        private readonly EventJsonConverter eventDecoder;
+        private readonly KnownTypeJsonConverter<IAction> actionKnownTypeJsonConverter;
+        private readonly KnownTypeJsonConverter<IEvent> eventKnownTypeJsonConverter;
 
         private TaskCompletionSource<string> hostMessage;
         private TaskCompletionSource<string> contestantMessage = new();
@@ -25,8 +24,8 @@ namespace WhampsChallenge.Runner.Shared.Direct
 
         public DirectCommunicator(IDiscoverer discoverer, int level)
         {
-            actionDecoder = new ActionDecoder(discoverer, level);
-            eventDecoder = new EventJsonConverter(discoverer, level);
+            actionKnownTypeJsonConverter = new KnownTypeJsonConverter<IAction>("Action", discoverer[level].Actions);
+            eventKnownTypeJsonConverter = new KnownTypeJsonConverter<IEvent>("Event", discoverer[level].Events);
         }
 
         public void Dispose()
@@ -42,12 +41,12 @@ namespace WhampsChallenge.Runner.Shared.Direct
             var lastMessage = await contestantMessage.Task;
             Console.WriteLine("RECV: " + lastMessage);
             contestantMessage = new TaskCompletionSource<string>();
-            return JsonConvert.DeserializeObject<IAction>(lastMessage, actionDecoder);
+            return JsonConvert.DeserializeObject<IAction>(lastMessage, actionKnownTypeJsonConverter);
         }
 
         public void SendToContestant(object message)
         {
-            var serializedMessage = JsonConvert.SerializeObject(message, eventDecoder);
+            var serializedMessage = JsonConvert.SerializeObject(message, eventKnownTypeJsonConverter);
             Console.WriteLine("SEND: " + serializedMessage);
             hostMessage.SetResult(serializedMessage);
         }

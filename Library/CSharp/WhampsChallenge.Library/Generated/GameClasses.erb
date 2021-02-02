@@ -32,12 +32,12 @@ namespace WhampsChallenge.Library.<%= level %> {
     public class Game {
 
         private readonly ICommunicator _communicator;
-        private readonly Decoder<Event> _decoder;
+        private readonly KnownTypeJsonConverter<Event> _decoder;
 
         public Game(ICommunicator communicator)
         {
             _communicator = communicator;
-            _decoder = new Decoder<Event>("Event") {
+            _decoder = new KnownTypeJsonConverter<Event>("Event") {
 <%              leveldata['Events'].each_pair do |event, event_data| %>
                 { "<%= event %>", typeof(<%= event %>) },
 <%              end %>
@@ -52,7 +52,7 @@ namespace WhampsChallenge.Library.<%= level %> {
 <%          end %>
             };
 
-            _communicator.Send(message);
+            _communicator.Send(JsonConvert.SerializeObject(message));
             var json = _communicator.Receive();
             var result = JsonConvert.DeserializeObject<ActionResult>(json, _decoder);
 
@@ -66,7 +66,7 @@ namespace WhampsChallenge.Library.<%= level %> {
 <%          end %>
             };
 
-            await _communicator.SendAsync(message);
+            await _communicator.SendAsync(JsonConvert.SerializeObject(message));
             
             var json = await _communicator.ReceiveAsync();
             var result = JsonConvert.DeserializeObject<ActionResult>(json, _decoder);

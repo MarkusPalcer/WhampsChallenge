@@ -40,7 +40,7 @@ namespace WhampsChallenge.Library
                 Levels = contestEntry.Agents.Keys.Select(x => x.ToString()).ToArray(),
             };
 
-            communicator.Send(hello);
+            communicator.Send(JsonConvert.SerializeObject(hello));
             var runInfo = JsonConvert.DeserializeObject<StartLevel>(communicator.Receive());
 
             var builder = new ContainerBuilder();

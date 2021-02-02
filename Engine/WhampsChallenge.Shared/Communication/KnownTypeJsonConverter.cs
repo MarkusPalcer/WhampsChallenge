@@ -6,15 +6,23 @@ using Newtonsoft.Json.Linq;
 
 namespace WhampsChallenge.Shared.Communication
 {
-    public class Decoder<T> : JsonConverter<T>, IDictionary<string, Type>
+    public class KnownTypeJsonConverter<T> : JsonConverter<T>, IDictionary<string, Type>
     {
         private readonly Dictionary<string, Type> knownTypes = new();
 
         private readonly string typeNameProperty;
 
-        public Decoder(string typeNameProperty)
+        public KnownTypeJsonConverter(string typeNameProperty)
         {
             this.typeNameProperty = typeNameProperty;
+        }
+
+        public KnownTypeJsonConverter(string typeNameProperty, IEnumerable<Type> knownTypes) : this(typeNameProperty)
+        {
+            foreach (var type in knownTypes)
+            {
+                Add(type.Name, type);
+            }
         }
 
         public override void WriteJson(JsonWriter writer, T value, JsonSerializer serializer)

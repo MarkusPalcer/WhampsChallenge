@@ -19,22 +19,5 @@ namespace WhampsChallenge.Shared.Extensions
                 return settings;
             };
         }
-
-        /// <summary>
-        /// Serializes and sends a message
-        /// </summary>
-        public static void Send(this ICommunicator self, object message)
-        {
-            self.Send(JsonConvert.SerializeObject(message));
-        }
-
-        /// <summary>
-        /// Serializes and sends a message asynchronously
-        /// </summary>
-        public static async Task SendAsync(this ICommunicator self, object message)
-        {
-            var serialized = await Task.Factory.StartNew(() => JsonConvert.SerializeObject(message));
-            await self.SendAsync(serialized);
-        }
     }
 }

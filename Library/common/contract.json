@@ -24,7 +24,7 @@
           "MovesLeft": "Int32"
         },
         "Result": {
-          "Perceptions": "Event[]",
+          "Events": "Event[]",
           "GameState": "GameState"
         }
       },
@@ -58,7 +58,7 @@
           "MovesLeft": "Int32"
         },
         "Result": {
-          "Perceptions": "Event[]",
+          "Events": "Event[]",
           "GameState": "GameState"
         }
       },
@@ -89,7 +89,7 @@
           "MovesLeft": "Int32"
         },
         "Result": {
-          "Perceptions": "Event[]",
+          "Events": "Event[]",
           "GameState": "GameState"
         }
       },

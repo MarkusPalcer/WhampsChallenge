@@ -35,7 +35,7 @@
 //             responseTask.IsCompleted.Should().BeFalse();
 //             communicator.SendToContestant(sentResponse);
 //             var decodedResponse = await responseTask;
-//             decodedResponse.Perceptions.Should().BeEmpty();
+//             decodedResponse.Events.Should().BeEmpty();
 //             decodedResponse.GameState.MovesLeft.Should().Be(99);
 //             decodedResponse.GameState.HasArrow.Should().BeTrue();
 //             game.GameState.Should().Be(GameState.Running);
@@ -60,7 +60,7 @@
 //             responseTask.IsCompleted.Should().BeFalse();
 //             communicator.SendToContestant(sentResponse);
 //             var decodedResponse = await responseTask;
-//             decodedResponse.Perceptions.OfType<Bump>().Should().NotBeEmpty();
+//             decodedResponse.Events.OfType<Bump>().Should().NotBeEmpty();
 //             decodedResponse.GameState.MovesLeft.Should().Be(99);
 //             decodedResponse.GameState.HasArrow.Should().BeTrue();
 //             game.GameState.Should().Be(GameState.Running);
@@ -85,7 +85,7 @@
 //             responseTask.IsCompleted.Should().BeFalse();
 //             communicator.SendToContestant(sentResponse);
 //             var decodedResponse = await responseTask;
-//             decodedResponse.Perceptions.OfType<Wind>().Should().NotBeEmpty();
+//             decodedResponse.Events.OfType<Wind>().Should().NotBeEmpty();
 //             decodedResponse.GameState.MovesLeft.Should().Be(99);
 //             decodedResponse.GameState.HasArrow.Should().BeTrue();
 //             game.GameState.Should().Be(GameState.Running);
@@ -124,7 +124,7 @@
 //             responseTask.IsCompleted.Should().BeFalse();
 //             communicator.SendToContestant(sentResponse);
 //             var decodedResponse = await responseTask;
-//             decodedResponse.Perceptions.Select(x => x.GetType()).Should().BeEquivalentTo(typeof(Glitter), typeof(Wind));
+//             decodedResponse.Events.Select(x => x.GetType()).Should().BeEquivalentTo(typeof(Glitter), typeof(Wind));
 //             decodedResponse.GameState.MovesLeft.Should().Be(99);
 //             decodedResponse.GameState.HasArrow.Should().BeTrue();
 //             game.GameState.Should().Be(GameState.Running);
@@ -144,8 +144,8 @@
 //
 //             var responseTask = gameProxy.PickupAsync();
 //             var decodedResponse = await ExecuteRequestedAction(decoder, communicator, game, responseTask);
-//             decodedResponse.Perceptions.OfType<Win>().Should().NotBeEmpty();
-//             decodedResponse.Perceptions.OfType<Death>().Should().BeEmpty();
+//             decodedResponse.Events.OfType<Win>().Should().NotBeEmpty();
+//             decodedResponse.Events.OfType<Death>().Should().BeEmpty();
 //             decodedResponse.GameState.MovesLeft.Should().Be(99);
 //             decodedResponse.GameState.HasArrow.Should().BeTrue();
 //             game.GameState.Should().Be(GameState.Win);
@@ -164,7 +164,7 @@
 //
 //             var responseTask = gameProxy.PickupAsync();
 //             var decodedResponse = await ExecuteRequestedAction(decoder, communicator, game, responseTask);
-//             decodedResponse.Perceptions.Should().BeEmpty();
+//             decodedResponse.Events.Should().BeEmpty();
 //             decodedResponse.GameState.MovesLeft.Should().Be(99);
 //             decodedResponse.GameState.HasArrow.Should().BeTrue();
 //             game.GameState.Should().Be(GameState.Running);
@@ -184,8 +184,8 @@
 //
 //             var responseTask = gameProxy.PickupAsync();
 //             var decodedResponse = await ExecuteRequestedAction(decoder, communicator, game, responseTask);
-//             decodedResponse.Perceptions.OfType<Death>().Should().NotBeEmpty();
-//             decodedResponse.Perceptions.OfType<Win>().Should().BeEmpty();
+//             decodedResponse.Events.OfType<Death>().Should().NotBeEmpty();
+//             decodedResponse.Events.OfType<Win>().Should().BeEmpty();
 //             decodedResponse.GameState.MovesLeft.Should().Be(0);
 //             decodedResponse.GameState.HasArrow.Should().BeTrue();
 //             game.GameState.Should().Be(GameState.Lose);
@@ -205,8 +205,8 @@
 //
 //             var responseTask = gameProxy.MoveAsync(Direction.South);
 //             var decodedResponse = await ExecuteRequestedAction(decoder, communicator, game, responseTask);
-//             decodedResponse.Perceptions.OfType<Death>().Should().NotBeEmpty();
-//             decodedResponse.Perceptions.OfType<Win>().Should().BeEmpty();
+//             decodedResponse.Events.OfType<Death>().Should().NotBeEmpty();
+//             decodedResponse.Events.OfType<Win>().Should().BeEmpty();
 //             decodedResponse.GameState.MovesLeft.Should().Be(99);
 //             decodedResponse.GameState.HasArrow.Should().BeTrue();
 //             game.GameState.Should().Be(GameState.Lose);
@@ -226,8 +226,8 @@
 //
 //             var responseTask = gameProxy.MoveAsync(Direction.North);
 //             var decodedResponse = await ExecuteRequestedAction(decoder, communicator, game, responseTask);
-//             decodedResponse.Perceptions.OfType<Death>().Should().NotBeEmpty();
-//             decodedResponse.Perceptions.OfType<Win>().Should().BeEmpty();
+//             decodedResponse.Events.OfType<Death>().Should().NotBeEmpty();
+//             decodedResponse.Events.OfType<Win>().Should().BeEmpty();
 //             decodedResponse.GameState.MovesLeft.Should().Be(99);
 //             decodedResponse.GameState.HasArrow.Should().BeTrue();
 //             game.GameState.Should().Be(GameState.Lose);
@@ -247,29 +247,29 @@
 //
 //             var responseTask = gameProxy.ShootAsync(Direction.North);
 //             var decodedResponse = await ExecuteRequestedAction(decoder, communicator, game, responseTask);
-//             decodedResponse.Perceptions.OfType<Scream>().Should().NotBeEmpty();
-//             decodedResponse.Perceptions.OfType<Twang>().Should().BeEmpty();
-//             decodedResponse.Perceptions.OfType<Win>().Should().BeEmpty();
-//             decodedResponse.Perceptions.OfType<Death>().Should().BeEmpty();
+//             decodedResponse.Events.OfType<Scream>().Should().NotBeEmpty();
+//             decodedResponse.Events.OfType<Twang>().Should().BeEmpty();
+//             decodedResponse.Events.OfType<Win>().Should().BeEmpty();
+//             decodedResponse.Events.OfType<Death>().Should().BeEmpty();
 //             decodedResponse.GameState.MovesLeft.Should().Be(99);
 //             decodedResponse.GameState.HasArrow.Should().BeFalse();
 //
 //             responseTask = gameProxy.ShootAsync(Direction.North);
 //             decodedResponse = await ExecuteRequestedAction(decoder, communicator, game, responseTask);
-//             decodedResponse.Perceptions.OfType<Scream>().Should().BeEmpty();
-//             decodedResponse.Perceptions.OfType<Twang>().Should().NotBeEmpty();
-//             decodedResponse.Perceptions.OfType<Win>().Should().BeEmpty();
-//             decodedResponse.Perceptions.OfType<Death>().Should().BeEmpty();
+//             decodedResponse.Events.OfType<Scream>().Should().BeEmpty();
+//             decodedResponse.Events.OfType<Twang>().Should().NotBeEmpty();
+//             decodedResponse.Events.OfType<Win>().Should().BeEmpty();
+//             decodedResponse.Events.OfType<Death>().Should().BeEmpty();
 //             decodedResponse.GameState.MovesLeft.Should().Be(98);
 //             decodedResponse.GameState.HasArrow.Should().BeFalse();
 //
 //             game.State.PlayerPosition = (0, 1);
 //             responseTask = gameProxy.MoveAsync(Direction.North);
 //             decodedResponse = await ExecuteRequestedAction(decoder, communicator, game, responseTask);
-//             decodedResponse.Perceptions.OfType<Scream>().Should().BeEmpty();
-//             decodedResponse.Perceptions.OfType<Twang>().Should().BeEmpty();
-//             decodedResponse.Perceptions.OfType<Win>().Should().BeEmpty();
-//             decodedResponse.Perceptions.OfType<Death>().Should().BeEmpty();
+//             decodedResponse.Events.OfType<Scream>().Should().BeEmpty();
+//             decodedResponse.Events.OfType<Twang>().Should().BeEmpty();
+//             decodedResponse.Events.OfType<Win>().Should().BeEmpty();
+//             decodedResponse.Events.OfType<Death>().Should().BeEmpty();
 //             decodedResponse.GameState.MovesLeft.Should().Be(97);
 //             decodedResponse.GameState.HasArrow.Should().BeFalse();
 //
@@ -291,8 +291,8 @@
 //
 //             var responseTask = gameProxy.PickupAsync();
 //             var decodedResponse = await ExecuteRequestedAction(decoder, communicator, game, responseTask);
-//             decodedResponse.Perceptions.OfType<Win>().Should().NotBeEmpty();
-//             decodedResponse.Perceptions.OfType<Death>().Should().BeEmpty();
+//             decodedResponse.Events.OfType<Win>().Should().NotBeEmpty();
+//             decodedResponse.Events.OfType<Death>().Should().BeEmpty();
 //             decodedResponse.GameState.MovesLeft.Should().Be(0);
 //             decodedResponse.GameState.HasArrow.Should().BeTrue();
 //             game.GameState.Should().Be(GameState.Win);

@@ -48,22 +48,22 @@ namespace WhampsChallenge.SampleContestants
 
                 foreach (var direction in path.Take(path.Length - 1))
                 {
-                    var perceptions = game.Move(direction).Perceptions;
+                    var events = game.Move(direction).Events;
                     currentField = currentField.Go(direction);
 
                     // Stop when the game ends
-                    if (perceptions.OfType<Win>().Any() || perceptions.OfType<Death>().Any()) return;
+                    if (events.OfType<Win>().Any() || events.OfType<Death>().Any()) return;
                 }
 
                 {
                     var direction = path.Last();
-                    var perceptions = game.Move(direction).Perceptions;
+                    var events = game.Move(direction).Events;
 
                     // Stop when the game ends
-                    if (perceptions.OfType<Win>().Any() || perceptions.OfType<Death>().Any()) return;
-                    
+                    if (events.OfType<Win>().Any() || events.OfType<Death>().Any()) return;
 
-                    if (perceptions.OfType<Bump>().Any())
+
+                    if (events.OfType<Bump>().Any())
                     {
                         map[currentField.Go(direction)] = FieldData.Wall;
                         continue;
@@ -74,16 +74,16 @@ namespace WhampsChallenge.SampleContestants
                     Debug.WriteLine($"Changing ({currentField})  to Visited");
                     map[currentField] = FieldData.Visited;
 
-                    if (perceptions.OfType<Glitter>().Any())
+                    if (events.OfType<Glitter>().Any())
                     {
-                        perceptions = game.Pickup().Perceptions;
+                        events = game.Pickup().Events;
 
                         // Stop when the game ends
-                        if (perceptions.OfType<Win>().Any() || perceptions.OfType<Death>().Any()) return;
+                        if (events.OfType<Win>().Any() || events.OfType<Death>().Any()) return;
                     }
 
                     // If there is wind, flag unknown fields as dangerous, if there is none, flag all fields as safe
-                    if (perceptions.OfType<Wind>().Any())
+                    if (events.OfType<Wind>().Any())
                     {
                         foreach (var field in currentField.AdjacentFields().Where(x =>  !map.ContainsKey(x)))
                         {

@@ -19,52 +19,52 @@ namespace WhampsChallenge.SampleContestants
         public void Run()
         {
             // Move all the way up
-            var perceptions = System.Array.Empty<Event>();
+            var events = System.Array.Empty<Event>();
 
-            while (!perceptions.OfType<Bump>().Any())
+            while (!events.OfType<Bump>().Any())
             {
-                perceptions = game.Move(Direction.North).Perceptions;
+                events = game.Move(Direction.North).Events;
             }
 
             // Move all the way to the left
-            perceptions = System.Array.Empty<Event>();
+            events = System.Array.Empty<Event>();
 
-            while (!perceptions.OfType<Bump>().Any())
+            while (!events.OfType<Bump>().Any())
             {
-                perceptions = game.Move(Direction.West).Perceptions;
+                events = game.Move(Direction.West).Events;
             }
 
             // Zigzag through the game
             var direction = Direction.East;
 
             // First move
-            perceptions = game.Move(direction).Perceptions;
+            events = game.Move(direction).Events;
 
             while (true)
             {
                 // We lost
-                if (perceptions.OfType<Death>().Any()) return;
+                if (events.OfType<Death>().Any()) return;
 
                 // We won
-                if (perceptions.OfType<Win>().Any()) return;
+                if (events.OfType<Win>().Any()) return;
 
                 // We ran into the left or right wall, go south one and reverse direction
-                if (perceptions.OfType<Bump>().Any())
+                if (events.OfType<Bump>().Any())
                 {
                     direction = direction == Direction.East ? Direction.West : Direction.East;
-                    perceptions = game.Move(Direction.South).Perceptions;
-                    continue; // Reevaluate perceptions after move
+                    events = game.Move(Direction.South).Events;
+                    continue; // Reevaluate Events after move
                 }
 
                 // We stepped on the gold
-                if (perceptions.OfType<Glitter>().Any())
+                if (events.OfType<Glitter>().Any())
                 {
-                    perceptions = game.Pickup().Perceptions;
-                    continue; // Reevaluate perceptions after pickup
+                    events = game.Pickup().Events;
+                    continue; // Reevaluate Events after pickup
                 }
 
                 // No special perception -> Move on
-                perceptions = game.Move(direction).Perceptions;
+                events = game.Move(direction).Events;
             }
         }
     }

@@ -36,7 +36,7 @@ namespace WhampsChallenge.Core.Level1.Actions
             var newField = game.State.Map[newPosition];
             if (newField == null)
             {
-                game.AddPerception(new Bump());
+                game.AddEvent(new Bump());
             }
             else
             {

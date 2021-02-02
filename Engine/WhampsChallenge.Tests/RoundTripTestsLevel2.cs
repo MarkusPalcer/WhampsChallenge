@@ -34,7 +34,7 @@
 //             responseTask.IsCompleted.Should().BeFalse();
 //             communicator.SendToContestant(sentResponse);
 //             var decodedResponse = await responseTask;
-//             decodedResponse.Perceptions.Should().BeEmpty();
+//             decodedResponse.Events.Should().BeEmpty();
 //             decodedResponse.GameState.MovesLeft.Should().Be(99);
 //             game.GameState.Should().Be(GameState.Running);
 //         }
@@ -55,12 +55,12 @@
 //             var decodedAction = decoder.Decode(await communicator.ReceiveFromContestantAsync());
 //             var sentResponse = game.Execute(decodedAction).As<Result>();
 //             sentResponse.GameState.PlayerPosition.Should().Be((2, 0));
-//             sentResponse.Perceptions.OfType<Core.Level1.Events.Bump>().Should().NotBeEmpty();
+//             sentResponse.Events.OfType<Core.Level1.Events.Bump>().Should().NotBeEmpty();
 //
 //             responseTask.IsCompleted.Should().BeFalse();
 //             communicator.SendToContestant(sentResponse);
 //             var decodedResponse = await responseTask;
-//             decodedResponse.Perceptions.OfType<Bump>().Should().NotBeEmpty();
+//             decodedResponse.Events.OfType<Bump>().Should().NotBeEmpty();
 //             decodedResponse.GameState.MovesLeft.Should().Be(99);
 //             game.GameState.Should().Be(GameState.Running);
 //         }
@@ -84,7 +84,7 @@
 //             responseTask.IsCompleted.Should().BeFalse();
 //             communicator.SendToContestant(sentResponse);
 //             var decodedResponse = await responseTask;
-//             decodedResponse.Perceptions.OfType<Wind>().Should().NotBeEmpty();
+//             decodedResponse.Events.OfType<Wind>().Should().NotBeEmpty();
 //             decodedResponse.GameState.MovesLeft.Should().Be(99);
 //             game.GameState.Should().Be(GameState.Running);
 //         }
@@ -124,7 +124,7 @@
 //             responseTask.IsCompleted.Should().BeFalse();
 //             communicator.SendToContestant(sentResponse);
 //             var decodedResponse = await responseTask;
-//             decodedResponse.Perceptions.Select(x => x.GetType()).Should().BeEquivalentTo(typeof(Glitter), typeof(Wind));
+//             decodedResponse.Events.Select(x => x.GetType()).Should().BeEquivalentTo(typeof(Glitter), typeof(Wind));
 //             decodedResponse.GameState.MovesLeft.Should().Be(99);
 //             game.GameState.Should().Be(GameState.Running);
 //         }
@@ -143,7 +143,7 @@
 //
 //             var responseTask = gameProxy.PickupAsync();
 //             var decodedResponse = await ExecuteRequestedAction(decoder, communicator, game, responseTask);
-//             decodedResponse.Perceptions.OfType<Win>().Should().NotBeEmpty();
+//             decodedResponse.Events.OfType<Win>().Should().NotBeEmpty();
 //             decodedResponse.GameState.MovesLeft.Should().Be(99);
 //             game.GameState.Should().Be(GameState.Win);
 //         }
@@ -161,7 +161,7 @@
 //
 //             var responseTask = gameProxy.PickupAsync();
 //             var decodedResponse = await ExecuteRequestedAction(decoder, communicator, game, responseTask);
-//             decodedResponse.Perceptions.Should().BeEmpty();
+//             decodedResponse.Events.Should().BeEmpty();
 //             decodedResponse.GameState.MovesLeft.Should().Be(99);
 //             game.GameState.Should().Be(GameState.Running);
 //         }
@@ -180,8 +180,8 @@
 //
 //             var responseTask = gameProxy.PickupAsync();
 //             var decodedResponse = await ExecuteRequestedAction(decoder, communicator, game, responseTask);
-//             decodedResponse.Perceptions.OfType<Death>().Should().NotBeEmpty();
-//             decodedResponse.Perceptions.OfType<Win>().Should().BeEmpty();
+//             decodedResponse.Events.OfType<Death>().Should().NotBeEmpty();
+//             decodedResponse.Events.OfType<Win>().Should().BeEmpty();
 //             decodedResponse.GameState.MovesLeft.Should().Be(0);
 //             game.GameState.Should().Be(GameState.Lose);
 //         }
@@ -200,8 +200,8 @@
 //
 //             var responseTask = gameProxy.MoveAsync(Direction.South);
 //             var decodedResponse = await ExecuteRequestedAction(decoder, communicator, game, responseTask);
-//             decodedResponse.Perceptions.OfType<Death>().Should().NotBeEmpty();
-//             decodedResponse.Perceptions.OfType<Win>().Should().BeEmpty();
+//             decodedResponse.Events.OfType<Death>().Should().NotBeEmpty();
+//             decodedResponse.Events.OfType<Win>().Should().BeEmpty();
 //             decodedResponse.GameState.MovesLeft.Should().Be(99);
 //             game.GameState.Should().Be(GameState.Lose);
 //         }
@@ -221,8 +221,8 @@
 //
 //             var responseTask = gameProxy.PickupAsync();
 //             var decodedResponse = await ExecuteRequestedAction(decoder, communicator, game, responseTask);
-//             decodedResponse.Perceptions.OfType<Win>().Should().NotBeEmpty();
-//             decodedResponse.Perceptions.OfType<Death>().Should().BeEmpty();
+//             decodedResponse.Events.OfType<Win>().Should().NotBeEmpty();
+//             decodedResponse.Events.OfType<Death>().Should().BeEmpty();
 //             decodedResponse.GameState.MovesLeft.Should().Be(0);
 //             game.GameState.Should().Be(GameState.Win);
 //         }

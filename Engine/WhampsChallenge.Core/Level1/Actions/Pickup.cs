@@ -13,7 +13,7 @@ namespace WhampsChallenge.Core.Level1.Actions
         {
             if (game.State.Map[game.State.PlayerPosition].Content.IsNot<Gold>()) return;
 
-            game.AddPerception(new Win());
+            game.AddEvent(new Win());
             game.GameState = Common.GameState.Win;
         }
     }

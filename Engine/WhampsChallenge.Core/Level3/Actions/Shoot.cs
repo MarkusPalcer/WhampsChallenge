@@ -17,7 +17,7 @@ namespace WhampsChallenge.Core.Level3.Actions
         {
             if (!game.State.HasArrow)
             {
-                game.AddPerception(new Twang());
+                game.AddEvent(new Twang());
             }
             else
             {
@@ -28,7 +28,7 @@ namespace WhampsChallenge.Core.Level3.Actions
                 {
                     if (field.Content is Whamps)
                     {
-                        game.AddPerception(new Scream());
+                        game.AddEvent(new Scream());
                         field.Content = new Empty();
                         return;
                     }

@@ -32,10 +32,10 @@ namespace WhampsChallenge.Core.Level3
             var result = new Result()
             {
                 GameState = State,
-                Perceptions = perceptions.ToArray()
+                Events = events.ToArray()
             };
 
-            perceptions = new List<IEvent>();
+            events = new List<IEvent>();
 
             return result;
         }
@@ -47,7 +47,7 @@ namespace WhampsChallenge.Core.Level3
             // Die when stepping on whamps
             if (State.Map[State.PlayerPosition].Content is Whamps)
             {
-                AddPerception(new Death());
+                AddEvent(new Death());
                 GameState = Common.GameState.Lose;
                 return;
             }
@@ -55,7 +55,7 @@ namespace WhampsChallenge.Core.Level3
             // Feel stench when adjacent to whamps
             foreach (var adjacentFieldContent in GetAdjacentFieldsOf(State.Map[State.PlayerPosition]).Select(x => x.Content))
             {
-                if (adjacentFieldContent is Whamps) AddPerception(new Stench());
+                if (adjacentFieldContent is Whamps) AddEvent(new Stench());
             }
         }
 

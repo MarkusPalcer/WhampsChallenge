@@ -25,10 +25,10 @@ namespace WhampsChallenge.Core.Level2
             var result = new Result()
             {
                 GameState = State,
-                Perceptions = perceptions.ToArray()
+                Events = events.ToArray()
             };
 
-            perceptions = new List<IEvent>();
+            events = new List<IEvent>();
 
             return result;
         }
@@ -50,7 +50,7 @@ namespace WhampsChallenge.Core.Level2
             // Die when stepping on a trap
             if (State.Map[State.PlayerPosition].Content is Trap)
             {
-                AddPerception(new Death());
+                AddEvent(new Death());
                 GameState = GameState.Lose;
                 return;
             }
@@ -58,7 +58,7 @@ namespace WhampsChallenge.Core.Level2
             // Feel wind when adjacent to a trap
             foreach (var adjacentFieldContent in GetAdjacentFieldsOf(State.Map[State.PlayerPosition]).Select(x => x.Content))
             {
-                if (adjacentFieldContent is Trap) AddPerception(new Wind());
+                if (adjacentFieldContent is Trap) AddEvent(new Wind());
             }
         }
 

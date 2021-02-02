@@ -15,7 +15,7 @@ namespace WhampsChallenge.Core.Level1
         private Dictionary<Randomizers, Random> randomizers;
         private bool isStarted;
         internal GameState State = new();
-        protected List<IEvent> perceptions = new();
+        protected List<IEvent> events = new();
 
         public int Seed
         {
@@ -55,9 +55,9 @@ namespace WhampsChallenge.Core.Level1
 
         public int Score => State.MovesLeft;
 
-        internal virtual void AddPerception(IEvent perception)
+        internal virtual void AddEvent(IEvent ev)
         {
-            perceptions.Add(perception);
+            events.Add(ev);
         }
 
         protected virtual void PostProcessAction()
@@ -68,12 +68,12 @@ namespace WhampsChallenge.Core.Level1
 
             if (State.MovesLeft < 1)
             {
-                AddPerception(new Death());
+                AddEvent(new Death());
                 GameState = Common.GameState.Lose;
                 return;
             }
 
-            if (State.Map[State.PlayerPosition].Content is Gold) AddPerception(new Glitter());
+            if (State.Map[State.PlayerPosition].Content is Gold) AddEvent(new Glitter());
         }
 
         protected virtual bool IsSquareFree(int x, int y)
@@ -105,10 +105,10 @@ namespace WhampsChallenge.Core.Level1
             var result = new Result()
             {
                 GameState = State,
-                Perceptions = perceptions.ToArray()
+                Events = events.ToArray()
             };
 
-            perceptions = new List<IEvent>();
+            events = new List<IEvent>();
 
             return result;
         }

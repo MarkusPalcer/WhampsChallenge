@@ -42,7 +42,7 @@ namespace WhampsChallenge.Tests
             responseTask.IsCompleted.Should().BeFalse();
             communicator.SendToContestant(sentResponse);
             var decodedResponse = await responseTask;
-            decodedResponse.Perceptions.Should().BeEmpty();
+            decodedResponse.Events.Should().BeEmpty();
             decodedResponse.GameState.MovesLeft.Should().Be(99);
             game.GameState.Should().Be(GameState.Running);
         }
@@ -61,7 +61,7 @@ namespace WhampsChallenge.Tests
             responseTask.IsCompleted.Should().BeFalse();
             communicator.SendToContestant(sentResponse);
             var decodedResponse = await responseTask;
-            decodedResponse.Perceptions.Should().Contain(x => x.GetType() == typeof(Bump));
+            decodedResponse.Events.Should().Contain(x => x.GetType() == typeof(Bump));
             decodedResponse.GameState.MovesLeft.Should().Be(99);
             game.GameState.Should().Be(GameState.Running);
         }
@@ -80,7 +80,7 @@ namespace WhampsChallenge.Tests
             responseTask.IsCompleted.Should().BeFalse();
             communicator.SendToContestant(sentResponse);
             var decodedResponse = await responseTask;
-            decodedResponse.Perceptions.OfType<Glitter>().Should().NotBeEmpty();
+            decodedResponse.Events.OfType<Glitter>().Should().NotBeEmpty();
             decodedResponse.GameState.MovesLeft.Should().Be(99);
             game.GameState.Should().Be(GameState.Running);
         }
@@ -94,7 +94,7 @@ namespace WhampsChallenge.Tests
 
             var responseTask = gameProxy.PickupAsync();
             var decodedResponse = await ExecuteRequestedAction(communicator, game, responseTask);
-            decodedResponse.Perceptions.Should().Contain(x => x.GetType() == typeof(Win));
+            decodedResponse.Events.Should().Contain(x => x.GetType() == typeof(Win));
             decodedResponse.GameState.MovesLeft.Should().Be(99);
             game.GameState.Should().Be(GameState.Win);
         }
@@ -107,7 +107,7 @@ namespace WhampsChallenge.Tests
 
             var responseTask = gameProxy.PickupAsync();
             var decodedResponse = await ExecuteRequestedAction(communicator, game, responseTask);
-            decodedResponse.Perceptions.Should().BeEmpty();
+            decodedResponse.Events.Should().BeEmpty();
             decodedResponse.GameState.MovesLeft.Should().Be(99);
             game.GameState.Should().Be(GameState.Running);
         }
@@ -121,8 +121,8 @@ namespace WhampsChallenge.Tests
 
             var responseTask = gameProxy.PickupAsync();
             var decodedResponse = await ExecuteRequestedAction(communicator, game, responseTask);
-            decodedResponse.Perceptions.Should().Contain(x => x.GetType() == typeof(Death));
-            decodedResponse.Perceptions.Should().NotContain(x => x.GetType() == typeof(Win));
+            decodedResponse.Events.Should().Contain(x => x.GetType() == typeof(Death));
+            decodedResponse.Events.Should().NotContain(x => x.GetType() == typeof(Win));
             decodedResponse.GameState.MovesLeft.Should().Be(0);
             game.GameState.Should().Be(GameState.Lose);
         }
@@ -137,7 +137,7 @@ namespace WhampsChallenge.Tests
 
             var responseTask = gameProxy.PickupAsync();
             var decodedResponse = await ExecuteRequestedAction(communicator, game, responseTask);
-            decodedResponse.Perceptions.Should().Contain(x => x.GetType() == typeof(Win));
+            decodedResponse.Events.Should().Contain(x => x.GetType() == typeof(Win));
             decodedResponse.GameState.MovesLeft.Should().Be(0);
             game.GameState.Should().Be(GameState.Win);
         }

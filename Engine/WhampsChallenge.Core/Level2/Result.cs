@@ -8,7 +8,7 @@ namespace WhampsChallenge.Core.Level2
     [Level(2)]
     public class Result
     {
-        public IEvent[] Perceptions { get; set; }
+        public IEvent[] Events { get; set; }
 
         public GameState GameState { get; set; }
     }

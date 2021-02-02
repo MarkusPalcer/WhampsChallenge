@@ -24,18 +24,18 @@ namespace WhampsChallenge.Core.Level3
             State.HasArrow = true;
         }
 
-        public override object Execute(IAction action)
+        public override ActionResult Execute(IAction action)
         {
             ((Level3.Actions.IAction) action).Execute(this);
             PostProcessAction();
 
-            var result = new Result()
+            var result = new ActionResult()
             {
                 GameState = State,
-                Events = events.ToArray()
+                Events = Events.ToArray()
             };
 
-            events = new List<IEvent>();
+            Events = new List<IEvent>();
 
             return result;
         }
@@ -48,7 +48,7 @@ namespace WhampsChallenge.Core.Level3
             if (State.Map[State.PlayerPosition].Content is Whamps)
             {
                 AddEvent(new Death());
-                GameState = Common.GameState.Lose;
+                GameCompletionState = GameCompletionStates.Lose;
                 return;
             }
 

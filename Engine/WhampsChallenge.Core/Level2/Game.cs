@@ -6,7 +6,6 @@ using WhampsChallenge.Core.Extensions;
 using WhampsChallenge.Core.Level2.Events;
 using WhampsChallenge.Core.Level2.Fields;
 using WhampsChallenge.Core.Maps;
-using GameState = WhampsChallenge.Core.Common.GameState;
 
 namespace WhampsChallenge.Core.Level2
 {
@@ -17,18 +16,18 @@ namespace WhampsChallenge.Core.Level2
             return new[] {Direction.North, Direction.East, Direction.South, Direction.West}.Select(x => source[x]).Where(x => x != null);
         }
 
-        public override object Execute(IAction action)
+        public override ActionResult Execute(IAction action)
         {
             ((Level2.Actions.IAction) action).Execute(this);
             PostProcessAction();
 
-            var result = new Result()
+            var result = new ActionResult()
             {
                 GameState = State,
-                Events = events.ToArray()
+                Events = Events.ToArray()
             };
 
-            events = new List<IEvent>();
+            Events = new List<IEvent>();
 
             return result;
         }
@@ -51,7 +50,7 @@ namespace WhampsChallenge.Core.Level2
             if (State.Map[State.PlayerPosition].Content is Trap)
             {
                 AddEvent(new Death());
-                GameState = GameState.Lose;
+                GameCompletionState = GameCompletionStates.Lose;
                 return;
             }
 

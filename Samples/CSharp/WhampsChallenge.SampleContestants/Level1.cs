@@ -3,7 +3,7 @@ using WhampsChallenge.Library;
 using WhampsChallenge.Library.Level1;
 using WhampsChallenge.Library.Level1.Events;
 using WhampsChallenge.Library.Shared.Enums;
-using WhampsChallenge.Library.Shared.Events;
+using WhampsChallenge.Library.Shared.Types;
 
 namespace WhampsChallenge.SampleContestants
 {

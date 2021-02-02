@@ -6,24 +6,31 @@ using Newtonsoft.Json;
 using WhampsChallenge.Core.Common;
 using WhampsChallenge.Core.Markers;
 
-namespace ContractGeneration
+// Disabled inspections due to this being a serialized file
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable PropertyCanBeMadeInitOnly.Global
+// ReSharper disable UnusedMember.Global
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable CollectionNeverQueried.Global
+
+namespace ContractGenerator
 {
     public class Level
     {
-        public Dictionary<string, string[]> Enums { get; } = new Dictionary<string, string[]>();
+        public Dictionary<string, string[]> Enums { get; } = new();
 
         public class Action
         {
-            public Dictionary<string, string> Parameters { get; } = new Dictionary<string, string>();
+            public Dictionary<string, string> Parameters { get; } = new();
         }
 
-        public Dictionary<string, Action> Actions { get; } = new Dictionary<string, Action>();
+        public Dictionary<string, Action> Actions { get; } = new();
 
-        public string ResultType { get; private set; }
+        public string ResultType { get; } = nameof(ActionResult);
 
-        public Dictionary<string, Dictionary<string, string>> Types { get; } =  new Dictionary<string, Dictionary<string, string>>();
+        public Dictionary<string, Dictionary<string, string>> Types { get; } =  new();
 
-        public Dictionary<string, Dictionary<string, string>> Events { get; } =  new Dictionary<string, Dictionary<string, string>>();
+        public Dictionary<string, Dictionary<string, string>> Events { get; } =  new();
 
         public int Index { get; set; }
 
@@ -92,7 +99,7 @@ namespace ContractGeneration
             var properties = type
                 .GetProperties();
             var filteredProperties = properties
-                .Where(x => CustomAttributeExtensions.GetCustomAttribute<JsonIgnoreAttribute>(x) == null);
+                .Where(x => x.GetCustomAttribute<JsonIgnoreAttribute>() == null);
             var typeData = filteredProperties
                 .ToDictionary(x => x.Name, x => AddType(x.PropertyType));
             return typeData;
@@ -118,8 +125,6 @@ namespace ContractGeneration
             {
                 AddEvent(ev.Name, ev);
             }
-
-            ResultType = AddType(data.Result);
         }
     }
 }

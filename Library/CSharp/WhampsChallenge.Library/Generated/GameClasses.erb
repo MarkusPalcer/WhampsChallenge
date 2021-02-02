@@ -54,7 +54,7 @@ namespace WhampsChallenge.Library.<%= level %> {
 
             _communicator.Send(message);
             var json = _communicator.Receive();
-            var result = JsonConvert.DeserializeObject<Result>(json, _decoder);
+            var result = JsonConvert.DeserializeObject<ActionResult>(json, _decoder);
 
             return result;
         }
@@ -69,7 +69,7 @@ namespace WhampsChallenge.Library.<%= level %> {
             await _communicator.SendAsync(message);
             
             var json = await _communicator.ReceiveAsync();
-            var result = JsonConvert.DeserializeObject<Result>(json, _decoder);
+            var result = JsonConvert.DeserializeObject<ActionResult>(json, _decoder);
 
             return result;
         }

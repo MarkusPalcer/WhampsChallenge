@@ -19,7 +19,7 @@ using WhampsChallenge.Library.Shared.Types;
 namespace WhampsChallenge.Library.<%= level %>.Events {
 
 <%  leveldata['Events'].each_pair do |event, event_data| %>
-	public class <%= event %> : Shared.Events.Event {
+	public class <%= event %> : Event {
 
 <%     event_data.each_pair do |property_name, property_type| %>
             public <%= property_type %> <%= property_name %> { get; set; }
@@ -33,8 +33,6 @@ namespace WhampsChallenge.Library.<%= level %>.Events {
 <% end %>
 
 namespace WhampsChallenge.Library.Shared.Events {
-
-    public class Event { }
 
 <%  file['Shared']['Events'].each_pair do |event, event_data| %>
     public class <%= event %> : Event {

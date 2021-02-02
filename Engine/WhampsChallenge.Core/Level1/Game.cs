@@ -7,6 +7,7 @@ using WhampsChallenge.Core.Level1.Events;
 using WhampsChallenge.Core.Level1.Fields;
 using WhampsChallenge.Core.Maps;
 using WhampsChallenge.Shared.Extensions;
+using GameState = WhampsChallenge.Core.Common.GameState;
 
 namespace WhampsChallenge.Core.Level1
 {
@@ -15,7 +16,7 @@ namespace WhampsChallenge.Core.Level1
         private Dictionary<Randomizers, Random> randomizers;
         private bool isStarted;
         internal GameState State = new();
-        protected List<IEvent> events = new();
+        protected List<IEvent> Events = new();
 
         public int Seed
         {
@@ -50,26 +51,26 @@ namespace WhampsChallenge.Core.Level1
 
             State.PlayerPosition = GetFreeSquare();
             State.MovesLeft = 100;
-            GameState = Common.GameState.Running;
+            GameCompletionState = GameCompletionStates.Running;
         }
 
         public int Score => State.MovesLeft;
 
         internal virtual void AddEvent(IEvent ev)
         {
-            events.Add(ev);
+            Events.Add(ev);
         }
 
         protected virtual void PostProcessAction()
         {
             State.MovesLeft--;
             
-            if (GameState != Common.GameState.Running) return;
+            if (GameCompletionState != GameCompletionStates.Running) return;
 
             if (State.MovesLeft < 1)
             {
                 AddEvent(new Death());
-                GameState = Common.GameState.Lose;
+                GameCompletionState = GameCompletionStates.Lose;
                 return;
             }
 
@@ -95,20 +96,20 @@ namespace WhampsChallenge.Core.Level1
             }
         }
         
-        public Common.GameState GameState { get; internal set; }
+        public GameCompletionStates GameCompletionState { get; internal set; }
 
-        public virtual object Execute(IAction action)
+        public virtual ActionResult Execute(IAction action)
         {
             ((Level1.Actions.IAction) action).Execute(this);
             PostProcessAction();
 
-            var result = new Result()
+            var result = new ActionResult()
             {
                 GameState = State,
-                Events = events.ToArray()
+                Events = Events.ToArray()
             };
 
-            events = new List<IEvent>();
+            Events = new List<IEvent>();
 
             return result;
         }

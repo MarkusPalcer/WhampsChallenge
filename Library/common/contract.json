@@ -1,5 +1,28 @@
 {
   "Levels": {
+    "Level2": {
+      "Enums": {},
+      "Actions": {
+        "Move": {
+          "Parameters": {
+            "Direction": "Direction"
+          }
+        },
+        "Pickup": {
+          "Parameters": {}
+        }
+      },
+      "ResultType": "ActionResult",
+      "Types": {},
+      "Events": {
+        "Wind": {},
+        "Bump": {},
+        "Glitter": {},
+        "Death": {},
+        "Win": {}
+      },
+      "Index": 2
+    },
     "Level3": {
       "Enums": {},
       "Actions": {
@@ -17,59 +40,19 @@
           }
         }
       },
-      "ResultType": "Result",
-      "Types": {
-        "GameState": {
-          "HasArrow": "Boolean",
-          "MovesLeft": "Int32"
-        },
-        "Result": {
-          "Events": "Event[]",
-          "GameState": "GameState"
-        }
-      },
+      "ResultType": "ActionResult",
+      "Types": {},
       "Events": {
+        "Wind": {},
+        "Bump": {},
+        "Glitter": {},
+        "Death": {},
+        "Win": {},
         "Scream": {},
         "Stench": {},
-        "Twang": {},
-        "Wind": {},
-        "Bump": {},
-        "Glitter": {},
-        "Death": {},
-        "Win": {}
+        "Twang": {}
       },
       "Index": 3
-    },
-    "Level2": {
-      "Enums": {},
-      "Actions": {
-        "Move": {
-          "Parameters": {
-            "Direction": "Direction"
-          }
-        },
-        "Pickup": {
-          "Parameters": {}
-        }
-      },
-      "ResultType": "Result",
-      "Types": {
-        "GameState": {
-          "MovesLeft": "Int32"
-        },
-        "Result": {
-          "Events": "Event[]",
-          "GameState": "GameState"
-        }
-      },
-      "Events": {
-        "Wind": {},
-        "Bump": {},
-        "Glitter": {},
-        "Death": {},
-        "Win": {}
-      },
-      "Index": 2
     },
     "Level1": {
       "Enums": {},
@@ -83,16 +66,8 @@
           "Parameters": {}
         }
       },
-      "ResultType": "Result",
-      "Types": {
-        "GameState": {
-          "MovesLeft": "Int32"
-        },
-        "Result": {
-          "Events": "Event[]",
-          "GameState": "GameState"
-        }
-      },
+      "ResultType": "ActionResult",
+      "Types": {},
       "Events": {
         "Bump": {},
         "Glitter": {},
@@ -117,7 +92,17 @@
         "Down"
       ]
     },
-    "Types": {},
+    "Types": {
+      "Event": {},
+      "GameState": {
+        "MovesLeft": "Int32",
+        "HasArrow": "Boolean"
+      },
+      "ActionResult": {
+        "Events": "Event[]",
+        "GameState": "GameState"
+      }
+    },
     "Events": {},
     "Actions": {}
   },

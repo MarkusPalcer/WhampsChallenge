@@ -34,13 +34,13 @@ namespace WhampsChallenge.Runner.Shared
             var actionDecoder = container.Resolve<ActionDecoder>();
 
             game.Initialize();
-            Console.Out.WriteLine($"STRT: {level}");
+            Console.Out.WriteLine($"START: {level}");
             communicator.Send(new StartLevel
             {
                 Level = level.ToString()
             });
 
-            while (game.GameState == GameState.Running)
+            while (game.GameCompletionState == GameCompletionStates.Running)
             {
                 var receivedMessage = communicator.Receive();
                 var decodedAction = JsonConvert.DeserializeObject<IAction>(receivedMessage, actionDecoder);
@@ -49,7 +49,7 @@ namespace WhampsChallenge.Runner.Shared
             }
 
             return (
-                Died: game.GameState == GameState.Lose,
+                Died: game.GameCompletionState == GameCompletionStates.Lose,
                 Score: game.Score,
                 Seed: game.Seed
             );

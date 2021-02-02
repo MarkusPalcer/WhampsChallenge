@@ -77,9 +77,8 @@ using System;
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
-            return Equals((Coordinate) obj);
+            if (!(obj is Coordinate c)) return false;
+            return Equals(c);
         }
 
         public override int GetHashCode()

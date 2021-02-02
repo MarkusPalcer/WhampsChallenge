@@ -4,6 +4,13 @@ using System.Linq;
 using System.Reflection;
 using Newtonsoft.Json;
 
+// Disabled inspections due to this being a serialized file
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable PropertyCanBeMadeInitOnly.Global
+// ReSharper disable UnusedMember.Global
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable CollectionNeverQueried.Global
+
 namespace ContractGenerator
 {
     public class SharedTypes
@@ -34,8 +41,7 @@ namespace ContractGenerator
 
             if (type.IsArray)
             {
-                AddType(type.GetElementType());
-                return typeName;
+                return AddType(type.GetElementType()) + "[]";
             }
 
             var properties = type

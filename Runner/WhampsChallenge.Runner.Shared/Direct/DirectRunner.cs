@@ -71,7 +71,7 @@ namespace WhampsChallenge.Runner.Shared.Direct
 
             if (Seed.HasValue) game.Seed = Seed.Value;
             game.Initialize();
-            while (game.GameState == GameState.Running)
+            while (game.GameCompletionState == GameCompletionStates.Running)
             {
                 var decodedAction = await communicator.ReceiveFromContestantAsync();
                 var response = game.Execute(decodedAction);
@@ -85,7 +85,7 @@ namespace WhampsChallenge.Runner.Shared.Direct
 
             return new Result
             {
-                Died = game.GameState == GameState.Lose,
+                Died = game.GameCompletionState == GameCompletionStates.Lose,
                 Score = game.Score,
                 Seed = game.Seed
             };

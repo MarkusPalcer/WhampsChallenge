@@ -1,19 +1,11 @@
-﻿
-
-namespace WhampsChallenge.Core.Common
+﻿namespace WhampsChallenge.Core.Common
 {
-    public enum GameState
-    {
-        Running,
-        Win,
-        Lose
-    }
     public interface IGame
     {
         
-        GameState GameState { get; }
+        GameCompletionStates GameCompletionState { get; }
 
-        object Execute(IAction action);
+        ActionResult Execute(IAction action);
 
         int Seed { get; set; }
 
